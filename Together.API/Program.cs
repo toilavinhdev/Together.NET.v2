@@ -37,4 +37,9 @@ app.MapEndpoints();
 
 app.MapGet("/ping", () => "Pong");
 
+TogetherContextInitialization.SeedAsync(
+    app.Services.CreateScope()
+        .ServiceProvider
+        .GetRequiredService<TogetherContext>()).Wait();
+
 app.Run();

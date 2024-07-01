@@ -3,11 +3,28 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Together.Domain.Aggregates.UserAggregate;
+using Together.Shared.ValueObjects;
 
 namespace Together.Shared.Helpers;
 
 public static class JwtBearerProvider
 {
+    public static string GenerateAccessToken(JwtTokenConfig config, User user)
+    {
+        return GenerateAccessToken(
+            config.TokenSigningKey,
+            [
+                new Claim("id", user.Id.ToString()),
+                new Claim("subId", user.SubId.ToString()),
+                new Claim("userName", user.UserName),
+                new Claim("email", user.Email),
+            ],
+            DateTime.UtcNow.AddMinutes(config.AccessTokenDurationInMinutes),
+            config.Issuer,
+            config.Audience);
+    }
+    
     public static string GenerateAccessToken(string tokenSingingKey, 
         IEnumerable<Claim> claimsPrincipal, 
         DateTime? expireAt = null, 
@@ -32,7 +49,6 @@ public static class JwtBearerProvider
         
         return handler.WriteToken(handler.CreateToken(descriptor));
     }
-
     
     public static string GenerateRefreshToken()
     {
