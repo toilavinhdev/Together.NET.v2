@@ -28,6 +28,8 @@ services.AddDbContext<TogetherContext>(options =>
 services.AddRedis(appSettings.RedisConfiguration);
 
 var app = builder.Build();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.UseLanguages();
 app.UseDefaultExceptionHandler();
 app.UseSwaggerDocument();
