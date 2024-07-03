@@ -28,7 +28,6 @@ services.AddDbContext<TogetherContext>(options =>
 services.AddRedis(appSettings.RedisConfiguration);
 
 var app = builder.Build();
-app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseLanguages();
 app.UseDefaultExceptionHandler();
@@ -37,11 +36,11 @@ app.UseCoreCors();
 app.UseCoreAuth();
 app.MapEndpoints();
 
-app.MapGet("/ping", () => "Pong");
-//
-// TogetherContextInitialization.SeedAsync(
-//     app.Services.CreateScope()
-//         .ServiceProvider
-//         .GetRequiredService<TogetherContext>()).Wait();
+app.MapGet("/api/ping", () => "Pong");
+
+TogetherContextInitialization.SeedAsync(
+    app.Services.CreateScope()
+        .ServiceProvider
+        .GetRequiredService<TogetherContext>()).Wait();
 
 app.Run();
