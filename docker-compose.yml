@@ -4,8 +4,8 @@ services:
   together-nginx:
     container_name: together-nginx
     build:
-      context: .
-      dockerfile: Together.Nginx/Dockerfile
+      context: Together.Proxy
+      dockerfile: Dockerfile
     ports:
       - "80:80"
     restart: unless-stopped
@@ -16,7 +16,7 @@ services:
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
-      - POSTGRES-DB=Together.NET
+      - POSTGRES-DB=Together.NET.v2
     ports:
       - "5432:5432"
     restart: unless-stopped
@@ -28,16 +28,17 @@ services:
     image: redis
     ports:
       - "6379:6379"
+    restart: unless-stopped
     volumes:
       - redis-data:/data
   
   together-api:
     container_name: together-api
     build:
-      context: .
-      dockerfile: Together.Server/Together.API/Dockerfile
+      context: Together.Server
+      dockerfile: Together.API/Dockerfile
     ports:
-      - "8080:8080"
+      - "8005:5005"
     restart: unless-stopped
     depends_on:
       - together-postgres

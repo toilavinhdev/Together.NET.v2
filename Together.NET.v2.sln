@@ -20,10 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Together.Shared", "Together
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Together.Tests", "Together.Server\Together.Tests\Together.Tests.csproj", "{7F8CD7D3-80B8-4FBB-99C2-53C0D2F83D01}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Nginx", "Together.Nginx", "{8201C3FE-A816-4874-BAEA-D5528864F595}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Proxy", "Together.Proxy", "{8201C3FE-A816-4874-BAEA-D5528864F595}"
 	ProjectSection(SolutionItems) = preProject
-		Together.Nginx\Dockerfile = Together.Nginx\Dockerfile
-		Together.Nginx\nginx.conf = Together.Nginx\nginx.conf
+		Together.Proxy\Dockerfile = Together.Proxy\Dockerfile
+		Together.Proxy\nginx.conf = Together.Proxy\nginx.conf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Together.Client", "Together.Client\Together.Client.csproj", "{A4AAF9C6-E0EB-4DBA-9F0E-DCA4CFDE3523}"
