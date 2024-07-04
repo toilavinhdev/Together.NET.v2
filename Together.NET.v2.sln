@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Proxy", "Together.
 		Together.Proxy\nginx.conf = Together.Proxy\nginx.conf
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Together.Client", "Together.Client\Together.Client.csproj", "{A4AAF9C6-E0EB-4DBA-9F0E-DCA4CFDE3523}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Together.Client", "Together.Client\Together.Client.csproj", "{FB62BF13-1743-4407-BFD4-E33B59AA4964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,10 @@ Global
 		{7F8CD7D3-80B8-4FBB-99C2-53C0D2F83D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F8CD7D3-80B8-4FBB-99C2-53C0D2F83D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F8CD7D3-80B8-4FBB-99C2-53C0D2F83D01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4AAF9C6-E0EB-4DBA-9F0E-DCA4CFDE3523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4AAF9C6-E0EB-4DBA-9F0E-DCA4CFDE3523}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4AAF9C6-E0EB-4DBA-9F0E-DCA4CFDE3523}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4AAF9C6-E0EB-4DBA-9F0E-DCA4CFDE3523}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB62BF13-1743-4407-BFD4-E33B59AA4964}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB62BF13-1743-4407-BFD4-E33B59AA4964}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB62BF13-1743-4407-BFD4-E33B59AA4964}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB62BF13-1743-4407-BFD4-E33B59AA4964}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D17874AA-B220-448C-82E9-6006EE460A51} = {24926DC2-6739-4EDE-AEB9-43BE5E1FEC09}

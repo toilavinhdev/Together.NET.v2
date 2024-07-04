@@ -4,16 +4,18 @@ export const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('@/pages/main/main.routes').then((r) => r.routes),
+      import('@/pages/main/_layout/main.routes').then((o) => o.routes),
   },
   {
     path: 'auth',
     loadChildren: () =>
-      import('@/pages/auth/auth.routes').then((r) => r.routes),
+      import('@/pages/auth/_layout/auth.routes').then((o) => o.routes),
   },
   {
     path: 'management',
     loadChildren: () =>
-      import('@/pages/management/management.routes').then((r) => r.routes),
+      import('@/pages/management/_layout/management.routes').then(
+        (o) => o.routes,
+      ),
   },
 ];

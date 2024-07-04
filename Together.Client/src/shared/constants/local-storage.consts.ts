@@ -1,0 +1,5 @@
+﻿export const localStorageKeys = {
+  ACCESS_TOKEN: 'ACCESS_TOKEN',
+  REFRESH_TOKEN: 'REFRESH_TOKEN',
+  CURRENT_USER: 'CURRENT_USER',
+};
