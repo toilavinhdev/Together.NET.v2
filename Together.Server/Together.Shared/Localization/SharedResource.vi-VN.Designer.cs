@@ -44,5 +44,65 @@ namespace Together.Shared.Localization {
                 resourceCulture = value;
             }
         }
+        
+        internal static string DuplicateUserEmail {
+            get {
+                return ResourceManager.GetString("DuplicateUserEmail", resourceCulture);
+            }
+        }
+        
+        internal static string Forbidden {
+            get {
+                return ResourceManager.GetString("Forbidden", resourceCulture);
+            }
+        }
+        
+        internal static string IncorrectPassword {
+            get {
+                return ResourceManager.GetString("IncorrectPassword", resourceCulture);
+            }
+        }
+        
+        internal static string InternalServer {
+            get {
+                return ResourceManager.GetString("InternalServer", resourceCulture);
+            }
+        }
+        
+        internal static string UnsupportedMediaType {
+            get {
+                return ResourceManager.GetString("UnsupportedMediaType", resourceCulture);
+            }
+        }
+        
+        internal static string RoleNotFound {
+            get {
+                return ResourceManager.GetString("RoleNotFound", resourceCulture);
+            }
+        }
+        
+        internal static string UserNotFound {
+            get {
+                return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        internal static string UserEmailAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserEmailAlreadyExists", resourceCulture);
+            }
+        }
+        
+        internal static string AccountHasBeenBanned {
+            get {
+                return ResourceManager.GetString("AccountHasBeenBanned", resourceCulture);
+            }
+        }
+        
+        internal static string UserNameAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserNameAlreadyExists", resourceCulture);
+            }
+        }
     }
 }

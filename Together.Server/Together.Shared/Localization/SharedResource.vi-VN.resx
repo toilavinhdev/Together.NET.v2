@@ -18,4 +18,34 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="DuplicateUserEmail" xml:space="preserve">
+        <value>Email đã được sử dụng</value>
+    </data>
+    <data name="Forbidden" xml:space="preserve">
+        <value>Bạn không có quyền thực hiện hành động này</value>
+    </data>
+    <data name="IncorrectPassword" xml:space="preserve">
+        <value>Mật khẩu không chính xác</value>
+    </data>
+    <data name="InternalServer" xml:space="preserve">
+        <value>Lỗi máy chủ</value>
+    </data>
+    <data name="UnsupportedMediaType" xml:space="preserve">
+        <value>Định dạng không được hỗ trợ</value>
+    </data>
+    <data name="RoleNotFound" xml:space="preserve">
+        <value>Vai trò không tồn tại</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>Người dùng không tồn tại</value>
+    </data>
+    <data name="UserEmailAlreadyExists" xml:space="preserve">
+        <value>Email đã được sử </value>
+    </data>
+    <data name="AccountHasBeenBanned" xml:space="preserve">
+        <value>Tài khoản bị cấm</value>
+    </data>
+    <data name="UserNameAlreadyExists" xml:space="preserve">
+        <value>Tên người dùng đã được sử dụng</value>
+    </data>
 </root>

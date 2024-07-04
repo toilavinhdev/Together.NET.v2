@@ -1,5 +1,4 @@
-﻿import { BaseComponent } from '@/core/abstractions';
-import {
+﻿import {
   AbstractControl,
   ControlValueAccessor,
   NgControl,
@@ -17,7 +16,6 @@ import {
 
 @Directive()
 export class BaseControl<T = string>
-  extends BaseComponent
   implements ControlValueAccessor, AfterViewInit, AfterViewChecked
 {
   @Input()

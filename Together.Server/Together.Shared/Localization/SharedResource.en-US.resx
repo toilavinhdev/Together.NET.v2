@@ -18,4 +18,34 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="DuplicateUserEmail" xml:space="preserve">
+        <value>Email is already in use</value>
+    </data>
+    <data name="Forbidden" xml:space="preserve">
+        <value>You do not have permission to perform this action</value>
+    </data>
+    <data name="IncorrectPassword" xml:space="preserve">
+        <value>Your password is incorrect</value>
+    </data>
+    <data name="InternalServer" xml:space="preserve">
+        <value>Internal server error</value>
+    </data>
+    <data name="RoleNotFound" xml:space="preserve">
+        <value>Role does not exist</value>
+    </data>
+    <data name="UnsupportedMediaType" xml:space="preserve">
+        <value>Unsupported media type</value>
+    </data>
+    <data name="UserNotFound" xml:space="preserve">
+        <value>User does not exist</value>
+    </data>
+    <data name="AccountHasBeenBanned" xml:space="preserve">
+        <value>Account has been banned</value>
+    </data>
+    <data name="UserEmailAlreadyExists" xml:space="preserve">
+        <value>Email already exists</value>
+    </data>
+    <data name="UserNameAlreadyExists" xml:space="preserve">
+        <value>Username already exists</value>
+    </data>
 </root>

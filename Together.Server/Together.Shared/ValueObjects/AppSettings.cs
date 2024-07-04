@@ -7,6 +7,8 @@ public sealed class AppSettings
     public JwtTokenConfig JwtTokenConfig { get; set; } = default!;
     
     public string RedisConfiguration { get; set; } = default!;
+
+    public GoogleOAuthConfig GoogleOAuthConfig { get; set; } = default!;
 }
 
 public sealed class PostgresConfig
@@ -25,4 +27,9 @@ public sealed class JwtTokenConfig
     public string? Issuer { get; set; }
     
     public string? Audience { get; set; }
+}
+
+public sealed class GoogleOAuthConfig
+{
+    public string ClientId { get; set; } = default!;
 }

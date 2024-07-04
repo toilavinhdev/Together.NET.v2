@@ -15,6 +15,8 @@ public sealed class AuthEndpoint : IEndpoint
         
         group.MapPost("/sign-in", SignIn);
         
+        group.MapPost("/external", External);
+        
         group.MapPost("/sign-up", SignUp);
         
         group.MapPost("/logout", Logout);
@@ -26,6 +28,10 @@ public sealed class AuthEndpoint : IEndpoint
     
     [AllowAnonymous]
     private static Task<BaseResponse<SignUpResponse>> SignUp(ISender sender, SignUpCommand command)
+        => sender.Send(command);
+    
+    [AllowAnonymous]
+    private static Task<BaseResponse<SignInResponse>> External(ISender sender, ExternalAuthCommand command)
         => sender.Send(command);
     
     [Authorize]

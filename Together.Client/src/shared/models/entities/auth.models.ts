@@ -4,6 +4,7 @@ import { EGender } from '@/shared/enums';
 export interface ICurrentUserClaims {
   id: string;
   subId: string;
+  userName: string;
   email: string;
   nbf: number;
   iat: number;
@@ -25,4 +26,8 @@ export interface ISignUpRequest {
   gender: EGender;
   password: string;
   confirmPassword: string;
+}
+
+export interface IExternalAuthRequest {
+  credential: string;
 }

@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
+  SpinnerComponent,
   SvgDefinitionsComponent,
   ToastComponent,
 } from '@/shared/components/elements';
-import { Button } from 'primeng/button';
 import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SvgDefinitionsComponent, ToastComponent, Button],
+  imports: [
+    RouterOutlet,
+    SvgDefinitionsComponent,
+    ToastComponent,
+    SpinnerComponent,
+  ],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
@@ -24,7 +29,7 @@ export class AppComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.primengConfig.zIndex = {
       modal: 1100, // dialog, sidebar
-      overlay: 1000, // dropdown, overl aypanel
+      overlay: 1000, // dropdown, overlay panel
       menu: 1000, // overlay menus
       tooltip: 1100, // tooltip
     };
