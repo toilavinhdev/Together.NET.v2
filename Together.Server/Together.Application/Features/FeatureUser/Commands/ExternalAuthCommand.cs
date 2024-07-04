@@ -4,7 +4,7 @@ using Together.Domain.Aggregates.UserAggregate;
 
 namespace Together.Application.Features.FeatureUser.Commands;
 
-public class ExternalAuthCommand : IBaseRequest<SignInResponse>
+public sealed class ExternalAuthCommand : IBaseRequest<SignInResponse>
 {
     public string Credential { get; set; } = default!;
     

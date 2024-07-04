@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Together.Persistence;
@@ -12,9 +13,11 @@ using Together.Persistence;
 namespace Together.Persistence.Migrations
 {
     [DbContext(typeof(TogetherContext))]
-    partial class TogetherContextModelSnapshot : ModelSnapshot
+    [Migration("20240704165504_AddForumCore")]
+    partial class AddForumCore
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

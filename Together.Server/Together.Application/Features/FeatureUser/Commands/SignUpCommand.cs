@@ -3,7 +3,7 @@ using Together.Domain.Aggregates.UserAggregate;
 
 namespace Together.Application.Features.FeatureUser.Commands;
 
-public class SignUpCommand : IBaseRequest<SignUpResponse>
+public sealed class SignUpCommand : IBaseRequest<SignUpResponse>
 {
     public string UserName { get; set; } = default!;
 

@@ -2,7 +2,7 @@ using Together.Application.Features.FeatureUser.Responses;
 
 namespace Together.Application.Features.FeatureUser.Queries;
 
-public class MeQuery : IBaseRequest<MeResponse>
+public sealed class MeQuery : IBaseRequest<MeResponse>
 {
     internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
         : BaseRequestHandler<MeQuery, MeResponse>(httpContextAccessor)

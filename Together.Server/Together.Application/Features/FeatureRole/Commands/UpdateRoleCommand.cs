@@ -1,6 +1,6 @@
 ﻿namespace Together.Application.Features.FeatureRole.Commands;
 
-public class UpdateRoleCommand : IBaseRequest
+public sealed class UpdateRoleCommand : IBaseRequest
 {
     public Guid Id { get; set; }
     

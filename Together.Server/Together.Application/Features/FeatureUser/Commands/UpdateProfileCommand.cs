@@ -1,6 +1,6 @@
 ﻿namespace Together.Application.Features.FeatureUser.Commands;
 
-public class UpdateProfileCommand : IBaseRequest
+public sealed class UpdateProfileCommand : IBaseRequest
 {
     public Gender Gender { get; set; }
     

@@ -2,7 +2,7 @@ using Together.Application.Features.FeatureUser.Responses;
 
 namespace Together.Application.Features.FeatureUser.Queries;
 
-public class GetUserQuery(Guid userId) : IBaseRequest<GetUserResponse>
+public sealed class GetUserQuery(Guid userId) : IBaseRequest<GetUserResponse>
 {
     private Guid UserId { get; set; } = userId;
     

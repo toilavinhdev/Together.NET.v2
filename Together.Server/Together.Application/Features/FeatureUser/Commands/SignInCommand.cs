@@ -2,7 +2,7 @@ using Together.Application.Features.FeatureUser.Responses;
 
 namespace Together.Application.Features.FeatureUser.Commands;
 
-public class SignInCommand : IBaseRequest<SignInResponse>
+public sealed class SignInCommand : IBaseRequest<SignInResponse>
 {
     public string Email { get; set; } = default!;
 

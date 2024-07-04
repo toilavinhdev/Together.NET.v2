@@ -25,4 +25,29 @@ public static class TogetherErrorCodes
     {
         public const string RoleNotFound = nameof(RoleNotFound);
     }
+    
+    public static class Forum
+    {
+        public const string ForumNotFound = nameof(ForumNotFound);
+    }
+    
+    public static class Topic
+    {
+        public const string TopicNotFound = nameof(TopicNotFound);
+    }
+    
+    public static class Prefix
+    {
+        public const string PrefixNotFound = nameof(PrefixNotFound);
+    }
+    
+    public static class Post
+    {
+        public const string PostNotFound = nameof(PostNotFound);
+    }
+    
+    public static class Reply
+    {
+        public const string ReplyNotFound = nameof(ReplyNotFound);
+    }
 }

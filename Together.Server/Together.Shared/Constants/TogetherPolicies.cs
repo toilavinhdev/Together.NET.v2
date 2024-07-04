@@ -21,6 +21,31 @@ public static class TogetherPolicies
         public const string Assign = "Role:Assign";
         public const string Delete = "Role:Delete";
     }
+    
+    public static class Forum
+    {
+        public const string Create = "Forum:Create";
+    }
+    
+    public static class Topic
+    {
+        public const string Create = "Topic:Create";
+    }
+    
+    public static class Prefix
+    {
+        public const string Create = "Prefix:Create";
+    }
+    
+    public static class Post
+    {
+        public const string Create = "Post:Create";
+    }
+    
+    public static class Reply
+    {
+        public const string Create = "Reply:Create";
+    }
 
     public static List<string> RequiredPolicies() => [
         User.Me,

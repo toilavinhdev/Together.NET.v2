@@ -1,6 +1,6 @@
 namespace Together.Application.Features.FeatureUser.Commands;
 
-public class LogoutCommand : IBaseRequest
+public sealed class LogoutCommand : IBaseRequest
 {
     internal class Handler(IHttpContextAccessor httpContextAccessor) 
         : BaseRequestHandler<LogoutCommand>(httpContextAccessor)
