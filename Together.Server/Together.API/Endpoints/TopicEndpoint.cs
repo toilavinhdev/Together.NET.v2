@@ -14,6 +14,7 @@ public sealed class TopicEndpoint : IEndpoint
     {
         var group = app.MapGroup("/api/v1/topic").WithTags("Topic");
         
+        
         group.MapPost("/create", CreateTopic);
     }
     

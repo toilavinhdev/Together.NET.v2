@@ -1,3 +1,4 @@
+using Together.Application.Features.FeatureForum.Responses;
 using Together.Application.Features.FeatureTopic.Commands;
 using Together.Application.Features.FeatureTopic.Responses;
 using Together.Domain.Aggregates.TopicAggregate;
@@ -11,5 +12,9 @@ public sealed class TopicMapping : Profile
         CreateMap<CreateTopicCommand, Topic>();
         
         CreateMap<Topic, CreateTopicResponse>();
+
+        CreateMap<Topic, TopicViewModel>()
+            .ForMember(viewModel => viewModel.PostCount, cfg => cfg
+                .MapFrom(topic => topic.Posts!.LongCount()));
     }
 }

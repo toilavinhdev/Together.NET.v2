@@ -365,6 +365,9 @@ namespace Together.Persistence.Migrations
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<Guid>("ForumId")
                         .HasColumnType("uuid");
 

@@ -1,0 +1,19 @@
+@for (forum of forumService.forums$ | async; track forum) {
+  <div class="bg-white border-t-[6px] border-t-primary rounded mb-6 shadow" style="border-top-style: solid">
+    <div class="uppercase font-bold text-[16px] px-8 py-4 border-b-[1px] border-b-gray-200" style="border-bottom-style: solid">{{ forum.name }}</div>
+    <div>
+      @for (topic of forum.topics; track topic) {
+        <div class="flex items-center px-8 py-4 border-b-[1px] border-b-gray-200" style="border-bottom-style: solid">
+          <div class="flex flex-col">
+            <a (click)="commonService.navigateToTopic(topic.id)" class="text-[16px]">{{topic.name}}</a>
+            <div *ngIf="topic.description" class="text-[12px] text-gray-500 mt-1">{{topic.description}}</div>
+          </div>
+          <div class="flex flex-col items-center justify-center ml-auto">
+            <div class="text-[18px] font-bold">{{topic.postCount | shortenNumber}}</div>
+            <div class="leading-[8px] font-light text-[11px]">Bài viết</div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

@@ -13,7 +13,7 @@ using Together.Persistence;
 namespace Together.Persistence.Migrations
 {
     [DbContext(typeof(TogetherContext))]
-    [Migration("20240704165504_AddForumCore")]
+    [Migration("20240705073734_AddForumCore")]
     partial class AddForumCore
     {
         /// <inheritdoc />
@@ -367,6 +367,9 @@ namespace Together.Persistence.Migrations
 
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ForumId")
                         .HasColumnType("uuid");

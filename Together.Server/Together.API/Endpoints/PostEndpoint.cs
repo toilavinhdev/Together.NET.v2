@@ -2,6 +2,7 @@ using MediatR;
 using Together.API.Extensions;
 using Together.Application.Authorization;
 using Together.Application.Features.FeaturePost.Commands;
+using Together.Application.Features.FeaturePost.Queries;
 using Together.Application.Features.FeaturePost.Responses;
 using Together.Shared.Constants;
 using Together.Shared.ValueObjects;
@@ -14,8 +15,14 @@ public sealed class PostEndpoint : IEndpoint
     {
         var group = app.MapGroup("/api/v1/post").WithTags("Post");
         
+        group.MapGet("/list", ListPost);
+        
         group.MapPost("/create", CreatePost);
     }
+    
+    [TogetherPermission(TogetherPolicies.Post.View)]
+    private static Task<BaseResponse<ListPostResponse>> ListPost(ISender sender, [AsParameters] ListPostQuery query)
+        => sender.Send(query);
     
     [TogetherPermission(TogetherPolicies.Post.Create)]
     private static Task<BaseResponse<CreatePostResponse>> CreatePost(ISender sender, CreatePostCommand command)

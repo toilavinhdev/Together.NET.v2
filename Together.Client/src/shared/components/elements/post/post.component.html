@@ -1,0 +1,35 @@
+<div [ngClass]="componentClass" class="flex items-center bg-white py-2 border-b">
+  <div class="flex items-start gap-x-1 ml-2">
+    <together-avatar
+      [src]="post.createdByAvatar"
+      componentClass="scale-[0.8]"
+    />
+    <div class="mt-1 mr-2">
+      <div class="flex">
+        @if (post.prefixId) {
+          <together-prefix
+            [name]="post.prefixName!"
+            [foreground]="post.prefixForeground!"
+            [background]="post.prefixBackground!"
+          />
+        }
+        <a (click)="commonService.navigateToPost(post.id)" class="text-[15px] text-ellipsis line-clamp-2">{{ post.title }}</a>
+      </div>
+      <div class="text-xs text-gray-500 mt-[2px]">
+        <a (click)="commonService.navigateToProfile(post.createdById)" class="hover:underline">{{ post.createdByUserName }}</a>
+        <span class="font-light">&nbsp;&bull;&nbsp;{{ post.createdAt | timeAgo }}</span>
+      </div>
+      @if (showTopicName) {
+        <div (click)="commonService.navigateToTopic(post.topicId)"
+             class="text-xs text-primary text-ellipsis line-clamp-1 cursor-pointer hover:underline"
+        >{{ post.topicName }}</div>
+      }
+    </div>
+  </div>
+  @if (showReplyCount) {
+    <div class="ml-auto min-w-[80px] flex flex-col items-center justify-center">
+      <div class="text-[18px] font-bold">{{post.replyCount | shortenNumber}}</div>
+      <div class="leading-[8px] font-light text-[11px]">Phản hồi</div>
+    </div>
+  }
+</div>

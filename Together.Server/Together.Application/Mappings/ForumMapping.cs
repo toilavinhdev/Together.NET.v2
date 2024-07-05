@@ -11,5 +11,7 @@ public sealed class ForumMapping : Profile
         CreateMap<CreateForumCommand, Forum>();
         
         CreateMap<Forum, CreateForumResponse>();
+
+        CreateMap<Forum, ForumViewModel>();
     }
 }

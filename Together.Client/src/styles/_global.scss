@@ -24,9 +24,5 @@ p {
 a {
   color: var(--black-text);
   text-decoration: none;
-
-  &:hover {
-    color: var(--primary);
-    text-decoration: underline;
-  }
+  cursor: pointer;
 }

@@ -6,7 +6,7 @@ import {
   ISignInRequest,
   ISignInResponse,
   ISignUpRequest,
-} from '@/shared/models/entities/auth.models';
+} from '@/shared/entities/auth.entities';
 import { map, Observable } from 'rxjs';
 import { IBaseResponse } from '@/core/models';
 import { localStorageKeys } from '@/shared/constants';

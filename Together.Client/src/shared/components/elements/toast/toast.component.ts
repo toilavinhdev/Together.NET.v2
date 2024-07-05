@@ -3,7 +3,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { BaseComponent } from '@/core/abstractions';
 import { NgIf } from '@angular/common';
-import { IToast } from '@/shared/models/components/toast.models';
+import { IToast } from '@/shared/models/toast.models';
 
 @Component({
   selector: 'together-toast',

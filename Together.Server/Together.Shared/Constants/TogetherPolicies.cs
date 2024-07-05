@@ -24,6 +24,7 @@ public static class TogetherPolicies
     
     public static class Forum
     {
+        public const string View = "Forum:View";
         public const string Create = "Forum:Create";
     }
     
@@ -39,6 +40,7 @@ public static class TogetherPolicies
     
     public static class Post
     {
+        public const string View = "Post:View";
         public const string Create = "Post:Create";
     }
     

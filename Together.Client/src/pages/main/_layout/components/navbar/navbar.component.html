@@ -1,26 +1,36 @@
-<div class="fixed top-0 left-0 right-0 h-[60px] bg-white shadow z-[10] px-[120px]">
-  <div class="flex">
+<div class="fixed top-0 left-0 right-0 h-[60px] bg-white shadow z-[10]">
+  <div class="flex mx-[120px]">
     <div routerLink="/" class="text-[22px] font-semibold uppercase cursor-pointer leading-[60px]">
       Together<span class="text-primary">NET</span>
     </div>
     <div class="flex flex-row items-center mx-[-14px] ml-auto">
-      <div routerLink="/" class="navbar--item">
-        <p-button outlined rounded text>
-          <together-svg-icon name="home"/>
-        </p-button>
+      <div pRipple routerLink="/" class="navbar--item">
+        <together-svg-icon name="home" componentClass="mt-1"/>
       </div>
-      <div class="navbar--item">
-        <together-svg-icon name="search" [size]="36"/>
+      <div pRipple class="navbar--item">
+        <together-svg-icon name="notification" [size]="24" componentClass="mt-1"/>
       </div>
-      <div routerLink="/conversations" class="navbar--item">
-        <together-svg-icon name="message" [size]="24"/>
-      </div>
-      <div routerLink="/notifications" class="navbar--item">
-        <together-svg-icon name="notification" [size]="24"/>
-      </div>
-      <div routerLink="/admin" class="navbar--item">
-        <together-svg-icon name="settings" [size]="26"/>
+      <div (click)="menu.toggle($event)" pRipple class="navbar--item">
+        <together-avatar [src]="(userService.me$ | async)?.avatar" componentClass="scale-[0.6]"/>
       </div>
     </div>
   </div>
+  <p-menu #menu [model]="items" [popup]="true"/>
 </div>
+
+<style>
+  .navbar--item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    width: 60px;
+    transition-duration: 300ms;
+    transition: all;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #E3E9EC9E;
+    }
+  }
+</style>

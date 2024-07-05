@@ -13,6 +13,8 @@ public class Topic : ModifierTrackingEntity, IAggregateRoot
 
     public string Name { get; set; } = default!;
     
+    public string? Description { get; set; }
+    
     [InverseProperty(nameof(Post.Topic))]
     public List<Post>? Posts { get; set; }
 }

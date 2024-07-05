@@ -5,3 +5,5 @@ export * from './spinner/spinner.component';
 export * from './svg-definitions/svg-definitions.component';
 export * from './svg-icon/svg-icon.component';
 export * from './toast/toast.component';
+export * from './post/post.component';
+export * from './prefix/prefix.component';

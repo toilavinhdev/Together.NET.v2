@@ -1,12 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { AvatarModule } from 'primeng/avatar';
+import { BaseComponent } from '@/core/abstractions';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'together-avatar',
   standalone: true,
-  imports: [],
+  imports: [AvatarModule, NgClass],
   templateUrl: './avatar.component.html',
-  styles: ``
 })
-export class AvatarComponent {
+export class AvatarComponent extends BaseComponent {
+  @Input()
+  src: string | undefined = undefined;
 
+  @Input()
+  size = 28;
 }

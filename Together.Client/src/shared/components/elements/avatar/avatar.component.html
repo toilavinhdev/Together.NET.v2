@@ -1,1 +1,16 @@
-<p>avatar works!</p>
+@if (!src) {
+  <p-avatar
+    icon="pi pi-user"
+    size="large"
+    shape="circle"
+    styleClass="{{componentClass}}"
+  />
+}
+@else {
+  <p-avatar
+    [image]="src"
+    size="large"
+    shape="circle"
+    styleClass="{{componentClass}}"
+  />
+}
