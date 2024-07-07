@@ -1,4 +1,5 @@
 import { IPaginationRequest, IPaginationResult } from '@/core/models';
+import { EVoteType } from '@/shared/enums';
 
 export interface IListPostRequest extends IPaginationRequest {
   topicId?: string;
@@ -28,4 +29,31 @@ export interface IPostViewModel {
   createdByAvatar?: string;
   replyCount: number;
   postCount: number;
+}
+
+export interface ICreatePostRequest {
+  topicId: string;
+  prefixId?: string;
+  title: string;
+  body: string;
+}
+
+export interface IGetPostResponse {
+  id: string;
+  subId: string;
+  topicId: string;
+  topicName: string;
+  prefixName?: string;
+  prefixForeground?: string;
+  prefixBackground?: string;
+  title: string;
+  body: string;
+  createdAt: string;
+  createdByUserName: string;
+  createdByAvatar?: string;
+  replyCount: number;
+  voteUpCount: number;
+  voteDownCount: number;
+  voted?: EVoteType;
+  viewCount: number;
 }

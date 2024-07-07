@@ -5,7 +5,7 @@
       @for (topic of forum.topics; track topic) {
         <div class="flex items-center px-8 py-4 border-b-[1px] border-b-gray-200" style="border-bottom-style: solid">
           <div class="flex flex-col">
-            <a (click)="commonService.navigateToTopic(topic.id)" class="text-[16px]">{{topic.name}}</a>
+            <a (click)="commonService.navigateToTopic(topic.id)" class="text-[16px] cursor-pointer hover:underline">{{topic.name}}</a>
             <div *ngIf="topic.description" class="text-[12px] text-gray-500 mt-1">{{topic.description}}</div>
           </div>
           <div class="flex flex-col items-center justify-center ml-auto">

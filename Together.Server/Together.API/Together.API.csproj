@@ -39,4 +39,17 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Publish\Publish\web.config" />
+      <_ContentIncludedByDefault Remove="Publish\web.config" />
+      <_ContentIncludedByDefault Remove="Publish\AppSettings\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Publish\AppSettings\appsettings.Production.json" />
+      <_ContentIncludedByDefault Remove="Publish\Publish\AppSettings\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="Publish\Publish\AppSettings\appsettings.Production.json" />
+      <_ContentIncludedByDefault Remove="Publish\Publish\Together.API.deps.json" />
+      <_ContentIncludedByDefault Remove="Publish\Publish\Together.API.runtimeconfig.json" />
+      <_ContentIncludedByDefault Remove="Publish\Together.API.deps.json" />
+      <_ContentIncludedByDefault Remove="Publish\Together.API.runtimeconfig.json" />
+    </ItemGroup>
+
 </Project>

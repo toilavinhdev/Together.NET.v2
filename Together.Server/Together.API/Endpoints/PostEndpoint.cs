@@ -17,12 +17,18 @@ public sealed class PostEndpoint : IEndpoint
         
         group.MapGet("/list", ListPost);
         
+        group.MapGet("/{postId:guid}", GetPost);
+        
         group.MapPost("/create", CreatePost);
     }
     
     [TogetherPermission(TogetherPolicies.Post.View)]
     private static Task<BaseResponse<ListPostResponse>> ListPost(ISender sender, [AsParameters] ListPostQuery query)
         => sender.Send(query);
+    
+    [TogetherPermission(TogetherPolicies.Post.View)]
+    private static Task<BaseResponse<GetPostResponse>> GetPost(ISender sender, Guid postId)
+        => sender.Send(new GetPostQuery(postId));
     
     [TogetherPermission(TogetherPolicies.Post.Create)]
     private static Task<BaseResponse<CreatePostResponse>> CreatePost(ISender sender, CreatePostCommand command)

@@ -1,1 +1,36 @@
-<p>post-edit works!</p>
+<section class="bg-white shadow rounded px-6 py-4">
+  <div class="text-[26px] font-medium text-ellipsis line-clamp-1 mb-6">Tạo bài viết</div>
+  <form [formGroup]="form">
+    <p-dropdown
+      formControlName="topicId"
+      [options]="(forums$ | async)!"
+      [group] = true
+      placeholder="Chọn chủ đề"
+      styleClass="w-full"
+    ></p-dropdown>
+    <div class="flex gap-x-3 mt-4">
+      <p-dropdown
+        formControlName="prefixId"
+        [options]="(prefixService.prefixes$ | async)!"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Chọn prefix"
+        showClear
+        styleClass="min-w-[180px]"
+      ></p-dropdown>
+      <input
+        formControlName="title"
+        pInputText
+        placeholder="Nhập tiêu đề"
+        class="flex-1"
+      />
+    </div>
+    <p-editor
+      formControlName="body"
+      [style]="{ minHeight: '320px' }"
+      placeholder="Nhập nội dung"
+      styleClass="mt-4"
+    />
+    <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng bài" styleClass="w-full mt-4"></p-button>
+  </form>
+</section>

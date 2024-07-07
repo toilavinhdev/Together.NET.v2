@@ -35,6 +35,7 @@ public static class TogetherPolicies
     
     public static class Prefix
     {
+        public const string View = "Prefix:View";
         public const string Create = "Prefix:Create";
     }
     

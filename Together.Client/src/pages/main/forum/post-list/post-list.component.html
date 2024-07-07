@@ -1,6 +1,6 @@
 <div class="flex justify-between items-center gap-x-2 mb-4">
-  <div class="text-[26px] font-medium text-ellipsis line-clamp-1">{{topicName}}</div>
-  <p-button (onClick)="commonService.navigateToCreatePost()">Tạo bài viết</p-button>
+  <div class="text-[26px] font-medium text-ellipsis line-clamp-1">{{extra?.['topicName']}}</div>
+  <p-button (onClick)="commonService.navigateToCreatePost(extra?.['topicId'])">Tạo bài viết</p-button>
 </div>
 <div>
   @for (post of postService.posts$ | async; track post) {

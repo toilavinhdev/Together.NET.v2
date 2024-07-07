@@ -6,6 +6,7 @@ import { IForumViewModel } from '@/shared/entities/forum.entities';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ShortenNumberPipe } from '@/shared/pipes';
+import { getErrorMessage } from '@/shared/utilities';
 
 @Component({
   selector: 'together-topic-list',
@@ -33,7 +34,10 @@ export class TopicListComponent extends BaseComponent implements OnInit {
           this.forumService.forums$.next(data);
         },
         error: (err) => {
-          this.showToastError(err);
+          this.commonService.toast$.next({
+            type: 'error',
+            message: getErrorMessage(err),
+          });
         },
       });
   }

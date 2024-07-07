@@ -5,6 +5,7 @@ import { ReportService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { ShortenNumberPipe } from '@/shared/pipes';
+import { getErrorMessage } from '@/shared/utilities';
 
 @Component({
   selector: 'together-statistic',
@@ -30,7 +31,10 @@ export class StatisticComponent extends BaseComponent implements OnInit {
           this.statistic = data;
         },
         error: (err) => {
-          this.showToastError(err);
+          this.commonService.toast$.next({
+            type: 'error',
+            message: getErrorMessage(err),
+          });
         },
       });
   }

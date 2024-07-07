@@ -5,18 +5,19 @@
       componentClass="scale-[0.8]"
     />
     <div class="mt-1 mr-2">
-      <div class="flex">
-        @if (post.prefixId) {
+      <div (click)="commonService.navigateToPost(post.id)" class="cursor-pointer group">
+        <span class="inline-block">
           <together-prefix
+            *ngIf="post.prefixId"
             [name]="post.prefixName!"
             [foreground]="post.prefixForeground!"
             [background]="post.prefixBackground!"
           />
-        }
-        <a (click)="commonService.navigateToPost(post.id)" class="text-[15px] text-ellipsis line-clamp-2">{{ post.title }}</a>
+        </span>
+        <a class="inline text-[15px] text-ellipsis line-clamp-2 hover:underline group-hover:underline">{{ post.title }}</a>
       </div>
       <div class="text-xs text-gray-500 mt-[2px]">
-        <a (click)="commonService.navigateToProfile(post.createdById)" class="hover:underline">{{ post.createdByUserName }}</a>
+        <a (click)="commonService.navigateToProfile(post.createdById)" class="hover:underline cursor-pointer">{{ post.createdByUserName }}</a>
         <span class="font-light">&nbsp;&bull;&nbsp;{{ post.createdAt | timeAgo }}</span>
       </div>
       @if (showTopicName) {

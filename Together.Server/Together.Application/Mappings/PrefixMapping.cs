@@ -11,5 +11,7 @@ public sealed class PrefixMapping : Profile
         CreateMap<CreatePrefixCommand, Prefix>();
         
         CreateMap<Prefix, CreatePrefixResponse>();
+        
+        CreateMap<Prefix, PrefixViewModel>();
     }
 }

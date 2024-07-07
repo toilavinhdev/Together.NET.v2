@@ -8,10 +8,10 @@ scp -r ~/Workspace/Together.NET.v2/Together.Server/Together.API/Publish/* root@1
 sudo rm -r /var/www/Together.NET.v2/Client
 scp -r ~/Workspace/Together.NET.v2/Together.Client/dist/together/* root@14.225.211.153:/var/www/Together.NET.v2/Client
 
-sudo service kestrel-together-api reload
-
 sudo chmod -R 755 /var/www/Together.NET.v2
+
+sudo service kestrel-togethernet reload
 
 sudo service nginx reload 
 
-sudo journalctl -fu kestrel-together-api.service
+sudo journalctl -fu kestrel-togethernet.service

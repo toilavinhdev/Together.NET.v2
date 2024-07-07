@@ -1,6 +1,6 @@
 import { booleanAttribute, Component, Input } from '@angular/core';
 import { IPostViewModel } from '@/shared/entities/post.entities';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { BaseComponent } from '@/core/abstractions';
 import { AvatarComponent, PrefixComponent } from '@/shared/components/elements';
 import { ShortenNumberPipe, TimeAgoPipe } from '@/shared/pipes';
@@ -14,6 +14,7 @@ import { ShortenNumberPipe, TimeAgoPipe } from '@/shared/pipes';
     PrefixComponent,
     TimeAgoPipe,
     ShortenNumberPipe,
+    NgIf,
   ],
   templateUrl: './post.component.html',
 })

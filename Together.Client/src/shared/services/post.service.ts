@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BaseService } from '@/core/abstractions';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import {
+  ICreatePostRequest,
+  IGetPostResponse,
   IListPostRequest,
   IListPostResponse,
   IPostViewModel,
@@ -14,9 +16,18 @@ import { IBaseResponse } from '@/core/models';
 export class PostService extends BaseService {
   posts$ = new BehaviorSubject<IPostViewModel[]>([]);
 
+  post$ = new BehaviorSubject<IGetPostResponse | undefined>(undefined);
+
   constructor() {
     super();
     this.setEndpoint('/post');
+  }
+
+  getPost(postId: string): Observable<IGetPostResponse> {
+    const url = this.createUrl(postId);
+    return this.client
+      .get<IBaseResponse<IGetPostResponse>>(url)
+      .pipe(map((response) => response.data));
   }
 
   listPost(params: IListPostRequest): Observable<IListPostResponse> {
@@ -26,5 +37,10 @@ export class PostService extends BaseService {
         params: this.createParams(params),
       })
       .pipe(map((response) => response.data));
+  }
+
+  createPost(payload: ICreatePostRequest) {
+    const url = this.createUrl('/create');
+    return this.client.post(url, payload);
   }
 }

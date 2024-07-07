@@ -1,1 +1,27 @@
-<p>post-detail works!</p>
+<div *ngIf="post$ | async">
+  <div class="bg-white px-8 py-6 rounded shadow mb-4">
+    <div class="flex items-center mb-4">
+      <together-prefix
+        *ngIf="(post$ | async)!.prefixName"
+        [name]="(post$ | async)!.prefixName!"
+        fontSize="12px"
+        [background]="(post$ | async)!.prefixBackground!"
+        [foreground]="(post$ | async)!.prefixForeground!"
+      />
+      <div class="font-medium text-[24px]">{{(post$ | async)!.title}}</div>
+    </div>
+    <div class="flex gap-x-3 items-center">
+      <together-avatar
+        [src]="(post$ | async)!.createdByAvatar"
+        [size]="42"
+      />
+      <div>
+        <div  class="font-medium text-primary cursor-pointer">
+          {{(post$ | async)!.createdByUserName}}
+        </div>
+        <div>{{(post$ | async)!.createdAt | timeAgo}} &bull; Lượt xem: {{ (post$ | async)!.viewCount | shortenNumber }}</div>
+      </div>
+    </div>
+    <div [innerHTML]="(post$ | async)!.body | sanitizeHtml" class="mt-4"></div>
+  </div>
+</div>

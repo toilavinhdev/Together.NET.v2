@@ -27,7 +27,7 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
     {
         protected override async Task<ListPostResponse> HandleAsync(ListPostQuery request, CancellationToken ct)
         {
-            var topicName = string.Empty;
+            var extra = new Dictionary<string, string>();
             
             Expression<Func<Post, bool>> whereExpression = x => true;
             
@@ -36,7 +36,8 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
                 var topic = await context.Topics.FirstOrDefaultAsync(x => x.Id == request.TopicId, ct);
                 if (topic is null) throw new DomainException(TogetherErrorCodes.Topic.TopicNotFound);
                 whereExpression = whereExpression.And(x => x.TopicId == request.TopicId);
-                topicName = topic.Name;
+                extra.Add("topicId", topic.Id.ToString());
+                extra.Add("topicName", topic.Name);
             }
 
             if (request.UserId is not null)
@@ -83,10 +84,7 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
             {
                 Pagination = new Pagination(request.PageIndex, request.PageSize, totalRecord),
                 Result = data,
-                Extra = new
-                {
-                    TopicName = topicName
-                }
+                Extra = extra
             };
         }
     }

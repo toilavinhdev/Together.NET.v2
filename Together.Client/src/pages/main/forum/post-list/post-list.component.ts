@@ -7,6 +7,7 @@ import { AsyncPipe } from '@angular/common';
 import { PostComponent } from '@/shared/components/elements';
 import { ActivatedRoute } from '@angular/router';
 import { Button } from 'primeng/button';
+import { getErrorMessage } from '@/shared/utilities';
 
 @Component({
   selector: 'together-post-list',
@@ -19,7 +20,7 @@ export class PostListComponent extends BaseComponent implements OnInit {
 
   loading = false;
 
-  topicName = '';
+  extra: any;
 
   constructor(
     protected postService: PostService,
@@ -51,11 +52,14 @@ export class PostListComponent extends BaseComponent implements OnInit {
       .subscribe({
         next: ({ result, extra }) => {
           this.postService.posts$.next(result);
-          this.topicName = extra['topicName'];
+          this.extra = extra;
         },
         error: (err) => {
           this.loading = false;
-          this.showToastError(err);
+          this.commonService.toast$.next({
+            type: 'error',
+            message: getErrorMessage(err),
+          });
         },
       });
   }

@@ -11,6 +11,9 @@ export class PrefixComponent {
   name = '';
 
   @Input()
+  fontSize = '10px';
+
+  @Input()
   foreground = '#000';
 
   @Input()
