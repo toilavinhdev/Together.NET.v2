@@ -7,7 +7,7 @@ export interface IListPostRequest extends IPaginationRequest {
 }
 
 export interface IListPostResponse extends IPaginationResult<IPostViewModel> {
-  extra: any;
+  extra: { [key: string]: string };
 }
 
 export interface IPostViewModel {
@@ -41,6 +41,8 @@ export interface ICreatePostRequest {
 export interface IGetPostResponse {
   id: string;
   subId: string;
+  forumId: string;
+  forumName: string;
   topicId: string;
   topicName: string;
   prefixName?: string;

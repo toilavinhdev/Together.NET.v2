@@ -33,11 +33,15 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
             
             if (request.TopicId is not null)
             {
-                var topic = await context.Topics.FirstOrDefaultAsync(x => x.Id == request.TopicId, ct);
+                var topic = await context.Topics
+                    .Include(t => t.Forum)
+                    .FirstOrDefaultAsync(x => x.Id == request.TopicId, ct);
                 if (topic is null) throw new DomainException(TogetherErrorCodes.Topic.TopicNotFound);
                 whereExpression = whereExpression.And(x => x.TopicId == request.TopicId);
                 extra.Add("topicId", topic.Id.ToString());
                 extra.Add("topicName", topic.Name);
+                extra.Add("forumId", topic.Forum.Id.ToString());
+                extra.Add("forumName", topic.Forum.Name);
             }
 
             if (request.UserId is not null)

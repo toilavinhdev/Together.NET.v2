@@ -20,6 +20,7 @@ public sealed class GetPostQuery(Guid id) : IBaseRequest<GetPostResponse>
         protected override async Task<GetPostResponse> HandleAsync(GetPostQuery request, CancellationToken ct)
         {
             var post = await context.Posts
+                .Include(p => p.Forum)
                 .Include(p => p.Topic)
                 .Include(p => p.CreatedBy)
                 .Include(p => p.Prefix)
@@ -28,6 +29,8 @@ public sealed class GetPostQuery(Guid id) : IBaseRequest<GetPostResponse>
                 {
                     Id = post.Id,
                     SubId = post.SubId,
+                    ForumId = post.Forum.Id,
+                    ForumName = post.Forum.Name,
                     TopicId = post.Topic.Id,
                     TopicName = post.Topic.Name,
                     PrefixName = post.Prefix!.Name,

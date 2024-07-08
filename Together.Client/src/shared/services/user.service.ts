@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '@/core/abstractions';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
-import { IGetUserResponse, IMeResponse } from '@/shared/entities/user.entities';
+import {
+  IGetUserResponse,
+  IMeResponse,
+  IUpdatePasswordRequest,
+  IUpdateProfileRequest,
+} from '@/shared/entities/user.entities';
 import { IBaseResponse } from '@/core/models';
 
 @Injectable({
@@ -36,5 +41,15 @@ export class UserService extends BaseService {
     return this.client
       .get<IBaseResponse<IGetUserResponse>>(url)
       .pipe(map((response) => response.data));
+  }
+
+  updateProfile(payload: IUpdateProfileRequest) {
+    const url = this.createUrl('/me/update-profile');
+    return this.client.put(url, payload);
+  }
+
+  updatePassword(payload: IUpdatePasswordRequest) {
+    const url = this.createUrl('/me/update-password');
+    return this.client.put(url, payload);
   }
 }

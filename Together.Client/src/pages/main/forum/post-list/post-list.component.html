@@ -1,11 +1,23 @@
 <div class="flex justify-between items-center gap-x-2 mb-4">
-  <div class="text-[26px] font-medium text-ellipsis line-clamp-1">{{extra?.['topicName']}}</div>
-  <p-button (onClick)="commonService.navigateToCreatePost(extra?.['topicId'])">Tạo bài viết</p-button>
+  <div *ngIf="!loading" class="text-[26px] font-medium text-ellipsis line-clamp-1">{{extra?.['topicName']}}</div>
+  <p-skeleton *ngIf="loading" width="320px" height="30px"/>
+  <p-button
+    (onClick)="commonService.navigateToCreatePost(extra?.['topicId'])"
+    styleClass="bg-primary"
+    icon="pi pi-plus"
+    label="Tạo bài viết"
+  />
 </div>
 <div>
-  @for (post of postService.posts$ | async; track post) {
-    <together-post
-      [post]="post"
-    />
+  @if (!loading) {
+    @for (post of postService.posts$ | async; track post) {
+      <together-post
+        [post]="post"
+      />
+    }
+  } @else {
+    @for (_ of Array(6); track _) {
+      <together-post loading />
+    }
   }
 </div>

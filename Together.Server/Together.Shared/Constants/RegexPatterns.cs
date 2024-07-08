@@ -10,8 +10,8 @@ public static partial class RegexPatterns
     public static readonly Regex EmailRegex = EmailGeneratedRegex();
     
     
-    [GeneratedRegex(@"^(?=.{6,24}$)[a-zA-Z0-9\._]*$")] 
-    [Description("6-24 characters long; Allow a-z A-Z 0-9 and . /")]
+    [GeneratedRegex(@"^(?=.{6,24}$)[a-z0-9_]*$")] 
+    [Description("6-24 characters long; Allow a-z 0-9 and _")]
     private static partial Regex UserNameGeneratedRegex();
     public static readonly Regex UserNameRegex = UserNameGeneratedRegex();
 }

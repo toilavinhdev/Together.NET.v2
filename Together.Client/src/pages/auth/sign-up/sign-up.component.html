@@ -11,7 +11,7 @@
       />
       <ng-container *ngIf="signUpForm.get('userName')?.dirty">
         <small *ngIf="signUpForm.get('userName')?.errors?.['required']" class="text-red-600">Không bỏ trống tên người dùng</small>
-        <small *ngIf="signUpForm.get('userName')?.errors?.['pattern']" class="text-red-600">Tên người dùng có độ dài 6-24 ký tự, a-z A-Z 0-9 và . /</small>
+        <small *ngIf="signUpForm.get('userName')?.errors?.['pattern']" class="text-red-600">Tên người dùng có độ dài 6-24 ký tự, a-z 0-9 và dấu _</small>
       </ng-container>
     </div>
     <div class="flex flex-col gap-1 mb-4">
@@ -67,6 +67,6 @@
       </ng-container>
     </div>
   </form>
-  <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng ký" styleClass="w-full"></p-button>
+  <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng ký" styleClass="w-full bg-primary"></p-button>
   <div class="text-center mt-5">Đã có tài khoản? <a routerLink="/auth/sign-in" class="text-primary">Đăng nhập</a></div>
 </div>

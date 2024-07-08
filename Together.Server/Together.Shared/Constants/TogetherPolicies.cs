@@ -54,6 +54,12 @@ public static class TogetherPolicies
         User.Me,
         User.Get,
         User.UpdateProfile,
-        User.UpdatePassword
+        User.UpdatePassword,
+        Forum.View,
+        Topic.Create,
+        Prefix.View,
+        Post.View,
+        Post.Create,
+        Reply.Create
     ];
 }

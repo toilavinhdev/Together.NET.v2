@@ -19,7 +19,12 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'user',
+        path: 'settings',
+        loadChildren: () =>
+          import('../setting/_layout/setting.routes').then((o) => o.routes),
+      },
+      {
+        path: 'user/:userId',
         loadChildren: () =>
           import('../user/_layout/user.routes').then((o) => o.routes),
       },

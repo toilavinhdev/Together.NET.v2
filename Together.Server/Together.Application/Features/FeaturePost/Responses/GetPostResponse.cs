@@ -2,6 +2,10 @@ namespace Together.Application.Features.FeaturePost.Responses;
 
 public class GetPostResponse : ModifierTrackingEntity
 {
+    public Guid ForumId { get; set; }
+
+    public string ForumName { get; set; } = default!;
+    
     public Guid TopicId { get; set; }
     
     public string TopicName { get; set; } = default!;

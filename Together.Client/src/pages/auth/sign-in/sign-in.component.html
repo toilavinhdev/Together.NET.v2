@@ -9,6 +9,7 @@
   <p-messages />
   <!--Form-->
   <form [formGroup]="signInForm">
+    <!--Email-->
     <div class="flex flex-col gap-1 mb-4">
       <label>Email:</label>
       <input
@@ -20,6 +21,7 @@
         <small *ngIf="signInForm.get('email')?.errors?.['pattern']" class="text-red-600">Email không đúng định dạng</small>
       </ng-container>
     </div>
+    <!--Password-->
     <div class="flex flex-col gap-1 mb-4">
       <label>Mật khẩu:</label>
       <p-password
@@ -36,7 +38,7 @@
     </div>
   </form>
   <!--Actions-->
-  <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng nhập" styleClass="w-full"></p-button>
+  <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng nhập" styleClass="w-full bg-primary"></p-button>
   <div class="flex justify-between items-center mt-4 font-medium">
     <a routerLink="/auth/forgot-password" class="text-primary">Quên mật khẩu?</a>
     <a routerLink="/auth/sign-up" class="text-primary">Tạo tài khoản mới</a>
@@ -46,11 +48,11 @@
     <div class="flex *:flex-1 mx-2">
       <div class="flex justify-start gap-x-2 text-[12px] text-gray-500">
         <i class="pi pi-envelope"></i>
-        <a href="mailto:hoangdvinh68@gmail.com" target="_blank">hoangdvinh68&#64;gmail.com</a>
+        <a href="mailto:hoangdvinh68@gmail.com" target="_blank" class="text-gray-500">hoangdvinh68&#64;gmail.com</a>
       </div>
       <div class="flex justify-end gap-x-2 text-[12px] text-gray-500">
         <i class="pi pi-github"></i>
-        <a href="https://github.com/toilavinhdev" target="_blank">toilavinhdev</a>
+        <a href="https://github.com/toilavinhdev" target="_blank" class="text-gray-500">toilavinhdev</a>
       </div>
     </div>
     <div class="text-[12px] text-gray-500 text-center mt-2">

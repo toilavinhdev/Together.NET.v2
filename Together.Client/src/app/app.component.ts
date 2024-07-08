@@ -28,10 +28,10 @@ export class AppComponent implements OnInit {
   private configPrimeNG() {
     this.primengConfig.ripple = true;
     this.primengConfig.zIndex = {
-      modal: 1100, // dialog, sidebar
-      overlay: 1000, // dropdown, overlay panel
-      menu: 1000, // overlay menus
-      tooltip: 1100, // tooltip
+      modal: 101, // dialog, sidebar
+      overlay: 10, // dropdown, overlay panel
+      menu: 10, // overlay menus
+      tooltip: 10, // tooltip
     };
   }
 }

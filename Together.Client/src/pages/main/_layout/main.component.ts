@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { NavbarComponent } from '@/pages/main/_layout/components';
+import {
+  BreadcrumbComponent,
+  NavbarComponent,
+} from '@/pages/main/_layout/components';
 import { BaseComponent } from '@/core/abstractions';
 import { UserService } from '@/shared/services';
 import { takeUntil, tap } from 'rxjs';
-import {getErrorMessage} from "@/shared/utilities";
+import { getErrorMessage } from '@/shared/utilities';
 
 @Component({
   selector: 'together-main',
   standalone: true,
-  imports: [RouterLink, NavbarComponent, RouterOutlet],
+  imports: [RouterLink, NavbarComponent, RouterOutlet, BreadcrumbComponent],
   templateUrl: './main.component.html',
 })
 export class MainComponent extends BaseComponent implements OnInit {
@@ -18,6 +21,10 @@ export class MainComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getMe();
+  }
+
+  private getMe() {
     this.userService
       .getMe()
       .pipe(
@@ -33,8 +40,8 @@ export class MainComponent extends BaseComponent implements OnInit {
         error: (err) => {
           this.commonService.toast$.next({
             type: 'error',
-            message: getErrorMessage(err)
-          })
+            message: getErrorMessage(err),
+          });
         },
         complete: () => {
           this.commonService.spinning$.next(false);

@@ -15,13 +15,13 @@ import {
 } from '@/shared/utilities';
 import { InputTextModule } from 'primeng/inputtext';
 import { JsonPipe, NgIf } from '@angular/common';
-import { PaginatorModule } from 'primeng/paginator';
 import { PasswordModule } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'together-sign-up',
@@ -29,13 +29,13 @@ import { takeUntil } from 'rxjs';
   imports: [
     InputTextModule,
     NgIf,
-    PaginatorModule,
     PasswordModule,
     ReactiveFormsModule,
     Button,
     RouterLink,
     MessagesModule,
     JsonPipe,
+    DropdownModule,
   ],
   templateUrl: './sign-up.component.html',
   providers: [MessageService],

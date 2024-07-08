@@ -3,19 +3,22 @@ import { BaseComponent } from '@/core/abstractions';
 import { PostService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { IListPostRequest } from '@/shared/entities/post.entities';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { PostComponent } from '@/shared/components/elements';
 import { ActivatedRoute } from '@angular/router';
 import { Button } from 'primeng/button';
 import { getErrorMessage } from '@/shared/utilities';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'together-post-list',
   standalone: true,
-  imports: [AsyncPipe, PostComponent, Button],
+  imports: [AsyncPipe, PostComponent, Button, NgIf, SkeletonModule],
   templateUrl: './post-list.component.html',
 })
 export class PostListComponent extends BaseComponent implements OnInit {
+  protected readonly Array = Array;
+
   params: IListPostRequest = { pageIndex: 1, pageSize: 12 };
 
   loading = false;
@@ -46,13 +49,20 @@ export class PostListComponent extends BaseComponent implements OnInit {
   }
 
   private loadData() {
+    this.loading = true;
     this.postService
       .listPost(this.params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ result, extra }) => {
+          this.loading = false;
           this.postService.posts$.next(result);
           this.extra = extra;
+          this.commonService.breadcrumb$.next([
+            {
+              title: extra['forumName'],
+            },
+          ]);
         },
         error: (err) => {
           this.loading = false;

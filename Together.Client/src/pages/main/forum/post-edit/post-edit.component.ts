@@ -7,13 +7,13 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ForumService, PostService, PrefixService } from '@/shared/services';
 import { map, Observable, take, takeUntil } from 'rxjs';
 import { Button } from 'primeng/button';
-import { getErrorMessage, markFormDirty } from '@/shared/utilities';
+import { getErrorMessage, isGUID, markFormDirty } from '@/shared/utilities';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditorModule } from 'primeng/editor';
@@ -30,6 +30,7 @@ import { EditorModule } from 'primeng/editor';
     Button,
     FormsModule,
     EditorModule,
+    NgIf,
   ],
   templateUrl: './post-edit.component.html',
 })
@@ -54,6 +55,11 @@ export class PostEditComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.commonService.breadcrumb$.next([
+      {
+        title: 'Tạo bài viết',
+      },
+    ]);
     this.buildForm();
     this.routerTracking();
     this.loadPrefixes();
@@ -111,7 +117,9 @@ export class PostEditComponent extends BaseComponent implements OnInit {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.destroy$))
       .subscribe((paramMap) => {
-        this.form.get('topicId')?.setValue(paramMap.get('topicId')!);
+        const topicId = paramMap.get('topicId');
+        if (!topicId || !isGUID(topicId)) return;
+        this.form.get('topicId')?.setValue(topicId);
       });
     this.form
       .get('topicId')

@@ -20,7 +20,19 @@ public sealed class GetUserQuery(Guid userId) : IBaseRequest<GetUserResponse>
         protected override async Task<GetUserResponse> HandleAsync(GetUserQuery request, CancellationToken ct)
         {
             var user = await context.Users
-                .Select(u => u.MapTo<GetUserResponse>())
+                .Select(user => new GetUserResponse
+                {
+                    Id = user.Id,
+                    SubId = user.SubId,
+                    UserName = user.UserName,
+                    Avatar = user.Avatar,
+                    Biography = user.Biography,
+                    Gender = user.Gender,
+                    FullName = user.FullName,
+                    CreatedAt = user.CreatedAt,
+                    PostCount = user.Posts!.LongCount(),
+                    ReplyCount = user.Replies!.LongCount()
+                })
                 .FirstOrDefaultAsync(u => u.Id == request.UserId, ct);
             if (user is null) throw new DomainException(TogetherErrorCodes.User.UserNotFound);
             

@@ -4,6 +4,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { BaseComponent } from '@/core/abstractions';
 import { AvatarComponent, PrefixComponent } from '@/shared/components/elements';
 import { ShortenNumberPipe, TimeAgoPipe } from '@/shared/pipes';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'together-post',
@@ -15,6 +16,7 @@ import { ShortenNumberPipe, TimeAgoPipe } from '@/shared/pipes';
     TimeAgoPipe,
     ShortenNumberPipe,
     NgIf,
+    SkeletonModule,
   ],
   templateUrl: './post.component.html',
 })
@@ -27,4 +29,7 @@ export class PostComponent extends BaseComponent {
 
   @Input({ transform: booleanAttribute })
   showReplyCount = true;
+
+  @Input({ transform: booleanAttribute })
+  loading = false;
 }

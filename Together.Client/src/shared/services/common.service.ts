@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IToast } from '@/shared/models/toast.models';
+import { IBreadcrumbItem } from '@/shared/models/breadcrumb.models';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,8 @@ export class CommonService {
   spinning$ = new Subject<boolean>();
 
   toast$ = new BehaviorSubject<IToast | undefined>(undefined);
+
+  breadcrumb$ = new BehaviorSubject<IBreadcrumbItem[]>([]);
 
   constructor(private router: Router) {}
 

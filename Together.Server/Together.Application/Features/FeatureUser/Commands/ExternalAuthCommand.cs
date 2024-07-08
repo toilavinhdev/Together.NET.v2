@@ -38,12 +38,14 @@ public sealed class ExternalAuthCommand : IBaseRequest<SignInResponse>
             {
                 var memberRole = await context.Roles.FirstOrDefaultAsync(r => r.Name == "Member", ct);
                 if (memberRole is null) throw new ApplicationException("Member role has not been initialized");
-                
+
+                var userName = await RandomUserNameAsync();
+
                 user = new User
                 {
                     Id = Guid.NewGuid(),
                     FullName = payload.Name,
-                    UserName = 10.RandomString(),
+                    UserName = userName,
                     Email = payload.Email,
                     PasswordHash = 12.RandomString().ToSha256(),
                     UserRoles = [
@@ -78,6 +80,16 @@ public sealed class ExternalAuthCommand : IBaseRequest<SignInResponse>
                 AccessToken = at,
                 RefreshToken = rt
             };
+        }
+
+        private async Task<string> RandomUserNameAsync()
+        {
+            while (true)
+            {
+                var random = 24.RandomString().ToLower();
+                if (await context.Users.AnyAsync(u => u.UserName == random)) continue;
+                return random;
+            }
         }
     }
 }

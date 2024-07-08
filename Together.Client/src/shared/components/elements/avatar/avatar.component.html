@@ -1,16 +1,6 @@
-@if (!src) {
-  <p-avatar
-    icon="pi pi-user"
-    size="large"
-    shape="circle"
-    styleClass="{{componentClass}}"
-  />
-}
-@else {
-  <p-avatar
-    [image]="src"
-    size="large"
-    shape="circle"
-    styleClass="{{componentClass}}"
-  />
-}
+<p-avatar
+  [image]="src ?? 'shared/assets/images/default-avatar.jpg'"
+  size="large"
+  shape="circle"
+  styleClass="{{componentClass}}"
+/>

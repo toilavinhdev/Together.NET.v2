@@ -42,6 +42,11 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
     this.loadData();
   }
 
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+    this.postService.post$.next(undefined);
+  }
+
   private loadData() {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.destroy$))
@@ -54,6 +59,15 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
           .subscribe({
             next: (data) => {
               this.postService.post$.next(data);
+              this.commonService.breadcrumb$.next([
+                {
+                  title: data.forumName,
+                  routerLink: ['/', 'topics', data.topicId],
+                },
+                {
+                  title: data.topicName,
+                },
+              ]);
             },
             error: (err) => {
               this.commonService.toast$.next({

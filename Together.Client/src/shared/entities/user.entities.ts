@@ -18,4 +18,19 @@ export interface IGetUserResponse {
   fullName?: string;
   avatar?: string;
   biography?: string;
+  postCount: number;
+  replyCount: number;
+}
+
+export interface IUpdateProfileRequest {
+  userName: string;
+  gender: EGender;
+  fullName?: string;
+  biography?: string;
+}
+
+export interface IUpdatePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }

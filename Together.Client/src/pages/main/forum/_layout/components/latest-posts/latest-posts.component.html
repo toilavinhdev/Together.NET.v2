@@ -1,10 +1,22 @@
 <div [ngClass]="componentClass" class="bg-white rounded shadow">
   <div class="uppercase font-medium text-[13px] px-5 py-5 bg-primary text-white rounded-t">Bài viết mới nhất</div>
-  @for (post of latestPost; track post) {
-    <together-post
-      [post]="post"
-      [showReplyCount]="false"
-      [showTopicName]="true"
-    />
+  @if (!loading) {
+    @for (post of latestPost; track post) {
+      <together-post
+        [post]="post"
+        [showReplyCount]="false"
+        [showTopicName]="true"
+      />
+    }
   }
+  @else {
+    @for (_ of Array(5); track _) {
+      <together-post
+        loading
+        showTopicName
+        [showReplyCount]="false"
+      />
+    }
+  }
+
 </div>

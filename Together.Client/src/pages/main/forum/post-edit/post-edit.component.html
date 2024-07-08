@@ -31,6 +31,12 @@
       placeholder="Nhập nội dung"
       styleClass="mt-4"
     />
-    <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng bài" styleClass="w-full mt-4"></p-button>
   </form>
+  <div class="mt-4">
+    <p *ngIf="form.get('topicId')?.dirty && form.get('topicId')?.errors?.['required']" class="text-red-600">Vui lòng chọn chủ đề</p>
+    <p *ngIf="form.get('title')?.dirty && form.get('title')?.errors?.['required']" class="text-red-600">Vui lòng nhập tiêu đề</p>
+    <p *ngIf="form.get('body')?.dirty && form.get('body')?.errors?.['required']" class="text-red-600">Vui lòng không bỏ trống nội dung</p>
+  </div>
+  <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng bài" styleClass="w-full mt-4 bg-primary" size="large"></p-button>
 </section>
+
