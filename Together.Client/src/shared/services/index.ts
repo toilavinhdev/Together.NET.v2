@@ -7,3 +7,4 @@ export * from './topic.service';
 export * from './post.service';
 export * from './report.service';
 export * from './prefix.service';
+export * from './reply.service';

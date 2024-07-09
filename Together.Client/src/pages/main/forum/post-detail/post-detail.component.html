@@ -1,27 +1,40 @@
-<div *ngIf="post$ | async">
-  <div class="bg-white px-8 py-6 rounded shadow mb-4">
+@if (post) {
+  <section class="bg-white px-8 py-6 rounded shadow mb-4">
     <div class="flex items-center mb-4">
       <together-prefix
-        *ngIf="(post$ | async)!.prefixName"
-        [name]="(post$ | async)!.prefixName!"
+        *ngIf="post.prefixName"
+        [name]="post.prefixName!"
         fontSize="12px"
-        [background]="(post$ | async)!.prefixBackground!"
-        [foreground]="(post$ | async)!.prefixForeground!"
+        [background]="post.prefixBackground!"
+        [foreground]="post.prefixForeground!"
       />
-      <div class="font-medium text-[24px]">{{(post$ | async)!.title}}</div>
+      <div class="font-medium text-[24px]">{{ post.title }}</div>
     </div>
-    <div class="flex gap-x-3 items-center">
+    <div class="flex gap-x-1 items-center">
       <together-avatar
-        [src]="(post$ | async)!.createdByAvatar"
-        [size]="42"
+        [src]="post.createdByAvatar"
+        componentClass="scale-[0.8] ml-[-4px]"
       />
       <div>
-        <div  class="font-medium text-primary cursor-pointer">
-          {{(post$ | async)!.createdByUserName}}
+        <div (click)="commonService.navigateToProfile(post.createdById)" class="font-medium text-primary cursor-pointer hover:underline">
+          {{ post.createdByUserName }}
         </div>
-        <div>{{(post$ | async)!.createdAt | timeAgo}} &bull; Lượt xem: {{ (post$ | async)!.viewCount | shortenNumber }}</div>
+        <div>{{post.createdAt | timeAgo}} &bull; Lượt xem: {{ post.viewCount | shortenNumber }}</div>
       </div>
     </div>
-    <div [innerHTML]="(post$ | async)!.body | sanitizeHtml" class="mt-4"></div>
-  </div>
-</div>
+    <div [innerHTML]="post!.body | sanitizeHtml" class="mt-4"></div>
+    <together-vote
+      voteFor="post"
+      [voteUpCount]="post!.voteUpCount"
+      [voteDownCount]="post!.voteDownCount"
+      componentClass="mt-8"
+    />
+    <together-reply-writer
+      [postId]="postId"
+      (response)="replyListComponent.addRootReply($event)"
+    />
+    <together-reply-root-list
+      #replyListComponent
+    />
+  </section>
+}

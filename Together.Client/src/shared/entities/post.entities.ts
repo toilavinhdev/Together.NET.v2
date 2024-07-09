@@ -51,6 +51,7 @@ export interface IGetPostResponse {
   title: string;
   body: string;
   createdAt: string;
+  createdById: string;
   createdByUserName: string;
   createdByAvatar?: string;
   replyCount: number;

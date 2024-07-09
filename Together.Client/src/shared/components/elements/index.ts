@@ -7,3 +7,6 @@ export * from './svg-icon/svg-icon.component';
 export * from './toast/toast.component';
 export * from './post/post.component';
 export * from './prefix/prefix.component';
+export * from './vote/vote.component';
+export * from './reply-writer/reply-writer.component';
+export * from './reply/reply.component';

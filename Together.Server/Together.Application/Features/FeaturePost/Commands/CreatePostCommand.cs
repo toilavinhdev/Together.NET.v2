@@ -31,6 +31,9 @@ public sealed class CreatePostCommand : IBaseRequest<CreatePostResponse>
             var topic = await context.Topics.FirstOrDefaultAsync(x => x.Id == request.TopicId, ct);
             if (topic is null) throw new DomainException(TogetherErrorCodes.Topic.TopicNotFound);
 
+            if (request.PrefixId is not null && !await context.Prefixes.AnyAsync(p => p.Id == request.PrefixId, ct))
+                throw new DomainException(TogetherErrorCodes.Prefix.PrefixNotFound);
+            
             var post = new Post
             {
                 Id = Guid.NewGuid(),

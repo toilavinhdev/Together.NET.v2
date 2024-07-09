@@ -47,6 +47,7 @@ public static class TogetherPolicies
     
     public static class Reply
     {
+        public const string View = "Reply:View";
         public const string Create = "Reply:Create";
     }
 

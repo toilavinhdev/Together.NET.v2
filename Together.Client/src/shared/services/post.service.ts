@@ -16,8 +16,6 @@ import { IBaseResponse } from '@/core/models';
 export class PostService extends BaseService {
   posts$ = new BehaviorSubject<IPostViewModel[]>([]);
 
-  post$ = new BehaviorSubject<IGetPostResponse | undefined>(undefined);
-
   constructor() {
     super();
     this.setEndpoint('/post');

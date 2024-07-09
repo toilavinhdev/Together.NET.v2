@@ -1,0 +1,38 @@
+<div *ngIf="reply" [ngClass]="componentClass" class="flex gap-x-1 overflow-x-auto">
+  <together-avatar
+    (click)="commonService.navigateToProfile(reply.createdById)"
+    [src]="reply.createdByAvatar"
+    componentClass="scale-[0.7] mt-[-4px] ml-[-8px] hover:cursor-pointer"
+  />
+  <div class="flex-1">
+    <div>
+      <span (click)="commonService.navigateToProfile(reply.createdById)"
+            class="text-primary font-medium cursor-pointer hover:underline">{{reply.createdByUserName}}</span>
+      <span class="text-gray-600">&nbsp;&bull;&nbsp;{{reply.createdAt | timeAgo}}</span>
+    </div>
+    <div [innerHTML]="reply.body | sanitizeHtml" class="mt-1"></div>
+    <together-vote
+      voteFor="reply"
+      (expandReplyWriter)="replyWriterComponent.toggle()"
+      [sourceId]="reply.id"
+      [voteUpCount]="reply.voteUpCount"
+      [voteDownCount]="reply.voteDownCount"
+      [replyCount]="reply.childCount"
+    />
+    <together-reply-writer
+      #replyWriterComponent
+      (response)="onAddChild($event)"
+      [postId]="reply.postId"
+      [parentId]="reply.id"
+      [showOnClose]="false"
+    />
+    <together-reply
+      *ngFor="let child of children"
+      [reply]="child"
+    />
+    <div
+      *ngIf="reply.childCount && childrenHasNextPage"
+      (click)="showChildren()"
+      class="text-gray-600 text-[12px] cursor-pointer hover:underline mt-1 mb-4">{{!childrenLoading ? 'Hiển thị thêm phản hồi': 'Đang tải...'}}</div>
+  </div>
+</div>
