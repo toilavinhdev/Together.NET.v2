@@ -12,6 +12,7 @@ global using Together.Shared.Exceptions;
 global using Together.Shared.Extensions;
 global using Together.Shared.Localization;
 global using Together.Shared.Redis;
+global using Together.Shared.WebSockets;
 global using Together.Shared.Helpers;
 global using Together.Domain.Abstractions;
 global using Together.Domain.Enums;

@@ -5,9 +5,10 @@ import {
   NavbarComponent,
 } from '@/pages/main/_layout/components';
 import { BaseComponent } from '@/core/abstractions';
-import { UserService } from '@/shared/services';
+import { UserService, WebSocketService } from '@/shared/services';
 import { takeUntil, tap } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
+import { IWebSocketMessage } from '@/core/models';
 
 @Component({
   selector: 'together-main',
@@ -16,12 +17,16 @@ import { getErrorMessage } from '@/shared/utilities';
   templateUrl: './main.component.html',
 })
 export class MainComponent extends BaseComponent implements OnInit {
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private webSocketService: WebSocketService,
+  ) {
     super();
   }
 
   ngOnInit() {
     this.getMe();
+    this.webSocket();
   }
 
   private getMe() {
@@ -47,5 +52,11 @@ export class MainComponent extends BaseComponent implements OnInit {
           this.commonService.spinning$.next(false);
         },
       });
+  }
+
+  private webSocket() {
+    this.webSocketService.client$.subscribe((message: IWebSocketMessage) => {
+      console.log('ws ', message);
+    });
   }
 }

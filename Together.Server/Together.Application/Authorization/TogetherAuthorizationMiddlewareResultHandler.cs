@@ -19,7 +19,7 @@ public sealed class TogetherAuthorizationMiddlewareResultHandler : IAuthorizatio
         {
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             await context.Response.WriteAsJsonAsync(
-                new BaseResponse()
+                new BaseResponse
                 {
                     StatusCode = HttpStatusCode.Forbidden,
                     Errors = [
