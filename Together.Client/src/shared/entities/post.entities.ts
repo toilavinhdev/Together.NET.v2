@@ -60,3 +60,14 @@ export interface IGetPostResponse {
   voted?: EVoteType;
   viewCount: number;
 }
+
+export interface IVotePostRequest {
+  postId: string;
+  type: EVoteType;
+}
+
+export interface IVoteResponse {
+  sourceId: string;
+  value?: EVoteType;
+  isVoted: boolean;
+}

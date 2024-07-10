@@ -1,3 +1,4 @@
+using Together.Application.Features.FeaturePost.Commands;
 using Together.Application.Features.FeaturePost.Responses;
 using Together.Domain.Aggregates.PostAggregate;
 
@@ -8,5 +9,7 @@ public sealed class PostMapping : Profile
     public PostMapping()
     {
         CreateMap<Post, CreatePostResponse>();
+        
+        CreateMap<VotePostCommand, PostVote>();
     }
 }

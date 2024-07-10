@@ -5,9 +5,10 @@ import {
   ICreateReplyRequest,
   ICreateReplyResponse,
   IListReplyRequest,
-  IListReplyResponse,
+  IListReplyResponse, IVoteReplyRequest,
 } from '@/shared/entities/reply.entities';
 import { IBaseResponse } from '@/core/models';
+import {IVoteResponse} from "@/shared/entities/post.entities";
 
 @Injectable({
   providedIn: 'root',
@@ -31,6 +32,13 @@ export class ReplyService extends BaseService {
     const url = this.createUrl('/create');
     return this.client
       .post<IBaseResponse<ICreateReplyResponse>>(url, payload)
+      .pipe(map((response) => response.data));
+  }
+
+  voteReply(payload: IVoteReplyRequest): Observable<IVoteResponse> {
+    const url = this.createUrl('/vote');
+    return this.client
+      .post<IBaseResponse<IVoteResponse>>(url, payload)
       .pipe(map((response) => response.data));
   }
 }

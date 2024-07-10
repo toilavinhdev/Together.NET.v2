@@ -7,6 +7,8 @@ import {
   IListPostRequest,
   IListPostResponse,
   IPostViewModel,
+  IVotePostRequest,
+  IVoteResponse,
 } from '@/shared/entities/post.entities';
 import { IBaseResponse } from '@/core/models';
 
@@ -40,5 +42,12 @@ export class PostService extends BaseService {
   createPost(payload: ICreatePostRequest) {
     const url = this.createUrl('/create');
     return this.client.post(url, payload);
+  }
+
+  votePost(payload: IVotePostRequest): Observable<IVoteResponse> {
+    const url = this.createUrl('/vote');
+    return this.client
+      .post<IBaseResponse<IVoteResponse>>(url, payload)
+      .pipe(map((response) => response.data));
   }
 }

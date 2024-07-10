@@ -43,12 +43,14 @@ public static class TogetherPolicies
     {
         public const string View = "Post:View";
         public const string Create = "Post:Create";
+        public const string Vote = "Post:Vote";
     }
     
     public static class Reply
     {
         public const string View = "Reply:View";
         public const string Create = "Reply:Create";
+        public const string Vote = "Reply:Vote";
     }
 
     public static List<string> RequiredPolicies() => [

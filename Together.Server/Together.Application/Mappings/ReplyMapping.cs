@@ -11,5 +11,7 @@ public sealed class ReplyMapping : Profile
         CreateMap<CreateReplyCommand, Reply>();
         
         CreateMap<Reply, CreateReplyResponse>();
+        
+        CreateMap<VoteReplyCommand, ReplyVote>();
     }
 }

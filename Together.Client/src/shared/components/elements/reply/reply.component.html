@@ -14,9 +14,11 @@
     <together-vote
       voteFor="reply"
       (expandReplyWriter)="replyWriterComponent.toggle()"
+      (voteResponse)="onVoteReply($event)"
       [sourceId]="reply.id"
       [voteUpCount]="reply.voteUpCount"
       [voteDownCount]="reply.voteDownCount"
+      [voted]="reply.voted"
       [replyCount]="reply.childCount"
     />
     <together-reply-writer

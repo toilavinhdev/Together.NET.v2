@@ -3,7 +3,10 @@ import { BaseComponent } from '@/core/abstractions';
 import { PostService } from '@/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs';
-import { IGetPostResponse } from '@/shared/entities/post.entities';
+import {
+  IGetPostResponse,
+  IVoteResponse,
+} from '@/shared/entities/post.entities';
 import { getErrorMessage } from '@/shared/utilities';
 import {
   AvatarComponent,
@@ -18,6 +21,7 @@ import {
   TimeAgoPipe,
 } from '@/shared/pipes';
 import { ReplyRootListComponent } from '@/pages/main/forum/post-detail/_components';
+import { EVoteType } from '@/shared/enums';
 
 @Component({
   selector: 'together-post-detail',
@@ -83,5 +87,27 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
             },
           });
       });
+  }
+
+  onVotePost(data: IVoteResponse) {
+    if (data.sourceId !== this.post.id) return;
+    if (!data.isVoted) {
+      if (this.post.voted === EVoteType.UpVote) this.post.voteUpCount--;
+      if (this.post.voted === EVoteType.DownVote) this.post.voteDownCount--;
+    } else {
+      if (this.post.voted === undefined || this.post.voted === null) {
+        if (data.value === EVoteType.UpVote) this.post.voteUpCount++;
+        if (data.value === EVoteType.DownVote) this.post.voteDownCount++;
+      }
+      if (this.post.voted === EVoteType.UpVote) {
+        this.post.voteUpCount--;
+        this.post.voteDownCount++;
+      }
+      if (this.post.voted === EVoteType.DownVote) {
+        this.post.voteUpCount++;
+        this.post.voteDownCount--;
+      }
+    }
+    this.post.voted = data.value;
   }
 }

@@ -18,6 +18,8 @@ public sealed class ReplyEndpoint : IEndpoint
         group.MapGet("/list", ListReply);
         
         group.MapPost("/create", CreateReply);
+        
+        group.MapPost("/vote", VoteReply);
     }
     
     [TogetherPermission(TogetherPolicies.Reply.View)]
@@ -26,5 +28,9 @@ public sealed class ReplyEndpoint : IEndpoint
     
     [TogetherPermission(TogetherPolicies.Reply.Create)]
     private static Task<BaseResponse<CreateReplyResponse>> CreateReply(ISender sender, CreateReplyCommand command)
+        => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Reply.Vote)]
+    private static Task<BaseResponse<VoteReplyResponse>> VoteReply(ISender sender, VoteReplyCommand command)
         => sender.Send(command);
 }

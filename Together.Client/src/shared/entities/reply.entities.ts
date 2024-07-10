@@ -1,5 +1,6 @@
 import { IPaginationRequest, IPaginationResult } from '@/core/models';
 import { EVoteType } from '@/shared/enums';
+import { IVotePostRequest } from '@/shared/entities/post.entities';
 
 export interface ICreateReplyRequest {
   postId: string;
@@ -38,4 +39,9 @@ export interface IReplyViewModel {
   voteDownCount: number;
   voted?: EVoteType;
   childCount: number;
+}
+
+export interface IVoteReplyRequest {
+  replyId: string;
+  type: EVoteType;
 }

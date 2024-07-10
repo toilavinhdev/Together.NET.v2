@@ -15,6 +15,8 @@ import {
 import { ReplyService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
+import { IVoteResponse } from '@/shared/entities/post.entities';
+import { EVoteType } from '@/shared/enums';
 
 @Component({
   selector: 'together-reply',
@@ -60,7 +62,31 @@ export class ReplyComponent extends BaseComponent {
 
   onAddChild(reply: IReplyViewModel) {
     this.children = [reply, ...this.children];
+    // update paging
     this.cdk.detectChanges();
+  }
+
+  onVoteReply(data: IVoteResponse) {
+    if (data.sourceId !== this.reply.id) return;
+    // fixed no output
+    if (!data.isVoted) {
+      if (this.reply.voted === EVoteType.UpVote) this.reply.voteUpCount--;
+      if (this.reply.voted === EVoteType.DownVote) this.reply.voteDownCount--;
+    } else {
+      if (this.reply.voted === undefined || this.reply.voted === null) {
+        if (data.value === EVoteType.UpVote) this.reply.voteUpCount++;
+        if (data.value === EVoteType.DownVote) this.reply.voteDownCount++;
+      }
+      if (this.reply.voted === EVoteType.UpVote) {
+        this.reply.voteUpCount--;
+        this.reply.voteDownCount++;
+      }
+      if (this.reply.voted === EVoteType.DownVote) {
+        this.reply.voteUpCount++;
+        this.reply.voteDownCount--;
+      }
+    }
+    this.reply.voted = data.value;
   }
 
   private loadChildren() {

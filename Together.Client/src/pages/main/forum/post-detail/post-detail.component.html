@@ -25,8 +25,11 @@
     <div [innerHTML]="post!.body | sanitizeHtml" class="mt-4"></div>
     <together-vote
       voteFor="post"
-      [voteUpCount]="post!.voteUpCount"
-      [voteDownCount]="post!.voteDownCount"
+      (voteResponse)="onVotePost($event)"
+      [sourceId]="post.id"
+      [voteUpCount]="post.voteUpCount"
+      [voteDownCount]="post.voteDownCount"
+      [voted]="post.voted"
       componentClass="mt-8"
     />
     <together-reply-writer
