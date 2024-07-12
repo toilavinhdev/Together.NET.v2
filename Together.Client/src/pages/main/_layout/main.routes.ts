@@ -12,6 +12,13 @@ export const routes: Routes = [
           import('../forum/_layout/forum.routes').then((o) => o.routes),
       },
       {
+        path: 'conversations',
+        loadChildren: () =>
+          import('../conversation/_layout/conversation.routes').then(
+            (o) => o.routes,
+          ),
+      },
+      {
         path: 'notifications',
         loadChildren: () =>
           import('../notification/_layout/notification.routes').then(

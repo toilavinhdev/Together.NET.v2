@@ -27,7 +27,7 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
     {
         protected override async Task<ListPostResponse> HandleAsync(ListPostQuery request, CancellationToken ct)
         {
-            var extra = new Dictionary<string, string>();
+            var extra = new Dictionary<string, object>();
             
             Expression<Func<Post, bool>> whereExpression = x => true;
             
@@ -51,12 +51,12 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
                 whereExpression = whereExpression.And(x => x.CreatedById == request.UserId);
             }
             
-            var query = context.Posts
+            var queryable = context.Posts
                 .Where(whereExpression);
 
-            var totalRecord = await query.LongCountAsync(ct);
+            var totalRecord = await queryable.LongCountAsync(ct);
             
-            var data = await query
+            var data = await queryable
                 .Include(p => p.CreatedBy)
                 .Include(p => p.Topic)
                 .Include(p => p.Prefix)

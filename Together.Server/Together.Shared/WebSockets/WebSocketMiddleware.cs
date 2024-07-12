@@ -9,7 +9,7 @@ public sealed class WebSocketMiddleware(RequestDelegate next, WebSocketHandler w
     {
         if (!context.WebSockets.IsWebSocketRequest)
         {
-            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            await next(context);
             return;
         }
         

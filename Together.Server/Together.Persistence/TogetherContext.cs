@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Together.Domain.Aggregates.ConversationAggregate;
 using Together.Domain.Aggregates.ForumAggregate;
+using Together.Domain.Aggregates.MessageAggregate;
 using Together.Domain.Aggregates.PostAggregate;
 using Together.Domain.Aggregates.ReplyAggregate;
 using Together.Domain.Aggregates.RoleAggregate;
@@ -29,6 +31,12 @@ public sealed class TogetherContext(DbContextOptions<TogetherContext> options) :
     public DbSet<Reply> Replies  { get; init; } = default!;
     
     public DbSet<ReplyVote> ReplyVotes  { get; init; } = default!;
+
+    public DbSet<Conversation> Conversations { get; init; } = default!;
+    
+    public DbSet<ConversationParticipant> ConversationParticipants { get; init; } = default!;
+    
+    public DbSet<Message> Messages { get; init; } = default!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

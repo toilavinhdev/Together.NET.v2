@@ -47,14 +47,14 @@ public abstract class WebSocketHandler(ConnectionManager connectionManager)
             cancellationToken: CancellationToken.None);
     }
     
-    public async Task SendMessageAsync(string socketId, string message)
+    public async Task SendMessageAsync(string socketId, WebSocketMessage message)
     {
         var sockets = ConnectionManager.GetSockets(socketId);
         if (sockets is null) return;
 
         foreach (var socket in sockets)
         {
-            await SendMessageAsync(socket, message);
+            await SendMessageAsync(socket, message.ToJson());
         }
     }
     

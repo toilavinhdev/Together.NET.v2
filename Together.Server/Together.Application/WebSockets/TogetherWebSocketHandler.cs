@@ -8,7 +8,7 @@ public sealed class TogetherWebSocketHandler(ConnectionManager connectionManager
     {
         switch (message.Target)
         {
-            case WebSocketTarget.Ping:
+            case WebSocketServerTarget.Ping:
                 break;
         }
 

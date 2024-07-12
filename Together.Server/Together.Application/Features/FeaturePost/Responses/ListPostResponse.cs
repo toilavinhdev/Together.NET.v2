@@ -2,7 +2,7 @@ namespace Together.Application.Features.FeaturePost.Responses;
 
 public class ListPostResponse : PaginationResult<PostViewModel>
 {
-    public Dictionary<string, string>? Extra { get; set; }
+    public Dictionary<string, object>? Extra { get; set; }
 }
 
 public class PostViewModel : ModifierTrackingEntity

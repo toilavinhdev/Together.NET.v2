@@ -4,6 +4,7 @@ global using AutoMapper;
 global using MediatR;
 global using FluentValidation;
 
+global using Together.Application.WebSockets;
 global using Together.Persistence;
 global using Together.Shared.Constants;
 global using Together.Shared.Mediator;

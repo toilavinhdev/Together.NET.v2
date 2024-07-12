@@ -14,7 +14,7 @@ export class WebSocketService {
   }
 
   private createUrl() {
-    return 'ws://localhost:5005/ws?id=1';
+    return 'ws://localhost:5005/ws?id=512fefc3-0cb5-42c2-a7f8-1c171f65559e';
   }
 
   private keepConnect() {

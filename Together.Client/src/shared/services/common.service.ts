@@ -43,4 +43,8 @@ export class CommonService {
   navigateToProfile(userId: string) {
     this.router.navigate(['/', 'user', userId]).then();
   }
+
+  navigateToConversation(conversationId: string) {
+    this.router.navigate(['/', 'conversations', conversationId]).then();
+  }
 }

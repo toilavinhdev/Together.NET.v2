@@ -9,3 +9,5 @@ export * from './report.service';
 export * from './prefix.service';
 export * from './reply.service';
 export * from './websocket.service';
+export * from './conversation.service';
+export * from './message.service';

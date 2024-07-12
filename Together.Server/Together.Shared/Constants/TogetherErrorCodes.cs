@@ -50,4 +50,11 @@ public static class TogetherErrorCodes
     {
         public const string ReplyNotFound = nameof(ReplyNotFound);
     }
+    
+    public static class Conversation
+    {
+        public const string ConversationNotFound = nameof(ConversationNotFound);
+        public const string PrivateConversationAlreadyExists = nameof(PrivateConversationAlreadyExists);
+        public const string HaveNotJoinedConversation = nameof(HaveNotJoinedConversation);
+    }
 }

@@ -1,3 +1,7 @@
-export const websocketTargets = {
+export const websocketServerTarget = {
   Ping: 'Ping',
+};
+
+export const websocketClientTarget = {
+  ReceivedReplyPost: 'ReceivedReplyPost',
 };

@@ -7,9 +7,12 @@
       <div routerLink="/" class="navbar--item">
         <together-svg-icon name="home" componentClass="mt-1"/>
       </div>
-<!--      <div class="navbar&#45;&#45;item">-->
-<!--        <together-svg-icon name="notification" [size]="24" componentClass="mt-1"/>-->
-<!--      </div>-->
+      <div routerLink="/conversations" class="navbar--item">
+        <together-svg-icon name="message" [size]="24" componentClass="mt-1"/>
+      </div>
+      <div class="navbar--item">
+        <together-svg-icon name="notification" [size]="24" componentClass="mt-1"/>
+      </div>
       <div (click)="menu.toggle($event)" class="navbar--item">
         <together-avatar [src]="(userService.me$ | async)?.avatar" componentClass="scale-[0.6] mt-1"/>
       </div>
