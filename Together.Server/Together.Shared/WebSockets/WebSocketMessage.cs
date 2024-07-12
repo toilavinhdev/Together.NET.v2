@@ -6,3 +6,10 @@ public class WebSocketMessage
 
     public object? Message { get; set; }
 }
+
+public class WebSocketMessage<T>
+{
+    public string Target { get; set; } = default!;
+
+    public T? Message { get; set; }
+}

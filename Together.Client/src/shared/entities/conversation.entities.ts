@@ -1,8 +1,10 @@
 import { IPaginationRequest, IPaginationResult } from '@/core/models';
 
-export interface IListConversationRequest extends IPaginationRequest {}
+export interface IConversationQueryRequest extends IPaginationRequest {
+  conversationId?: string;
+}
 
-export interface IListConversationResponse
+export interface IConversationQueryResponse
   extends IPaginationResult<IConversationViewModel> {}
 
 export interface IConversationViewModel {

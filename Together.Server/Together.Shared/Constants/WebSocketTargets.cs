@@ -7,5 +7,5 @@ public static class WebSocketServerTarget
 
 public static class WebSocketClientTarget
 {
-    public const string ReceivedReplyPost = nameof(ReceivedReplyPost);
+    public const string ReceivedMessage = nameof(ReceivedMessage);
 }

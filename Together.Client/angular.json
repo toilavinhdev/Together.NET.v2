@@ -42,7 +42,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/together",
+              "base": "dist/prod",
               "browser": ""
             },
             "index": "src/index.html",

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { BaseService } from '@/core/abstractions';
 import {
   IConversationViewModel,
-  IListConversationRequest,
-  IListConversationResponse,
+  IConversationQueryRequest,
+  IConversationQueryResponse,
 } from '@/shared/entities/conversation.entities';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IBaseResponse } from '@/core/models';
@@ -19,13 +19,13 @@ export class ConversationService extends BaseService {
     this.setEndpoint('/conversation');
   }
 
-  listConversation(
-    params: IListConversationRequest,
-  ): Observable<IListConversationResponse> {
-    const url = this.createUrl('/list');
+  queryConversation(
+    params: IConversationQueryRequest,
+  ): Observable<IConversationQueryResponse> {
+    const url = this.createUrl('/query');
     return this.client
       .get<
-        IBaseResponse<IListConversationResponse>
+        IBaseResponse<IConversationQueryResponse>
       >(url, { params: this.createParams(params) })
       .pipe(map((response) => response.data));
   }

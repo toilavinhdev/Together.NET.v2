@@ -8,7 +8,6 @@ import { BaseComponent } from '@/core/abstractions';
 import { UserService, WebSocketService } from '@/shared/services';
 import { takeUntil, tap } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
-import { IWebSocketMessage } from '@/core/models';
 
 @Component({
   selector: 'together-main',
@@ -25,8 +24,8 @@ export class MainComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.webSocketService.client$.subscribe();
     this.getMe();
-    this.webSocket();
   }
 
   private getMe() {
@@ -52,11 +51,5 @@ export class MainComponent extends BaseComponent implements OnInit {
           this.commonService.spinning$.next(false);
         },
       });
-  }
-
-  private webSocket() {
-    this.webSocketService.client$.subscribe((message: IWebSocketMessage) => {
-      console.log('ws ', message);
-    });
   }
 }

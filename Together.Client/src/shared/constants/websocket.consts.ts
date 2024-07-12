@@ -3,5 +3,5 @@ export const websocketServerTarget = {
 };
 
 export const websocketClientTarget = {
-  ReceivedReplyPost: 'ReceivedReplyPost',
+  ReceivedMessage: 'ReceivedMessage',
 };

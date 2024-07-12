@@ -11,9 +11,9 @@
          class="font-medium text-[16px] cursor-pointer hover:underline">{{extra['conversationName']}}</div>
   </div>
   <div id="messages-wrapper" class="overflow-y-auto h-full">
-    @for (message of messages; track message) {
+    @for (message of messageService.messages$ | async; track message) {
       <div class="flex mb-2 mx-2 *:max-w-[48%]">
-        <div *ngIf="message.createdById !== (userService.me$ | async)!.id" class="flex items-center gap-x-2">
+        <div *ngIf="message.createdById !== (userService.me$ | async)?.id" class="flex items-center gap-x-2">
           <together-avatar
             (click)="commonService.navigateToProfile(message.createdById)"
             [src]="message.createdByAvatar"
@@ -26,7 +26,7 @@
             [innerHTML]="message.text"></div>
         </div>
         <div
-          *ngIf="message.createdById === (userService.me$ | async)!.id"
+          *ngIf="message.createdById === (userService.me$ | async)?.id"
           class="bg-primary text-white max-w-[48%] px-3 py-2 rounded-2xl ml-auto"
           [pTooltip]="message.createdAt | timeAgo"
           [tooltipPosition]="'left'"

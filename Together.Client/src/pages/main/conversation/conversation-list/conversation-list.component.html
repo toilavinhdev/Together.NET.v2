@@ -12,7 +12,7 @@
         <div>{{conversation.name}}</div>
         <div class="flex text-[12px] mt-1">
           <div class="w-full text-ellipsis line-clamp-1">
-            <span *ngIf="conversation.lastMessageByUserId === (userService.me$ | async)!.id">Bạn:&nbsp;</span>
+            <span *ngIf="conversation.lastMessageByUserId === (userService.me$ | async)?.id">Bạn:&nbsp;</span>
             {{conversation.lastMessageText}}
           </div>
           <div *ngIf="conversation.lastMessageAt" class="text-gray-500 whitespace-nowrap mr-1">&nbsp;&bull;&nbsp;{{conversation.lastMessageAt | timeAgo}}</div>

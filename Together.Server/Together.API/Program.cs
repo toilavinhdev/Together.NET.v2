@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Together.API.Extensions;
 using Together.Application;
-using Together.Application.WebSockets;
+using Together.Application.Sockets;
 using Together.Persistence;
 using Together.Shared.Redis;
 using Together.Shared.WebSockets;

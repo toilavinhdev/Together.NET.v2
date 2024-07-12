@@ -3,16 +3,19 @@ import { BaseService } from '@/core/abstractions';
 import {
   IListMessageRequest,
   IListMessageResponse,
+  IMessageViewModel,
   ISendMessageRequest,
   ISendMessageResponse,
 } from '@/shared/entities/message.entities';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IBaseResponse } from '@/core/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService extends BaseService {
+  messages$ = new BehaviorSubject<IMessageViewModel[]>([]);
+
   constructor() {
     super();
     this.setEndpoint('/message');

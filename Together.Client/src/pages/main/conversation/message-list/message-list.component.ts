@@ -1,16 +1,14 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
 import { ActivatedRoute } from '@angular/router';
-import { take, takeUntil } from 'rxjs';
+import { filter, take, takeUntil } from 'rxjs';
 import {
   ConversationService,
   MessageService,
   UserService,
+  WebSocketService,
 } from '@/shared/services';
-import {
-  IListMessageRequest,
-  IMessageViewModel,
-} from '@/shared/entities/message.entities';
+import { IListMessageRequest } from '@/shared/entities/message.entities';
 import { getErrorMessage } from '@/shared/utilities';
 import { AvatarComponent } from '@/shared/components/elements';
 import { TooltipModule } from 'primeng/tooltip';
@@ -25,6 +23,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { websocketClientTarget } from '@/shared/constants';
 
 @Component({
   selector: 'together-message-list',
@@ -47,8 +46,6 @@ export class MessageListComponent
 {
   protected readonly EConversationType = EConversationType;
 
-  messages: IMessageViewModel[] = [];
-
   extra: { [key: string]: any } = {};
 
   params: IListMessageRequest = {
@@ -61,10 +58,11 @@ export class MessageListComponent
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private messageService: MessageService,
+    protected messageService: MessageService,
     private formBuilder: UntypedFormBuilder,
     protected userService: UserService,
     private conversationService: ConversationService,
+    private webSocketService: WebSocketService,
   ) {
     super();
   }
@@ -77,65 +75,12 @@ export class MessageListComponent
         this.params.conversationId = paramMap.get('conversationId')!;
         this.loadMessages();
       });
+    this.listenWebSocket();
   }
 
   ngAfterViewChecked() {
     if (this.params.pageIndex > 1) return;
     this.scrollToBottom();
-  }
-
-  onSendMessage() {
-    if (this.messageForm.invalid) return;
-    this.messageService
-      .sendMessage({
-        ...this.messageForm.value,
-        conversationId: this.params.conversationId,
-      })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (data) => {
-          this.messageForm.reset();
-          this.userService.me$.pipe(take(1)).subscribe((me) => {
-            if (!me) return;
-            // Update messages
-            this.messages = [
-              ...this.messages,
-              {
-                ...data,
-                createdById: me.id,
-                createdByUserName: me.userName,
-                createdByAvatar: me.avatar,
-              },
-            ];
-            // Update conversations
-            this.conversationService.conversations$
-              .pipe(take(1))
-              .subscribe((conversations) => {
-                this.conversationService.conversations$.next(
-                  conversations.map((conversation) => {
-                    if (conversation.id === this.params.conversationId) {
-                      return {
-                        ...conversation,
-                        image: me.avatar,
-                        lastMessageAt: data.createdAt,
-                        lastMessageByUserId: me.id,
-                        lastMessageByUserName: me.userName,
-                        lastMessageText: data.text,
-                      };
-                    }
-                    return conversation;
-                  }),
-                );
-              });
-          });
-        },
-        error: (err) => {
-          this.commonService.toast$.next({
-            type: 'error',
-            message: getErrorMessage(err),
-          });
-        },
-      });
   }
 
   private loadMessages() {
@@ -144,7 +89,7 @@ export class MessageListComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ result, extra }) => {
-          this.messages = result.reverse();
+          this.messageService.messages$.next(result.reverse());
           this.extra = extra;
         },
         error: (err) => {
@@ -166,5 +111,108 @@ export class MessageListComponent
     const wrapper = document.getElementById('messages-wrapper');
     if (!wrapper) return;
     wrapper.scrollTop = wrapper.scrollHeight;
+  }
+
+  onSendMessage() {
+    if (this.messageForm.invalid) return;
+    this.messageService
+      .sendMessage({
+        ...this.messageForm.value,
+        conversationId: this.params.conversationId,
+      })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.messageForm.reset();
+          this.userService.me$.pipe(take(1)).subscribe((me) => {
+            if (!me) return;
+            // Update messages
+            this.messageService.messages$
+              .pipe(take(1))
+              .subscribe((messages) => {
+                this.messageService.messages$.next([
+                  ...messages,
+                  {
+                    ...data,
+                    createdById: me.id,
+                    createdByUserName: me.userName,
+                    createdByAvatar: me.avatar,
+                  },
+                ]);
+              });
+            // Update conversations
+            this.conversationService.conversations$
+              .pipe(take(1))
+              .subscribe((conversations) => {
+                const existed = conversations.find(
+                  (c) => c.id == this.params.conversationId,
+                );
+                if (!existed) {
+                  this.conversationService
+                    .queryConversation({
+                      ...this.params,
+                      conversationId: this.params.conversationId,
+                    })
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe({
+                      next: ({ result }) => {
+                        this.conversationService.conversations$.next([
+                          result[0],
+                          ...conversations,
+                        ]);
+                      },
+                    });
+                } else {
+                  this.conversationService.conversations$.next([
+                    {
+                      ...existed,
+                      lastMessageAt: data.createdAt,
+                      lastMessageByUserId: me.id,
+                      lastMessageByUserName: me.userName,
+                      lastMessageText: data.text,
+                    },
+                    ...conversations.filter(
+                      (c) => c.id !== this.params.conversationId,
+                    ),
+                  ]);
+                }
+              });
+          });
+        },
+        error: (err) => {
+          this.commonService.toast$.next({
+            type: 'error',
+            message: getErrorMessage(err),
+          });
+        },
+      });
+  }
+
+  private listenWebSocket() {
+    this.webSocketService.client$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(
+          (message) => message.target === websocketClientTarget.ReceivedMessage,
+        ),
+      )
+      .subscribe({
+        next: (socket) => {
+          if (socket.message.conversationId !== this.params.conversationId)
+            return;
+          // add message
+          this.messageService.messages$.pipe(take(1)).subscribe((messages) => {
+            this.messageService.messages$.next([
+              ...messages,
+              {
+                ...socket.message,
+                createdById: socket.message.createdById,
+                createdByUserName: socket.message.userName,
+                createdByAvatar: socket.message.avatar,
+              },
+            ]);
+          });
+        },
+      });
   }
 }

@@ -32,6 +32,17 @@ public abstract class WebSocketHandler(ConnectionManager connectionManager)
         await ConnectionManager.RemoveSocketAsync(socket);
     }
     
+    public async Task SendMessageAsync<T>(string socketId, WebSocketMessage<T> message)
+    {
+        var sockets = ConnectionManager.GetSockets(socketId);
+        if (sockets is null) return;
+
+        foreach (var socket in sockets)
+        {
+            await SendMessageAsync(socket, message.ToJson());
+        }
+    }
+    
     private static async Task SendMessageAsync(WebSocket socket, string message)
     {
         if (socket.State != WebSocketState.Open)
@@ -45,17 +56,6 @@ public abstract class WebSocketHandler(ConnectionManager connectionManager)
             messageType: WebSocketMessageType.Text,
             endOfMessage: true,
             cancellationToken: CancellationToken.None);
-    }
-    
-    public async Task SendMessageAsync(string socketId, WebSocketMessage message)
-    {
-        var sockets = ConnectionManager.GetSockets(socketId);
-        if (sockets is null) return;
-
-        foreach (var socket in sockets)
-        {
-            await SendMessageAsync(socket, message.ToJson());
-        }
     }
     
     public async Task SendMessageToAllAsync(string message)

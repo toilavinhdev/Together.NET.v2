@@ -1,6 +1,6 @@
 using System.Net.WebSockets;
 
-namespace Together.Application.WebSockets;
+namespace Together.Application.Sockets;
 
 public sealed class TogetherWebSocketHandler(ConnectionManager connectionManager) : WebSocketHandler(connectionManager)
 {
@@ -11,6 +11,8 @@ public sealed class TogetherWebSocketHandler(ConnectionManager connectionManager
             case WebSocketServerTarget.Ping:
                 break;
         }
+        
+        Console.WriteLine(111111111111111 + message.ToJson());
 
         return Task.CompletedTask;
     }
