@@ -5,7 +5,7 @@ import {
   UserService,
   WebSocketService,
 } from '@/shared/services';
-import { IConversationQueryRequest } from '@/shared/entities/conversation.entities';
+import { IListConversationRequest } from '@/shared/entities/conversation.entities';
 import { filter, take, takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
 import { AvatarComponent } from '@/shared/components/elements';
@@ -20,7 +20,7 @@ import { websocketClientTarget } from '@/shared/constants';
   templateUrl: './conversation-list.component.html',
 })
 export class ConversationListComponent extends BaseComponent implements OnInit {
-  params: IConversationQueryRequest = {
+  params: IListConversationRequest = {
     pageIndex: 1,
     pageSize: 12,
   };
@@ -40,7 +40,7 @@ export class ConversationListComponent extends BaseComponent implements OnInit {
 
   private loadConversations() {
     this.conversationService
-      .queryConversation(this.params)
+      .listConversation(this.params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ result }) => {
@@ -73,20 +73,6 @@ export class ConversationListComponent extends BaseComponent implements OnInit {
               );
               // nếu chưa đã có conversation thì get api
               if (!existed) {
-                this.conversationService
-                  .queryConversation({
-                    ...this.params,
-                    conversationId: socket.message.conversationId,
-                  })
-                  .pipe(takeUntil(this.destroy$))
-                  .subscribe({
-                    next: ({ result }) => {
-                      this.conversationService.conversations$.next([
-                        result[0],
-                        ...conversations,
-                      ]);
-                    },
-                  });
               } else {
                 this.conversationService.conversations$.next([
                   {

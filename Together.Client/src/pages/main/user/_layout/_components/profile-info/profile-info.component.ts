@@ -9,11 +9,8 @@ import { ShortenNumberPipe } from '@/shared/pipes';
 import { ActivatedRoute } from '@angular/router';
 import { getErrorMessage } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
-import { DialogModule } from 'primeng/dialog';
-import { InputTextModule } from 'primeng/inputtext';
-import { Button } from 'primeng/button';
-import { ReactiveFormsModule } from '@angular/forms';
 import { ProfileUpdateModalComponent } from '../profile-update-modal/profile-update-modal.component';
+import { ProfileGetPrivateConversationComponent } from '../profile-get-private-conversation/profile-get-private-conversation.component';
 
 @Component({
   selector: 'together-profile-info',
@@ -25,11 +22,8 @@ import { ProfileUpdateModalComponent } from '../profile-update-modal/profile-upd
     NgIf,
     ShortenNumberPipe,
     SkeletonModule,
-    DialogModule,
-    InputTextModule,
-    Button,
-    ReactiveFormsModule,
     ProfileUpdateModalComponent,
+    ProfileGetPrivateConversationComponent,
   ],
   templateUrl: './profile-info.component.html',
 })

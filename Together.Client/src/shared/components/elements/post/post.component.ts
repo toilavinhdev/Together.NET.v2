@@ -1,6 +1,6 @@
 import { booleanAttribute, Component, Input } from '@angular/core';
 import { IPostViewModel } from '@/shared/entities/post.entities';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass, NgIf, NgStyle } from '@angular/common';
 import { BaseComponent } from '@/core/abstractions';
 import { AvatarComponent, PrefixComponent } from '@/shared/components/elements';
 import { ShortenNumberPipe, TimeAgoPipe } from '@/shared/pipes';
@@ -17,6 +17,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     ShortenNumberPipe,
     NgIf,
     SkeletonModule,
+    NgStyle,
   ],
   templateUrl: './post.component.html',
 })
@@ -32,4 +33,7 @@ export class PostComponent extends BaseComponent {
 
   @Input({ transform: booleanAttribute })
   loading = false;
+
+  @Input()
+  bordered = true;
 }

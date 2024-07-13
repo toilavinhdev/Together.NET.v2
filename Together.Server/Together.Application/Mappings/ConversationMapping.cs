@@ -7,6 +7,8 @@ public sealed class ConversationMapping : Profile
 {
     public ConversationMapping()
     {
-        CreateMap<Conversation, CreateConversationResponse>();
+        CreateMap<Conversation, CreateConversationResponse>()
+            .ForMember(response => response.ParticipantIds, cfg => cfg
+                .MapFrom(c => c.ConversationParticipants.Select(cp => cp.UserId).ToList()));
     }
 }

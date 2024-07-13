@@ -19,6 +19,7 @@ import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { DropdownModule } from 'primeng/dropdown';
 import { IUpdateProfileRequest } from '@/shared/entities/user.entities';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'together-profile-update-modal',
@@ -33,6 +34,7 @@ import { IUpdateProfileRequest } from '@/shared/entities/user.entities';
     MessagesModule,
     DropdownModule,
     JsonPipe,
+    TooltipModule,
   ],
   templateUrl: './profile-update-modal.component.html',
   providers: [MessageService],

@@ -1,6 +1,6 @@
 namespace Together.Application.Features.FeatureConversation.Responses;
 
-public class ConversationResponse : PaginationResult<ConversationViewModel>;
+public class ListConversationResponse : PaginationResult<ConversationViewModel>;
 
 public class ConversationViewModel : BaseEntity
 {

@@ -11,13 +11,31 @@
     <div class="flex gap-x-3 mt-4">
       <p-dropdown
         formControlName="prefixId"
-        [options]="(prefixService.prefixes$ | async)!"
+        [options]="(prefixService.prefixes$ | async) ?? []"
         optionLabel="name"
         optionValue="id"
         placeholder="Chọn prefix"
         showClear
-        styleClass="min-w-[180px]"
-      ></p-dropdown>
+        styleClass="min-w-[200px]"
+      >
+        <ng-template pTemplate="selectedItem">
+          <together-prefix
+            *ngIf="selectedPrefix"
+            [name]="selectedPrefix.name"
+            [foreground]="selectedPrefix.foreground"
+            [background]="selectedPrefix.background"
+            componentClass="inline-block"
+          />
+        </ng-template>
+        <ng-template let-prefix pTemplate="item">
+          <together-prefix
+            [name]="prefix.name"
+            [foreground]="prefix.foreground"
+            [background]="prefix.background"
+            componentClass="inline-block"
+          />
+        </ng-template>
+      </p-dropdown>
       <input
         formControlName="title"
         pInputText

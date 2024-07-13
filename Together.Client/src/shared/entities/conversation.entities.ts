@@ -1,10 +1,9 @@
 import { IPaginationRequest, IPaginationResult } from '@/core/models';
+import { EConversationType } from '@/shared/enums';
 
-export interface IConversationQueryRequest extends IPaginationRequest {
-  conversationId?: string;
-}
+export interface IListConversationRequest extends IPaginationRequest {}
 
-export interface IConversationQueryResponse
+export interface IListConversationResponse
   extends IPaginationResult<IConversationViewModel> {}
 
 export interface IConversationViewModel {
@@ -16,4 +15,22 @@ export interface IConversationViewModel {
   lastMessageByUserName?: string;
   lastMessageText?: string;
   lastMessageAt?: string;
+}
+
+export interface IGetConversationRequest {
+  conversationId?: string;
+  privateReceiverId?: string;
+}
+
+export interface ICreateConversationRequest {
+  otherParticipantIds: string[];
+  type: EConversationType;
+  name?: string;
+}
+
+export interface ICreateConversationResponse {
+  id: string;
+  subId: string;
+  name?: string;
+  participantIds: string[];
 }

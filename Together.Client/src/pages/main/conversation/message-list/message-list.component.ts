@@ -148,20 +148,6 @@ export class MessageListComponent
                   (c) => c.id == this.params.conversationId,
                 );
                 if (!existed) {
-                  this.conversationService
-                    .queryConversation({
-                      ...this.params,
-                      conversationId: this.params.conversationId,
-                    })
-                    .pipe(takeUntil(this.destroy$))
-                    .subscribe({
-                      next: ({ result }) => {
-                        this.conversationService.conversations$.next([
-                          result[0],
-                          ...conversations,
-                        ]);
-                      },
-                    });
                 } else {
                   this.conversationService.conversations$.next([
                     {

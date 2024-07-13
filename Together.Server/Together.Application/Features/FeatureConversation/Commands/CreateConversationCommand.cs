@@ -5,7 +5,7 @@ namespace Together.Application.Features.FeatureConversation.Commands;
 
 public sealed class CreateConversationCommand : IBaseRequest<CreateConversationResponse>
 {
-    public List<Guid> ParticipantIds { get; set; } = default!;
+    public List<Guid> OtherParticipantIds { get; set; } = default!;
     
     public ConversationType Type { get; set; }
     
@@ -15,10 +15,10 @@ public sealed class CreateConversationCommand : IBaseRequest<CreateConversationR
     {
         public Validator()
         {
-            RuleFor(x => x.ParticipantIds).NotNull().Must(x => x.Count > 1);
+            RuleFor(x => x.OtherParticipantIds).NotNull().Must(x => x.Count > 0);
             When(x => x.Type == ConversationType.Private, () =>
             {
-                RuleFor(x => x.ParticipantIds.Count == 2);
+                RuleFor(x => x.OtherParticipantIds.Count == 1);
             });
         }
     }
@@ -28,7 +28,7 @@ public sealed class CreateConversationCommand : IBaseRequest<CreateConversationR
     {
         protected override async Task<CreateConversationResponse> HandleAsync(CreateConversationCommand request, CancellationToken ct)
         {
-            foreach (var participantId in request.ParticipantIds)
+            foreach (var participantId in request.OtherParticipantIds)
             {
                 if (!await context.Users.AnyAsync(u => u.Id == participantId, ct))
                     throw new DomainException(TogetherErrorCodes.User.UserNotFound, participantId.ToString());
@@ -40,7 +40,9 @@ public sealed class CreateConversationCommand : IBaseRequest<CreateConversationR
                     .Include(c => c.ConversationParticipants)
                     .AnyAsync(c => 
                         c.ConversationParticipants.Count == 2 &&
-                        c.ConversationParticipants.All(cp => request.ParticipantIds.Contains(cp.UserId)), 
+                        c.ConversationParticipants.All(cp => 
+                                cp.UserId == request.OtherParticipantIds.First() ||  
+                                cp.UserId == CurrentUserClaims.Id), 
                         ct);
                 if (isExist) throw new DomainException(TogetherErrorCodes.Conversation.PrivateConversationAlreadyExists);
             }
@@ -49,7 +51,8 @@ public sealed class CreateConversationCommand : IBaseRequest<CreateConversationR
             {
                 Id = Guid.NewGuid(),
                 Name = request.Name,
-                ConversationParticipants = request.ParticipantIds
+                ConversationParticipants = request.OtherParticipantIds
+                    .Union([CurrentUserClaims.Id])
                     .Select(userId => new ConversationParticipant
                     {
                         UserId = userId

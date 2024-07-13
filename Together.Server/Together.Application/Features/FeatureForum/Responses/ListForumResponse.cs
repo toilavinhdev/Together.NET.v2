@@ -16,4 +16,6 @@ public class TopicViewModel : TimeTrackingEntity
     public string? Description { get; set; }
     
     public long PostCount { get; set; }
+    
+    public long ReplyCount { get; set; }
 }

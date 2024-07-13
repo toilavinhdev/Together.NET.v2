@@ -44,6 +44,7 @@ public sealed class ListMessageQuery : IBaseRequest<ListMessageResponse>, IPagin
 
             var data = await queryable
                 .OrderByDescending(m => m.CreatedAt)
+                .Paging(request.PageIndex, request.PageSize)
                 .Select(m => new MessageViewModel
                 {
                     Id = m.Id,

@@ -1,3 +1,15 @@
+<div
+  (click)="showUpdateModal()"
+  pTooltip="Cập nhật thông tin"
+  tooltipPosition="left"
+>
+  <p-button
+    icon="pi pi-user-edit"
+    [rounded]="true"
+    severity="secondary"
+  />
+</div>
+
 <p-dialog header="Cập nhật thông tin" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
   <p-messages/>
   <form [formGroup]="updateForm">

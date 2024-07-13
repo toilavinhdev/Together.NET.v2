@@ -20,6 +20,7 @@
         pInputText
         formControlName="email"
       />
+      <small>Email là mặc định đối với mỗi tài khoản</small>
       <ng-container *ngIf="signUpForm.get('email')?.dirty">
         <small *ngIf="signUpForm.get('email')?.errors?.['required']" class="text-red-600">Không bỏ trống email</small>
         <small *ngIf="signUpForm.get('email')?.errors?.['pattern']" class="text-red-600">Email không đúng định dạng</small>

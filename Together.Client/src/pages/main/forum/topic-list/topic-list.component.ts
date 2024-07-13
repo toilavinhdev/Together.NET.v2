@@ -7,11 +7,19 @@ import { RouterLink } from '@angular/router';
 import { ShortenNumberPipe } from '@/shared/pipes';
 import { getErrorMessage } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
+import { PostComponent } from '@/shared/components/elements';
 
 @Component({
   selector: 'together-topic-list',
   standalone: true,
-  imports: [AsyncPipe, RouterLink, NgIf, ShortenNumberPipe, SkeletonModule],
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    NgIf,
+    ShortenNumberPipe,
+    SkeletonModule,
+    PostComponent,
+  ],
   templateUrl: './topic-list.component.html',
 })
 export class TopicListComponent extends BaseComponent implements OnInit {

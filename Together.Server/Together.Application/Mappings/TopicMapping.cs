@@ -15,6 +15,8 @@ public sealed class TopicMapping : Profile
 
         CreateMap<Topic, TopicViewModel>()
             .ForMember(viewModel => viewModel.PostCount, cfg => cfg
-                .MapFrom(topic => topic.Posts!.LongCount()));
+                .MapFrom(topic => topic.Posts!.LongCount()))
+            .ForMember(viewModel => viewModel.ReplyCount, cfg => cfg
+                .MapFrom(topic => topic.Posts!.SelectMany(p => p.Replies!).LongCount()));
     }
 }

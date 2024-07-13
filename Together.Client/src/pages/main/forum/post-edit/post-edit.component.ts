@@ -11,12 +11,14 @@ import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { DropdownModule } from 'primeng/dropdown';
 import { ForumService, PostService, PrefixService } from '@/shared/services';
-import { map, Observable, take, takeUntil } from 'rxjs';
+import { combineLatest, map, Observable, take, takeUntil } from 'rxjs';
 import { Button } from 'primeng/button';
 import { getErrorMessage, isGUID, markFormDirty } from '@/shared/utilities';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EditorModule } from 'primeng/editor';
+import { PrefixComponent } from '@/shared/components/elements';
+import { IPrefixViewModel } from '@/shared/entities/prefix.entities';
 
 @Component({
   selector: 'together-post-edit',
@@ -31,6 +33,7 @@ import { EditorModule } from 'primeng/editor';
     FormsModule,
     EditorModule,
     NgIf,
+    PrefixComponent,
   ],
   templateUrl: './post-edit.component.html',
 })
@@ -42,6 +45,8 @@ export class PostEditComponent extends BaseComponent implements OnInit {
   forums$!: Observable<SelectItemGroup[]>;
 
   loading = false;
+
+  selectedPrefix?: IPrefixViewModel;
 
   constructor(
     private formBuilder: UntypedFormBuilder,
@@ -137,6 +142,17 @@ export class PostEditComponent extends BaseComponent implements OnInit {
       title: [null, [Validators.required]],
       body: [null, [Validators.required]],
     });
+    combineLatest(
+      this.form.get('prefixId')!.valueChanges as Observable<string>,
+      this.prefixService.prefixes$.asObservable(),
+    )
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([selectedPrefixId, prefixes]) =>
+          prefixes.find((p) => p.id === selectedPrefixId),
+        ),
+      )
+      .subscribe((selectedPrefix) => (this.selectedPrefix = selectedPrefix));
   }
 
   private loadPrefixes() {

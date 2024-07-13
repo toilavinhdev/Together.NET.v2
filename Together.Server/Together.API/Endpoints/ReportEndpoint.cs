@@ -12,10 +12,10 @@ public sealed class ReportEndpoint : IEndpoint
     {
         var group = app.MapGroup("/api/v1/report").WithTags("Report");
 
-        group.MapGet("/statistic", Statistic);
+        group.MapGet("/statistics", Statistics);
     }
 
     [Authorize]
-    private static Task<BaseResponse<object>> Statistic(ISender sender)
-        => sender.Send(new StatisticQuery());
+    private static Task<BaseResponse<Dictionary<string, object>>> Statistics(ISender sender)
+        => sender.Send(new StatisticsQuery());
 }

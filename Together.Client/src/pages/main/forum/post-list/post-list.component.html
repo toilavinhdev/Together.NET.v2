@@ -8,7 +8,7 @@
     label="Tạo bài viết"
   />
 </div>
-<div>
+@if ((postService.posts$ | async)?.length) {
   @if (!loading) {
     @for (post of postService.posts$ | async; track post) {
       <together-post
@@ -20,4 +20,7 @@
       <together-post loading />
     }
   }
-</div>
+}
+@else {
+  <div>Chưa có bài viết</div>
+}

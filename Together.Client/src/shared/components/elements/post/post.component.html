@@ -1,5 +1,8 @@
 @if (!loading) {
-  <div [ngClass]="componentClass" class="flex items-center bg-white py-2 border-b border-b-gray-400/40" style="border-bottom-style: solid">
+  <div
+    [ngClass]="componentClass"
+    class="flex items-center bg-white py-2 {{bordered ? 'border-b border-b-gray-400/40' : ''}}"
+    [ngStyle]="{borderBottomStyle: bordered ? 'solid' : 'none'}">
     <div class="flex items-start gap-x-1 ml-2">
       <together-avatar
         [src]="post.createdByAvatar"

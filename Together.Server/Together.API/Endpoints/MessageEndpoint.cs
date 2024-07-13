@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Together.API.Extensions;
 using Together.Application.Features.FeatureMessage.Commands;
 using Together.Application.Features.FeatureMessage.Queries;
@@ -18,9 +19,11 @@ public sealed class MessageEndpoint : IEndpoint
         group.MapPost("/send", SendMessage);
     }
     
+    [Authorize]
     private static Task<BaseResponse<ListMessageResponse>> ListMessage(ISender sender, [AsParameters] ListMessageQuery query)
         => sender.Send(query);
     
+    [Authorize]
     private static Task<BaseResponse<SendMessageResponse>> SendMessage(ISender sender, SendMessageCommand command)
         => sender.Send(command);
 }

@@ -61,7 +61,7 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
                 .Include(p => p.Topic)
                 .Include(p => p.Prefix)
                 .Include(p => p.Replies)
-                .OrderBy(p => p.CreatedAt)
+                .OrderByDescending(p => p.CreatedAt)
                 .Paging(request.PageIndex, request.PageSize)
                 .Select(p => new PostViewModel
                 {

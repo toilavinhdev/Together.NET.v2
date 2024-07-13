@@ -3,28 +3,36 @@
   @if (!loading) {
     @if (statistic) {
       <div class="grid grid-cols-2 gap-y-4 px-5 py-4">
-        <div class="*:text-center">
+        <div *ngIf="statistic.totalOnlineUser !== undefined" class="*:text-center">
+          <div class="text-primary font-bold text-[22px] leading-[22px]">{{statistic.totalOnlineUser | shortenNumber}}</div>
+          <div class="text-gray-500">Online</div>
+        </div>
+        <div *ngIf="statistic.totalUser !== undefined" class="*:text-center">
           <div class="text-primary font-bold text-[22px] leading-[22px]">{{statistic.totalUser | shortenNumber}}</div>
           <div class="text-gray-500">Thành viên</div>
         </div>
-        <div class="*:text-center">
+        <div *ngIf="statistic.totalTopic !== undefined" class="*:text-center">
           <div class="text-primary font-bold text-[22px] leading-[22px]">{{statistic.totalTopic | shortenNumber}}</div>
           <div class="text-gray-500">Chủ đề</div>
         </div>
-        <div class="*:text-center">
+        <div *ngIf="statistic.totalPost !== undefined" class="*:text-center">
           <div class="text-primary font-bold text-[22px] leading-[22px]">{{statistic.totalPost | shortenNumber}}</div>
           <div class="text-gray-500">Bài viết</div>
         </div>
-        <div class="*:text-center">
+        <div *ngIf="statistic.totalReply !== undefined" class="*:text-center">
           <div class="text-primary font-bold text-[22px] leading-[22px]">{{statistic.totalReply | shortenNumber}}</div>
           <div class="text-gray-500">Phản hồi</div>
+        </div>
+        <div *ngIf="statistic.newMember !== undefined" class="*:text-center">
+          <div class="text-primary font-bold text-[18px] leading-[22px] text-ellipsis line-clamp-1">{{statistic.newMember}}</div>
+          <div class="text-gray-500">Thành viên mới</div>
         </div>
       </div>
     }
   }
   @else {
     <div class="grid grid-cols-2 justify-items-center gap-y-4 px-5 py-4">
-      @for (_ of Array(4); track _) {
+      @for (_ of Array(6); track _) {
         <p-skeleton width="80px" height="40px"/>
       }
     </div>

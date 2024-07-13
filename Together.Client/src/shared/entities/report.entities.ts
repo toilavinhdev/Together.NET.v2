@@ -1,6 +1,8 @@
-export interface IStatisticResponse {
-  totalUser: number;
-  totalTopic: number;
-  totalPost: number;
-  totalReply: number;
+export interface IStatisticsResponse {
+  totalUser?: number;
+  totalTopic?: number;
+  totalPost?: number;
+  totalReply?: number;
+  totalOnlineUser?: number;
+  newMember?: number;
 }

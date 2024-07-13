@@ -4,4 +4,5 @@ export interface ITopicViewModel {
   name: string;
   description?: string;
   postCount: number;
+  replyCount: number;
 }
