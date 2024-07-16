@@ -6,6 +6,7 @@ import {
   ToastComponent,
 } from '@/shared/components/elements';
 import { PrimeNGConfig } from 'primeng/api';
+import {environment} from "@/environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -22,6 +23,7 @@ export class AppComponent implements OnInit {
   constructor(private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {
+    console.log('production', environment.production)
     this.configPrimeNG();
   }
 

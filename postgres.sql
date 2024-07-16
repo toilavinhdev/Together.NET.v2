@@ -3,17 +3,17 @@
 -- roles: \du+
 
 -- sudo -u postgres createuser --interactive
-CREATE USER admin WITH PASSWORD 'admin';
+CREATE USER user WITH PASSWORD 'password';
 -- \password admin
-ALTER USER admin WITH SUPERUSER;
+ALTER USER user WITH SUPERUSER;
 
 -- sudo -u admin createdb Together.NET.v2
 CREATE DATABASE "Together.NET.v2";
 
-GRANT ALL PRIVILEGES ON DATABASE "Together.NET.v2" TO admin;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO admin;
-GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO admin;
+GRANT ALL PRIVILEGES ON DATABASE "Together.NET.v2" TO user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO user;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO user;
 
 UPDATE "Roles"
 SET "Claims" = '{User:Me,User:Get,User:UpdateProfile,User:UpdatePassword,Forum:View,Prefix:View,Post:View,Post:Create,Reply:Create}'

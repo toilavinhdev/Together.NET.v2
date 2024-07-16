@@ -28,14 +28,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
       <Content Update="AppSettings\appsettings.Development.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Update="AppSettings\appsettings.Production.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
       </Content>
     </ItemGroup>
 

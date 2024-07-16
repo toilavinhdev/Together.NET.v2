@@ -1,12 +1,18 @@
 <div [ngClass]="componentClass" class="bg-white rounded shadow">
   <div class="uppercase font-medium text-[13px] px-5 py-5 bg-primary text-white rounded-t">Bài viết mới nhất</div>
   @if (!loading) {
-    @for (post of latestPost; track post) {
-      <together-post
-        [post]="post"
-        [showReplyCount]="false"
-        [showTopicName]="true"
-      />
+    @if (latestPost.length) {
+      @for (post of latestPost; track post) {
+        <together-post
+          [post]="post"
+          [showReplyCount]="false"
+          [showTopicName]="true"
+        />
+      }
+    } @else {
+      <div class="p-6">
+        Không có dữ liệu
+      </div>
     }
   }
   @else {

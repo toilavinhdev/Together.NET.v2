@@ -1,0 +1,42 @@
+version: "3.8"
+
+volumes:
+  prod-postgres-data: {}
+  prod-redis-data: {}
+
+services:
+  prod-together-postgres:
+    container_name: together-prod-postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=Together.NET.v2
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=P@ssword
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - prod-postgres-data:/var/lib/postgresql/data/
+  
+  prod-together-redis:
+    container_name: together-prod-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - prod-redis-data:/data
+  
+  prod-together-api:
+    container_name: together-prod-api
+    build:
+      context: ..
+      dockerfile: Together.Server/Together.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "5015:5015"
+    restart: unless-stopped
+    depends_on:
+      - prod-together-postgres
+      - prod-together-redis

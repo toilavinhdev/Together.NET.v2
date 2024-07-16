@@ -1,0 +1,26 @@
+﻿version: "3.8"
+
+volumes:
+  local-postgres-data: {}
+  local-redis-data: {}
+
+services:
+  local-together-postgres:
+    container_name: together-local-postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=Together.NET.v2
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - local-postgres-data:/var/lib/postgresql/data/
+    
+  local-together-redis:
+    container_name: together-local-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - local-redis-data:/data

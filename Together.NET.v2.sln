@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB2A0D46-356E-4EA5-997C-966405B5801F}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		docker-compose.yml = docker-compose.yml
+		bash.sh = bash.sh
+		kestrel-togethernet.service = kestrel-togethernet.service
+		postgres.sql = postgres.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Server", "Together.Server", "{24926DC2-6739-4EDE-AEB9-43BE5E1FEC09}"
@@ -23,10 +25,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Proxy", "Together.Proxy", "{8201C3FE-A816-4874-BAEA-D5528864F595}"
 	ProjectSection(SolutionItems) = preProject
 		Together.Proxy\Dockerfile = Together.Proxy\Dockerfile
-		Together.Proxy\nginx.conf = Together.Proxy\nginx.conf
+		Together.Proxy\default.conf = Together.Proxy\default.conf
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Together.Client", "Together.Client\Together.Client.csproj", "{FB62BF13-1743-4407-BFD4-E33B59AA4964}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Docker", "Together.Docker", "{27238377-F20A-454C-80EE-41641DC74F0C}"
+	ProjectSection(SolutionItems) = preProject
+		Together.Docker\docker-compose.local.yml = Together.Docker\docker-compose.local.yml
+		Together.Docker\docker-compose.prod.yml = Together.Docker\docker-compose.prod.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
