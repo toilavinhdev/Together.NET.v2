@@ -12,6 +12,7 @@ import { AvatarComponent } from '@/shared/components/elements';
 import { TimeAgoPipe } from '@/shared/pipes';
 import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { websocketClientTarget } from '@/shared/constants';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'together-conversation-list',
@@ -25,17 +26,33 @@ export class ConversationListComponent extends BaseComponent implements OnInit {
     pageSize: 12,
   };
 
+  selectedConversationId = '';
+
   constructor(
     protected conversationService: ConversationService,
     protected userService: UserService,
+    private router: Router,
     private webSocketService: WebSocketService,
   ) {
     super();
   }
 
   ngOnInit() {
+    this.routerTracking();
     this.listenWebSocket();
     this.loadConversations();
+  }
+
+  private routerTracking() {
+    this.selectedConversationId = this.router.url.split('/')[2];
+    this.router.events
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((event) => event instanceof NavigationEnd),
+      )
+      .subscribe((event: any) => {
+        this.selectedConversationId = event.url.split('/')[2];
+      });
   }
 
   private loadConversations() {

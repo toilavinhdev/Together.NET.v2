@@ -1,3 +1,4 @@
+using Together.Application.Features.FeatureNotification.Commands;
 using Together.Application.Features.FeaturePost.Responses;
 using Together.Domain.Aggregates.PostAggregate;
 
@@ -18,7 +19,7 @@ public sealed class VotePostCommand : IBaseRequest<VotePostResponse>
         }
     }
     
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, ISender sender) 
         : BaseRequestHandler<VotePostCommand, VotePostResponse>(httpContextAccessor)
     {
         protected override async Task<VotePostResponse> HandleAsync(VotePostCommand request, CancellationToken ct)
@@ -30,6 +31,8 @@ public sealed class VotePostCommand : IBaseRequest<VotePostResponse>
                 .FirstOrDefaultAsync(v =>
                     v.PostId == request.PostId && 
                     v.CreatedById == CurrentUserClaims.Id, ct);
+
+            Post? post;
             
             if (vote is null)
             {
@@ -41,6 +44,18 @@ public sealed class VotePostCommand : IBaseRequest<VotePostResponse>
                 await context.SaveChangesAsync(ct);
 
                 Message = "Voted";
+                
+                post = await context.Posts.FirstOrDefaultAsync(p => p.Id == request.PostId, ct);
+                if (post!.CreatedById != CurrentUserClaims.Id)
+                {
+                    await sender.Send(new SendNotificationCommand
+                    {
+                        ActorId = CurrentUserClaims.Id,
+                        ReceiverId = post.CreatedById,
+                        SourceId = post.Id,
+                        Activity = NotificationActivity.VOTE_POST
+                    }, ct);
+                }
 
                 return new VotePostResponse
                 {
@@ -74,6 +89,18 @@ public sealed class VotePostCommand : IBaseRequest<VotePostResponse>
             await context.SaveChangesAsync(ct);
             
             Message = "Voted";
+            
+            post = await context.Posts.FirstOrDefaultAsync(p => p.Id == request.PostId, ct);
+            if (post!.CreatedById != CurrentUserClaims.Id)
+            {
+                await sender.Send(new SendNotificationCommand
+                {
+                    ActorId = CurrentUserClaims.Id,
+                    ReceiverId = post.CreatedById,
+                    SourceId = post.Id,
+                    Activity = NotificationActivity.VOTE_POST
+                }, ct);
+            }
             
             return new VotePostResponse
             {

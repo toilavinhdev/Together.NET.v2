@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Together.Domain.Aggregates.ConversationAggregate;
 using Together.Domain.Aggregates.ForumAggregate;
 using Together.Domain.Aggregates.MessageAggregate;
+using Together.Domain.Aggregates.NotificationAggregate;
 using Together.Domain.Aggregates.PostAggregate;
 using Together.Domain.Aggregates.ReplyAggregate;
 using Together.Domain.Aggregates.RoleAggregate;
@@ -17,6 +18,8 @@ public sealed class TogetherContext(DbContextOptions<TogetherContext> options) :
     public DbSet<Role> Roles { get; init; } = default!;
 
     public DbSet<UserRole> UserRoles { get; init; } = default!;
+
+    public DbSet<Notification> Notifications { get; init; } = default!;
     
     public DbSet<Forum> Forums  { get; init; } = default!;
     

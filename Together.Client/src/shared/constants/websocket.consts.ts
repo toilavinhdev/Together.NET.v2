@@ -4,4 +4,5 @@ export const websocketServerTarget = {
 
 export const websocketClientTarget = {
   ReceivedMessage: 'ReceivedMessage',
+  ReceivedNotification: 'ReceivedNotification',
 };

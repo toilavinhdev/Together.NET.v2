@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import {
   BreadcrumbComponent,
-  NavbarComponent,
+  NavbarComponent, NotificationAlertComponent,
 } from '@/pages/main/_layout/components';
 import { BaseComponent } from '@/core/abstractions';
 import { UserService, WebSocketService } from '@/shared/services';
@@ -12,7 +12,13 @@ import { getErrorMessage } from '@/shared/utilities';
 @Component({
   selector: 'together-main',
   standalone: true,
-  imports: [RouterLink, NavbarComponent, RouterOutlet, BreadcrumbComponent],
+  imports: [
+    RouterLink,
+    NavbarComponent,
+    RouterOutlet,
+    BreadcrumbComponent,
+    NotificationAlertComponent,
+  ],
   templateUrl: './main.component.html',
 })
 export class MainComponent extends BaseComponent implements OnInit {

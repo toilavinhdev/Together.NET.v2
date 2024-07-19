@@ -1,4 +1,4 @@
-<div class="fixed top-0 left-0 right-0 h-[60px] bg-white shadow z-[100]">
+<div id="together-navbar" class="fixed top-0 left-0 right-0 h-[60px] bg-white shadow z-[100]">
   <div class="flex mx-[120px]">
     <div routerLink="/" class="text-[22px] font-semibold uppercase cursor-pointer leading-[60px]">
       Together<span class="text-primary">NET</span>
@@ -10,29 +10,18 @@
       <div routerLink="/conversations" class="navbar--item">
         <together-svg-icon name="message" [size]="24" componentClass="mt-1"/>
       </div>
-      <div class="navbar--item">
+      <div class="navbar--item" (click)="notificationDropdown.toggle($event)">
         <together-svg-icon name="notification" [size]="24" componentClass="mt-1"/>
       </div>
-      <div (click)="menu.toggle($event)" class="navbar--item">
+      <div class="navbar--item" (click)="userDropdown.menuComponent.toggle($event)">
         <together-avatar [src]="(userService.me$ | async)?.avatar" componentClass="scale-[0.6] mt-1"/>
       </div>
     </div>
+    <together-user-dropdown #userDropdown/>
+    <together-notification-dropdown #notificationDropdown/>
   </div>
-  <p-menu #menu popup [model]="items" styleClass="w-[220px]">
-    <ng-template pTemplate="start">
-      <div class="flex items-center">
-        <together-avatar [src]="(userService.me$ | async)?.avatar" componentClass="scale-[0.6]"/>
-        <div class="text-ellipsis line-clamp-1 font-medium mb-1">{{(userService.me$ | async)?.userName}}</div>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="item" let-item>
-      <div pRipple class="flex items-center cursor-pointer p-4" [routerLink]="item.routerLink">
-        <span [class]="item.icon"></span>
-        <span class="ml-4">{{ item.label }}</span>
-      </div>
-    </ng-template>
-  </p-menu>
 </div>
+
 
 <style>
   .navbar--item {

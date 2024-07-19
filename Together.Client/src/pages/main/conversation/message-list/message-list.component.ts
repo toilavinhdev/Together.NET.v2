@@ -187,14 +187,15 @@ export class MessageListComponent
           if (socket.message.conversationId !== this.params.conversationId)
             return;
           // add message
+          this.extra['userOnline'] = true;
           this.messageService.messages$.pipe(take(1)).subscribe((messages) => {
             this.messageService.messages$.next([
               ...messages,
               {
                 ...socket.message,
                 createdById: socket.message.createdById,
-                createdByUserName: socket.message.userName,
-                createdByAvatar: socket.message.avatar,
+                createdByUserName: socket.message.createdByUserName,
+                createdByAvatar: socket.message.createdByAvatar,
               },
             ]);
           });

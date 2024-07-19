@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using Together.Application.Features.FeatureMessage.Responses;
+using Together.Application.Sockets;
 using Together.Domain.Aggregates.MessageAggregate;
 
 namespace Together.Application.Features.FeatureMessage.Queries;
@@ -21,7 +22,7 @@ public sealed class ListMessageQuery : IBaseRequest<ListMessageResponse>, IPagin
         }
     }
 
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context)
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, TogetherWebSocketHandler socket)
         : BaseRequestHandler<ListMessageQuery, ListMessageResponse>(httpContextAccessor)
     {
         protected override async Task<ListMessageResponse> HandleAsync(ListMessageQuery request, CancellationToken ct)
@@ -71,6 +72,7 @@ public sealed class ListMessageQuery : IBaseRequest<ListMessageResponse>, IPagin
                     extra.Add("conversationName", receiver.User.UserName);
                     extra.Add("conversationImage", receiver.User.Avatar!);
                     extra.Add("userId", receiver.User.Id);
+                    extra.Add("userOnline", socket.ConnectionManager.GetSockets(receiver.User.Id.ToString())?.Any() ?? false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

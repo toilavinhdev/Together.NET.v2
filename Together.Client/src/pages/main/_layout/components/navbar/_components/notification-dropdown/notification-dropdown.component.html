@@ -1,0 +1,33 @@
+<p-menu
+  #menu
+  popup
+  [model]="[]"
+  styleClass="max-h-[60vh] w-[320px] overflow-y-auto"
+>
+  <ng-template pTemplate="end">
+    <div class="text-[14px] font-semibold px-3 py-1">Thông báo</div>
+    @if (notifications.length) {
+      @for (notification of notifications; track notification) {
+        <div (click)="navigateToSource(notification.sourceId, notification.activity)"
+             class="flex-1 flex gap-x-3 items-start cursor-pointer py-2 px-3 rounded duration-200 hover:bg-[#f1f5f9]">
+          <together-avatar
+            [src]="notification.actorAvatar"
+            componentClass="w-[46px] h-[46px]"
+          />
+          <div>
+            <div>
+              <div class="font-semibold text-ellipsis line-clamp-1 text-[13px]">{{ notification.actorUserName }}</div>
+              <div class="text-[12px]">{{ notification.activity }}</div>
+            </div>
+            <div class="font-medium text-[12px] text-primary">{{ notification.createdAt | timeAgo }}</div>
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="text-center my-4">
+        Bạn chưa có thông báo nào
+      </div>
+    }
+  </ng-template>
+</p-menu>
+

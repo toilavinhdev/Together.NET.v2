@@ -1,3 +1,4 @@
+using Together.Application.Features.FeatureNotification.Commands;
 using Together.Application.Features.FeatureReply.Responses;
 using Together.Domain.Aggregates.ReplyAggregate;
 
@@ -18,7 +19,7 @@ public sealed class VoteReplyCommand : IBaseRequest<VoteReplyResponse>
         }
     }
     
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, ISender sender) 
         : BaseRequestHandler<VoteReplyCommand, VoteReplyResponse>(httpContextAccessor)
     {
         protected override async Task<VoteReplyResponse> HandleAsync(VoteReplyCommand request, CancellationToken ct)
@@ -30,6 +31,8 @@ public sealed class VoteReplyCommand : IBaseRequest<VoteReplyResponse>
                 .FirstOrDefaultAsync(v => 
                     v.ReplyId == request.ReplyId && 
                     v.CreatedById == CurrentUserClaims.Id, ct);
+
+            Reply? reply;
             
             if (vote is null)
             {
@@ -41,6 +44,18 @@ public sealed class VoteReplyCommand : IBaseRequest<VoteReplyResponse>
                 await context.SaveChangesAsync(ct);
 
                 Message = "Voted";
+                
+                reply = await context.Replies.FirstOrDefaultAsync(p => p.Id == request.ReplyId, ct);
+                if (reply!.CreatedById != CurrentUserClaims.Id)
+                {
+                    await sender.Send(new SendNotificationCommand
+                    {
+                        ActorId = CurrentUserClaims.Id,
+                        ReceiverId = reply.CreatedById,
+                        SourceId = reply.Id,
+                        Activity = NotificationActivity.VOTE_REPLY
+                    }, ct);
+                }
 
                 return new VoteReplyResponse
                 {
@@ -74,6 +89,18 @@ public sealed class VoteReplyCommand : IBaseRequest<VoteReplyResponse>
             await context.SaveChangesAsync(ct);
             
             Message = "Voted";
+            
+            reply = await context.Replies.FirstOrDefaultAsync(p => p.Id == request.ReplyId, ct);
+            if (reply!.CreatedById != CurrentUserClaims.Id)
+            {
+                await sender.Send(new SendNotificationCommand
+                {
+                    ActorId = CurrentUserClaims.Id,
+                    ReceiverId = reply.CreatedById,
+                    SourceId = reply.Id,
+                    Activity = NotificationActivity.VOTE_REPLY
+                }, ct);
+            }
             
             return new VoteReplyResponse
             {

@@ -63,6 +63,9 @@ public static class TogetherPolicies
         Prefix.View,
         Post.View,
         Post.Create,
-        Reply.Create
+        Post.Vote,
+        Reply.View,
+        Reply.Create,
+        Reply.Vote
     ];
 }

@@ -1,3 +1,4 @@
+using Together.Application.Features.FeatureNotification.Commands;
 using Together.Application.Features.FeatureReply.Responses;
 using Together.Domain.Aggregates.ReplyAggregate;
 
@@ -20,13 +21,13 @@ public sealed class CreateReplyCommand : IBaseRequest<CreateReplyResponse>
         }
     }
     
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, ISender sender) 
         : BaseRequestHandler<CreateReplyCommand, CreateReplyResponse>(httpContextAccessor)
     {
         protected override async Task<CreateReplyResponse> HandleAsync(CreateReplyCommand request, CancellationToken ct)
         {
-            if (!await context.Posts.AnyAsync(p => p.Id == request.PostId, ct))
-                throw new DomainException(TogetherErrorCodes.Post.PostNotFound);
+            var post = await context.Posts.FirstOrDefaultAsync(p => p.Id == request.PostId, ct);
+            if (post is null) throw new DomainException(TogetherErrorCodes.Post.PostNotFound);
             
             if (request.ParentId is not null && 
                 !await context.Replies.AnyAsync(r => r.Id == request.ParentId && r.PostId == request.PostId, ct))
@@ -38,6 +39,35 @@ public sealed class CreateReplyCommand : IBaseRequest<CreateReplyResponse>
             await context.Replies.AddAsync(reply, ct);
 
             await context.SaveChangesAsync(ct);
+
+            if (request.ParentId is null)
+            {
+                if (post.CreatedById != CurrentUserClaims.Id)
+                {
+                    await sender.Send(new SendNotificationCommand
+                    {
+                        ActorId = CurrentUserClaims.Id,
+                        ReceiverId = post.CreatedById,
+                        SourceId = reply.Id,
+                        Activity = NotificationActivity.REPLY_POST
+                    }, ct);
+                }
+            }
+            else
+            {
+                var parentReply = await context.Replies.FirstOrDefaultAsync(r => r.Id == reply.ParentId, ct);
+                if (reply.ParentId is not null && parentReply!.CreatedById != CurrentUserClaims.Id)
+                {
+                    await sender.Send(new SendNotificationCommand
+                    {
+                        ActorId = CurrentUserClaims.Id,
+                        ReceiverId = parentReply!.CreatedById,
+                        SourceId = reply.Id,
+                        Activity = NotificationActivity.REPLY_REPLY
+                    }, ct);
+                }
+            }
+            
 
             return reply.MapTo<CreateReplyResponse>();
         }

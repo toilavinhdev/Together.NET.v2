@@ -6,7 +6,10 @@ delete defaultColors["coolGray"];
 delete defaultColors["blueGray"];
 
 const customColors = {
-  primary: "var(--primary)",
+  primary: {
+    DEFAULT: "var(--primary)",
+    lighter: "var(--primary-lighter)",
+  },
 };
 
 /** @type {import('tailwindcss').Config} */
