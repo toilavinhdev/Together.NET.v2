@@ -13,6 +13,7 @@ import { AsyncPipe } from '@angular/common';
 import { Menu, MenuModule } from 'primeng/menu';
 import { PrimeTemplate } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'together-notification-dropdown',
@@ -24,6 +25,7 @@ import { Ripple } from 'primeng/ripple';
     MenuModule,
     PrimeTemplate,
     Ripple,
+    TranslateModule,
   ],
   templateUrl: './notification-dropdown.component.html',
 })

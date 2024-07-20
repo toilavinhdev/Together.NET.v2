@@ -4,8 +4,10 @@
   [model]="[]"
   styleClass="max-h-[60vh] w-[320px] overflow-y-auto"
 >
+  <ng-template pTemplate="start">
+    <div class="text-[14px] font-semibold px-3 py-1">{{'Notifications' | translate}}</div>
+  </ng-template>
   <ng-template pTemplate="end">
-    <div class="text-[14px] font-semibold px-3 py-1">Thông báo</div>
     @if (notifications.length) {
       @for (notification of notifications; track notification) {
         <div (click)="navigateToSource(notification.sourceId, notification.activity)"

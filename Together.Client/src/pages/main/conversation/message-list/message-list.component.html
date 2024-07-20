@@ -11,7 +11,7 @@
            class="font-semibold text-[14px] cursor-pointer hover:underline">{{extra['conversationName']}}</div>
       <div class="flex items-center gap-x-1">
         <div class="h-[10px] w-[10px] rounded-full {{extra['userOnline'] ? 'bg-green-600' : 'bg-gray-600'}}"></div>
-        <div class="text-[12px] text-gray-500">{{extra['userOnline'] ? 'Đang hoạt động' : 'Offline'}}</div>
+        <div class="text-[12px] text-gray-500">{{extra['userOnline'] ? commonService.translate('Online') : commonService.translate('Offline')}}</div>
       </div>
     </div>
   </div>

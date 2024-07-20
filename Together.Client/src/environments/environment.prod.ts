@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  lang: 'vi-VN',
   host: 'https://togethernet.asia',
   wsUrl: 'wss://togethernet.asia/ws',
   googleClientId:

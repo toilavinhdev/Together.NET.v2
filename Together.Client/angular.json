@@ -5,6 +5,12 @@
   "projects": {
     "Together": {
       "projectType": "application",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "vi-VN": "/src/shared/locale/messages.vi.xlf"
+        }
+      },
       "schematics": {
         "@schematics/angular:component": {
           "prefix": "together",
@@ -41,6 +47,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "localize": [
+              "vi-VN"
+            ],
             "outputPath": {
               "base": "dist/prod",
               "browser": ""

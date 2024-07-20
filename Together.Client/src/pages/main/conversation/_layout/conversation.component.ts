@@ -13,7 +13,7 @@ export class ConversationComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.commonService.breadcrumb$.next([
       {
-        title: 'Tin nhắn gần đây',
+        title: 'Recent messages',
       },
     ]);
   }

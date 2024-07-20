@@ -22,6 +22,7 @@ import {
 } from '@/shared/pipes';
 import { ReplyRootListComponent } from '@/pages/main/forum/post-detail/_components';
 import { EVoteType } from '@/shared/enums';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'together-post-detail',
@@ -37,6 +38,7 @@ import { EVoteType } from '@/shared/enums';
     ReplyWriterComponent,
     ReplyRootListComponent,
     VoteComponent,
+    TranslateModule,
   ],
   templateUrl: './post-detail.component.html',
 })

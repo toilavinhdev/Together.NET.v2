@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { IToast } from '@/shared/models/toast.models';
 import { IBreadcrumbItem } from '@/shared/models/breadcrumb.models';
+import { localStorageKeys } from '@/shared/constants';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '@/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +17,10 @@ export class CommonService {
 
   breadcrumb$ = new BehaviorSubject<IBreadcrumbItem[]>([]);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private translateService: TranslateService,
+  ) {}
 
   navigateToLogin() {
     this.router.navigate(['/', 'auth', 'sign-in']).then();
@@ -46,5 +52,18 @@ export class CommonService {
 
   navigateToConversation(conversationId: string) {
     this.router.navigate(['/', 'conversations', conversationId]).then();
+  }
+
+  translate(key: string) {
+    return this.translateService.instant(key);
+  }
+
+  getCurrentLanguage() {
+    return localStorage.getItem(localStorageKeys.LANG) || environment.lang;
+  }
+
+  setLanguage(lang: string) {
+    localStorage.setItem(localStorageKeys.LANG, lang);
+    this.translateService.use(lang);
   }
 }

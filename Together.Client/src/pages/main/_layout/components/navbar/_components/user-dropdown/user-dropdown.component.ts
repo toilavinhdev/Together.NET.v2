@@ -8,11 +8,21 @@ import { takeUntil } from 'rxjs';
 import { BaseComponent } from '@/core/abstractions';
 import { AuthService, UserService } from '@/shared/services';
 import { getErrorMessage } from '@/shared/utilities';
+import { LanguageSwitchModalComponent } from '../language-switch-modal/language-switch-modal.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'together-user-dropdown',
   standalone: true,
-  imports: [AsyncPipe, AvatarComponent, MenuModule, PrimeTemplate, Ripple],
+  imports: [
+    AsyncPipe,
+    AvatarComponent,
+    MenuModule,
+    PrimeTemplate,
+    Ripple,
+    LanguageSwitchModalComponent,
+    TranslateModule,
+  ],
   templateUrl: './user-dropdown.component.html',
 })
 export class UserDropdownComponent extends BaseComponent {
@@ -21,7 +31,7 @@ export class UserDropdownComponent extends BaseComponent {
       separator: true,
     },
     {
-      label: 'Trang cá nhân',
+      label: 'Profile',
       icon: 'pi pi-user',
       command: () => {
         this.userService.me$.pipe(takeUntil(this.destroy$)).subscribe((me) => {
@@ -31,12 +41,19 @@ export class UserDropdownComponent extends BaseComponent {
       },
     },
     {
-      label: 'Cài đặt',
+      label: 'Settings',
       icon: 'pi pi-cog',
       routerLink: '/settings',
     },
     {
-      label: 'Đăng xuất',
+      label: 'Switch language',
+      icon: 'pi pi-language',
+      command: () => {
+        this.languageSwitchModal.show();
+      },
+    },
+    {
+      label: 'Logout',
       icon: 'pi pi-sign-out',
       command: () => {
         this.onLogout();
@@ -46,6 +63,9 @@ export class UserDropdownComponent extends BaseComponent {
 
   @ViewChild('menu', { static: true })
   menuComponent!: Menu;
+
+  @ViewChild('languageSwitchModal', { static: true })
+  languageSwitchModal!: LanguageSwitchModalComponent;
 
   constructor(
     protected userService: UserService,

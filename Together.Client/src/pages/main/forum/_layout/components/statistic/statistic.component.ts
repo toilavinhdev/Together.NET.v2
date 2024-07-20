@@ -7,11 +7,12 @@ import { NgClass, NgIf } from '@angular/common';
 import { ShortenNumberPipe } from '@/shared/pipes';
 import { getErrorMessage } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'together-statistic',
   standalone: true,
-  imports: [NgClass, ShortenNumberPipe, SkeletonModule, NgIf],
+  imports: [NgClass, ShortenNumberPipe, SkeletonModule, NgIf, TranslateModule],
   templateUrl: './statistic.component.html',
 })
 export class StatisticComponent extends BaseComponent implements OnInit {

@@ -5,7 +5,7 @@
       <div class="font-medium text-[28px]">{{user.userName}}</div>
       <div>
         <span *ngIf="user.fullName">{{user.fullName}}</span>
-        <span *ngIf="!user.fullName" class="text-gray-500 italic">Chưa cập nhật tên đầy đủ</span>
+        <span *ngIf="!user.fullName" class="text-gray-500 italic">{{commonService.translate('No name')}}</span>
       </div>
       <div class="flex gap-x-10 text-[16px] mt-4">
         <div>
@@ -14,16 +14,16 @@
         </div>
         <div>
           <span class="font-bold">{{user.postCount | shortenNumber}}</span>
-          <span>&nbsp;Bài viết</span>
+          <span>&nbsp;{{commonService.translate('Posts')}}</span>
         </div>
         <div>
           <span class="font-bold">{{user.replyCount | shortenNumber}}</span>
-          <span>&nbsp;Phản hồi</span>
+          <span>&nbsp;{{commonService.translate('Replies')}}</span>
         </div>
       </div>
       <div class="mt-4">
         <span *ngIf="user.biography">{{user.biography}}</span>
-        <span *ngIf="!user.biography" class="text-gray-500 italic">Chưa có thông tin giới thiệu</span>
+        <span *ngIf="!user.biography" class="text-gray-500 italic">{{commonService.translate('Not thing')}}</span>
       </div>
       <div class="absolute top-0 right-0 flex flex-col gap-y-2">
         <together-profile-update-modal *ngIf="userService.userIsMe$ | async"/>

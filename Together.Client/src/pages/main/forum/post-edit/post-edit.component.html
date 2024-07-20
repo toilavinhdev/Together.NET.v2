@@ -1,11 +1,11 @@
 <section class="bg-white shadow rounded px-6 py-4">
-  <div class="text-[26px] font-medium text-ellipsis line-clamp-1 mb-6">Tạo bài viết</div>
+  <div class="text-[26px] font-medium text-ellipsis line-clamp-1 mb-6">{{commonService.translate('Create post')}}</div>
   <form [formGroup]="form">
     <p-dropdown
       formControlName="topicId"
       [options]="(forums$ | async)!"
       [group] = true
-      placeholder="Chọn chủ đề"
+      [placeholder]="commonService.translate('Select topic')"
       styleClass="w-full"
     ></p-dropdown>
     <div class="flex gap-x-3 mt-4">
@@ -14,7 +14,7 @@
         [options]="(prefixService.prefixes$ | async) ?? []"
         optionLabel="name"
         optionValue="id"
-        placeholder="Chọn prefix"
+        [placeholder]="commonService.translate('Select prefix')"
         showClear
         styleClass="min-w-[200px]"
       >
@@ -39,22 +39,28 @@
       <input
         formControlName="title"
         pInputText
-        placeholder="Nhập tiêu đề"
+        [placeholder]="commonService.translate('Enter title')"
         class="flex-1"
       />
     </div>
     <p-editor
       formControlName="body"
       [style]="{ minHeight: '320px' }"
-      placeholder="Nhập nội dung"
+      placeholder="Aa"
       styleClass="mt-4"
     />
   </form>
   <div class="mt-4">
-    <p *ngIf="form.get('topicId')?.dirty && form.get('topicId')?.errors?.['required']" class="text-red-600">Vui lòng chọn chủ đề</p>
-    <p *ngIf="form.get('title')?.dirty && form.get('title')?.errors?.['required']" class="text-red-600">Vui lòng nhập tiêu đề</p>
-    <p *ngIf="form.get('body')?.dirty && form.get('body')?.errors?.['required']" class="text-red-600">Vui lòng không bỏ trống nội dung</p>
+    <p *ngIf="form.get('topicId')?.dirty && form.get('topicId')?.errors?.['required']" class="text-red-600">{{commonService.translate('Please select a topic')}}</p>
+    <p *ngIf="form.get('title')?.dirty && form.get('title')?.errors?.['required']" class="text-red-600">{{commonService.translate('Please enter a title')}}</p>
+    <p *ngIf="form.get('body')?.dirty && form.get('body')?.errors?.['required']" class="text-red-600">{{commonService.translate('Please enter content')}}</p>
   </div>
-  <p-button (onClick)="onSubmit()" [loading]="loading" label="Đăng bài" styleClass="w-full mt-4 bg-primary" size="large"></p-button>
+  <p-button
+    (onClick)="onSubmit()"
+    [loading]="loading"
+    [label]="commonService.translate('Post')"
+    styleClass="w-full mt-4 bg-primary"
+    size="large"
+  />
 </section>
 

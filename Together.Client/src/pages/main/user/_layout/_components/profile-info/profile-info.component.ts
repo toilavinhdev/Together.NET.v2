@@ -42,7 +42,7 @@ export class ProfileInfoComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.commonService.breadcrumb$.next([
       {
-        title: 'Trang cá nhân',
+        title: 'Profile',
       },
     ]);
     this.userService.user$

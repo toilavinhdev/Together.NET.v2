@@ -6,7 +6,10 @@ import {
   ToastComponent,
 } from '@/shared/components/elements';
 import { PrimeNGConfig } from 'primeng/api';
-import {environment} from "@/environments/environment";
+import { environment } from '@/environments/environment';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { localStorageKeys } from '@/shared/constants';
+import { BaseComponent } from '@/core/abstractions';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +19,26 @@ import {environment} from "@/environments/environment";
     SvgDefinitionsComponent,
     ToastComponent,
     SpinnerComponent,
+    TranslateModule,
   ],
   templateUrl: './app.component.html',
 })
-export class AppComponent implements OnInit {
-  constructor(private primengConfig: PrimeNGConfig) {}
+export class AppComponent extends BaseComponent implements OnInit {
+  constructor(
+    private primengConfig: PrimeNGConfig,
+    private translateService: TranslateService,
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    console.log('production', environment.production)
+    this.setLanguages();
     this.configPrimeNG();
+  }
+
+  private setLanguages() {
+    this.translateService.setDefaultLang(environment.lang);
+    this.translateService.use(this.commonService.getCurrentLanguage());
   }
 
   private configPrimeNG() {

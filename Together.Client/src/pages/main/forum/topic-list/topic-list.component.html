@@ -13,11 +13,11 @@
               <div class="ml-auto flex gap-x-5">
                 <div class="flex flex-col items-center justify-center">
                   <div class="text-[18px] font-bold">{{topic.postCount | shortenNumber}}</div>
-                  <div class="leading-[8px] font-light text-[11px]">Bài viết</div>
+                  <div class="leading-[8px] font-light text-[11px]">{{commonService.translate('Posts')}}</div>
                 </div>
                 <div class="flex flex-col items-center justify-center">
                   <div class="text-[18px] font-bold">{{topic.replyCount | shortenNumber}}</div>
-                  <div class="leading-[8px] font-light text-[11px]">Phản hồi</div>
+                  <div class="leading-[8px] font-light text-[11px]">{{commonService.translate('Replies')}}</div>
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
+import { CommonService } from '@/shared/services';
 
 @Pipe({
   name: 'timeAgo',
@@ -16,6 +17,7 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
   constructor(
     private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
+    private commonService: CommonService,
   ) {}
   transform(value: string) {
     this.removeTimer();
@@ -52,27 +54,27 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
     if (Number.isNaN(seconds)) {
       return '';
     } else if (seconds <= 45) {
-      return 'vài giây trước';
+      return this.commonService.translate('few seconds ago');
     } else if (seconds <= 90) {
-      return '1 phút trươớc';
+      return this.commonService.translate('1 minute ago');
     } else if (minutes <= 45) {
-      return minutes + ' phút trước';
+      return minutes + this.commonService.translate(' minutes ago');
     } else if (minutes <= 90) {
-      return '1 giờ trước';
+      return this.commonService.translate('1 hour ago');
     } else if (hours <= 22) {
-      return hours + ' giờ trước';
+      return hours + this.commonService.translate(' hours ago');
     } else if (hours <= 36) {
-      return '1 ngày trước';
+      return this.commonService.translate('1 day ago');
     } else if (days <= 25) {
-      return days + ' ngày trước';
+      return days + this.commonService.translate(' days ago');
     } else if (days <= 45) {
-      return '1 tháng trước';
+      return this.commonService.translate('1 month ago');
     } else if (days <= 345) {
-      return months + ' tháng trước';
+      return months + this.commonService.translate(' months ago');
     } else if (days <= 545) {
-      return '1 năm trước';
+      return this.commonService.translate('1 year ago');
     } else {
-      return years + ' năm trước';
+      return years + this.commonService.translate(' years ago');
     }
   }
   ngOnDestroy(): void {

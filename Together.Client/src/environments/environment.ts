@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
+  lang: 'vi-VN',
   host: 'http://localhost:5005',
   wsUrl: 'ws://localhost:5005/ws',
   googleClientId:

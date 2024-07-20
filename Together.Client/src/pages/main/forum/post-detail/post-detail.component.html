@@ -19,7 +19,7 @@
         <div (click)="commonService.navigateToProfile(post.createdById)" class="font-medium text-primary cursor-pointer hover:underline">
           {{ post.createdByUserName }}
         </div>
-        <div>{{post.createdAt | timeAgo}} &bull; Lượt xem: {{ post.viewCount | shortenNumber }}</div>
+        <div>{{post.createdAt | timeAgo}} &bull; {{'Views' | translate}}: {{ post.viewCount | shortenNumber }}</div>
       </div>
     </div>
     <div [innerHTML]="post!.body | sanitizeHtml" class="mt-4"></div>

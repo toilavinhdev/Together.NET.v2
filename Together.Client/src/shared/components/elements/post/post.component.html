@@ -34,7 +34,7 @@
     @if (showReplyCount) {
       <div class="ml-auto min-w-[80px] flex flex-col items-center justify-center">
         <div class="text-[18px] font-bold">{{post.replyCount | shortenNumber}}</div>
-        <div class="leading-[8px] font-light text-[11px]">Phản hồi</div>
+        <div class="leading-[8px] font-light text-[11px]">{{commonService.translate('Replies')}}</div>
       </div>
     }
   </div>

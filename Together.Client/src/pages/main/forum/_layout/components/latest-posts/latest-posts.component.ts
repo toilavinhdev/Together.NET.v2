@@ -6,11 +6,12 @@ import { IPostViewModel } from '@/shared/entities/post.entities';
 import { PostService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'together-latest-posts',
   standalone: true,
-  imports: [PostComponent, NgClass],
+  imports: [PostComponent, NgClass, TranslateModule],
   templateUrl: './latest-posts.component.html',
 })
 export class LatestPostsComponent extends BaseComponent implements OnInit {

@@ -1,5 +1,5 @@
 <div [ngClass]="componentClass" class="bg-white rounded shadow">
-  <div class="uppercase font-medium text-[13px] px-5 py-5 bg-primary text-white rounded-t">Bài viết mới nhất</div>
+  <div class="uppercase font-medium text-[13px] px-5 py-5 bg-primary text-white rounded-t">{{'Latest posts' | translate}}</div>
   @if (!loading) {
     @if (latestPost.length) {
       @for (post of latestPost; track post) {

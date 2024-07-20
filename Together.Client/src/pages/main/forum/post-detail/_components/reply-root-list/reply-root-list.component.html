@@ -1,8 +1,12 @@
 <div class="mt-10">
-  @for (reply of replies; track reply) {
-    <together-reply
-      [reply]="reply"
-    />
+  @if (replies.length) {
+    @for (reply of replies; track reply) {
+      <together-reply
+        [reply]="reply"
+      />
+    }
+  } @else {
+    <div class="italic">{{commonService.translate('No replies')}}</div>
   }
 
 </div>
