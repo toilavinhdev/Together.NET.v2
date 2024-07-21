@@ -4,15 +4,25 @@ namespace Together.Application.Features.FeatureUser.Queries;
 
 public sealed class MeQuery : IBaseRequest<MeResponse>
 {
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, IRedisService redisService) 
         : BaseRequestHandler<MeQuery, MeResponse>(httpContextAccessor)
     {
         protected override async Task<MeResponse> HandleAsync(MeQuery request, CancellationToken ct)
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == CurrentUserClaims.Id, ct);
+            var user = await redisService.GetAsync<IdentityPrivilege>(
+                TogetherRedisKeys.IdentityPrivilegeKey(CurrentUserClaims.SubId));
             if (user is null) throw new DomainException(TogetherErrorCodes.User.UserNotFound);
-            
-            return user.MapTo<MeResponse>();
+
+            return new MeResponse
+            {
+                Id = user.Id,
+                SubId = user.SubId,
+                Avatar = user.Avatar,
+                Email = user.Email,
+                Status = user.Status,
+                UserName = user.UserName,
+                Permissions = user.RoleClaims
+            };
         }
     }
 }

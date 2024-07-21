@@ -5,10 +5,10 @@
   styleClass="{{componentClass}} shadow"
 >
   <ng-template pTemplate="item" let-item>
-    <a class="cursor-pointer" [routerLink]="item.url">
+    <div class="cursor-pointer text-[14px]" [routerLink]="item.url">
       <i [class]="item.icon"></i>
       <span>{{item.label | translate}}</span>
-    </a>
+    </div>
   </ng-template>
   <ng-template pTemplate="separator"> / </ng-template>
 </p-breadcrumb>

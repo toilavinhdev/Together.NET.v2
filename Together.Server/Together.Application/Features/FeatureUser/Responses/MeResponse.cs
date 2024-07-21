@@ -9,4 +9,6 @@ public class MeResponse : BaseEntity
     public UserStatus Status { get; set; }
     
     public string? Avatar { get; set; }
+
+    public List<string> Permissions { get; set; } = default!;
 }

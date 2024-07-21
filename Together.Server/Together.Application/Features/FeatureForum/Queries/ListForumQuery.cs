@@ -14,6 +14,7 @@ public class ListForumQuery : IBaseRequest<List<ForumViewModel>>
                 .Include(f => f.Topics)!
                 .ThenInclude(f => f.Posts)!
                 .ThenInclude(f => f.Replies)
+                .OrderBy(f => f.CreatedAt)
                 .Select(f => new ForumViewModel
                 {
                     Id = f.Id,

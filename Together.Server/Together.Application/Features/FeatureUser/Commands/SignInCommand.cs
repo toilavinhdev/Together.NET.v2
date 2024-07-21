@@ -42,7 +42,7 @@ public sealed class SignInCommand : IBaseRequest<SignInResponse>
             var rt = JwtBearerProvider.GenerateRefreshToken();
             
             await redisService.SetAsync(
-                TogetherRedisKeys.GetIdentityPrivilegeKey(user.Id), 
+                TogetherRedisKeys.IdentityPrivilegeKey(user.SubId), 
                 user.MapTo<IdentityPrivilege>());
             
             Message = "Login successfully!";

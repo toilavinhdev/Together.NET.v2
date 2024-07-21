@@ -51,15 +51,15 @@ public sealed class GetPostQuery(Guid id) : IBaseRequest<GetPostResponse>
                 .FirstOrDefaultAsync(x => x.Id == request.Id, ct);
             if (post is null) throw new DomainException(TogetherErrorCodes.Post.PostNotFound);
             
-            var viewCount = await redisService.GetAsync(TogetherRedisKeys.GetPostViewKey(post.SubId));
+            var viewCount = await redisService.GetAsync(TogetherRedisKeys.PostViewKey(post.SubId));
             post.ViewCount = viewCount!.ToLong();
             
             // TODO: Increment post view count
-            var key = TogetherRedisKeys.GetUserViewPostKey(post.SubId, CurrentUserClaims.SubId);
+            var key = TogetherRedisKeys.UserViewPostKey(post.SubId, CurrentUserClaims.SubId);
 
             if (!await redisService.ExistsAsync(key))
             {
-                await redisService.IncrementAsync(TogetherRedisKeys.GetPostViewKey(post.SubId));
+                await redisService.IncrementAsync(TogetherRedisKeys.PostViewKey(post.SubId));
                 await redisService.SetAsync(key, 0, TimeSpan.FromMinutes(TogetherBusinessConfigs.UserViewPostDurationInMinutes));
             }
 

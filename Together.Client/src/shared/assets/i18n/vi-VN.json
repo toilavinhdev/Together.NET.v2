@@ -40,7 +40,12 @@
   "Submit": "Xác nhận",
   "You": "Bạn",
   "You haven't had any conversations yet": "Bạn chưa có cuộc trò chuyện nào",
+  "You haven't had any notifications yet": "Bạn chưa có thông nào",
   "No replies": "Chưa có phản hồi nào",
   "No name": "Chưa cập nhật tên đầy đủ",
-  "Not thing": "Chưa có thông tin giới thiệu"
+  "Not thing": "Chưa có thông tin giới thiệu",
+  "VOTE_POST": "đã thích bài viết của bạn",
+  "REPLY_POST": "đã phản hồi bài viết của bạn",
+  "VOTE_REPLY": "đã thích phản hồi của bạn",
+  "REPLY_REPLY": "đã phản hồi"
 }

@@ -7,7 +7,7 @@ ExecStart=/usr/bin/dotnet /var/www/Together.NET.v2/Server/Together.API.dll --url
 Restart=on-failure
 RestartSec=10
 KillSignal=SIGINT
-SyslogIdentifier=dotnet-example
+SyslogIdentifier=togethernet
 User=root
 Environment=ASPNETCORE_ENVIRONMENT=Production
 

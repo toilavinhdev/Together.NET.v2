@@ -70,7 +70,7 @@ public sealed class ExternalAuthCommand : IBaseRequest<SignInResponse>
             var rt = JwtBearerProvider.GenerateRefreshToken();
             
             await redisService.SetAsync(
-                TogetherRedisKeys.GetIdentityPrivilegeKey(user.Id), 
+                TogetherRedisKeys.IdentityPrivilegeKey(user.SubId), 
                 user.MapTo<IdentityPrivilege>());
             
             Message = "External login successfully!";

@@ -37,5 +37,6 @@ export class LanguageSwitchModalComponent extends BaseComponent {
   switchLanguage(lang: string) {
     this.commonService.setLanguage(lang);
     this.visible = false;
+    location.reload();
   }
 }

@@ -1,7 +1,11 @@
-﻿namespace Together.Shared.ValueObjects;
+﻿using Together.Shared.Helpers;
+
+namespace Together.Shared.ValueObjects;
 
 public sealed class AppSettings
 {
+    public string Host { get; set; } = default!;
+    
     public PostgresConfig PostgresConfig { get; set; } = default!;
     
     public JwtTokenConfig JwtTokenConfig { get; set; } = default!;
@@ -9,6 +13,8 @@ public sealed class AppSettings
     public string RedisConfiguration { get; set; } = default!;
 
     public GoogleOAuthConfig GoogleOAuthConfig { get; set; } = default!;
+
+    public MailConfig MailConfig { get; set; } = default!;
 }
 
 public sealed class PostgresConfig

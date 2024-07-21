@@ -31,3 +31,13 @@ export interface ISignUpRequest {
 export interface IExternalAuthRequest {
   credential: string;
 }
+
+export interface IForgotPasswordRequest {
+  email: string;
+}
+
+export interface ISubmitForgotPasswordTokenRequest {
+  userId: number;
+  token: string;
+  newPassword: string;
+}

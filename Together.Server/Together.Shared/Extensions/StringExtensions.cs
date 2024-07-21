@@ -48,4 +48,11 @@ public static class StringExtensions
         return new string(Enumerable.Repeat(pattern ?? characters, length)
             .Select(s => s[new Random().Next(s.Length)]).ToArray());
     }
+
+    public static string ToTemplatePath(this string templateName)
+    {
+        return Path.Combine(
+            Directory.GetCurrentDirectory(), 
+            $@"..\Together.Application\Templates\{templateName}");
+    }
 }

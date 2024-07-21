@@ -11,8 +11,10 @@ public class IdentityPrivilege
     public string UserName { get; set; } = default!;
 
     public string Email { get; set; } = default!;
-
-    public List<string>? RoleClaims { get; set; }
-
+    
     public UserStatus Status { get; set; }
+    
+    public string? Avatar { get; set; }
+
+    public List<string> RoleClaims { get; set; } = default!;
 }

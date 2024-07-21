@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AvatarComponent } from '@/shared/components/elements';
 import { TimeAgoPipe } from '@/shared/pipes';
 import {
@@ -29,7 +29,10 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   templateUrl: './notification-dropdown.component.html',
 })
-export class NotificationDropdownComponent extends BaseComponent {
+export class NotificationDropdownComponent
+  extends BaseComponent
+  implements OnInit
+{
   @ViewChild('menu', { static: true })
   private menuComponent!: Menu;
 
@@ -40,9 +43,13 @@ export class NotificationDropdownComponent extends BaseComponent {
     pageSize: 10,
   };
 
+  loaded = false;
+
   constructor(private notificationService: NotificationService) {
     super();
   }
+
+  ngOnInit() {}
 
   private loadNotifications() {
     this.notificationService
@@ -63,7 +70,10 @@ export class NotificationDropdownComponent extends BaseComponent {
   }
 
   toggle(event: Event) {
-    this.loadNotifications();
+    if (!this.loaded) {
+      this.loadNotifications();
+      this.loaded = true;
+    }
     this.menuComponent.toggle(event);
   }
 }

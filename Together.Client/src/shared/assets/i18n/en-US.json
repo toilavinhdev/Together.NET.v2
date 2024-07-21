@@ -40,7 +40,12 @@
   "Submit": "Submit",
   "You": "You",
   "You haven't had any conversations yet": "You haven't had any conversations yet",
+  "You haven't had any notifications yet": "You haven't had any notifications yet",
   "No replies": "No replies",
   "No name": "No name",
-  "Not thing": "Nothing"
+  "Not thing": "Nothing",
+  "VOTE_POST": "liked your post",
+  "REPLY_POST": "replied your post",
+  "VOTE_REPLY": "liked your reply",
+  "REPLY_REPLY": "replied your reply"
 }

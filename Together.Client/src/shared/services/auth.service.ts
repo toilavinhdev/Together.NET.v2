@@ -3,9 +3,11 @@ import { BaseService } from '@/core/abstractions';
 import {
   ICurrentUserClaims,
   IExternalAuthRequest,
+  IForgotPasswordRequest,
   ISignInRequest,
   ISignInResponse,
   ISignUpRequest,
+  ISubmitForgotPasswordTokenRequest,
 } from '@/shared/entities/auth.entities';
 import { map, Observable } from 'rxjs';
 import { IBaseResponse } from '@/core/models';
@@ -43,6 +45,16 @@ export class AuthService extends BaseService {
   logout() {
     const url = this.createUrl('/logout');
     return this.client.post(url, {});
+  }
+
+  forgotPassword(payload: IForgotPasswordRequest) {
+    const url = this.createUrl('/forgot-password');
+    return this.client.post(url, payload);
+  }
+
+  submitForgotPasswordToken(payload: ISubmitForgotPasswordTokenRequest) {
+    const url = this.createUrl('/forgot-password/submit');
+    return this.client.post(url, payload);
   }
 
   setToken(at: string, rt: string) {

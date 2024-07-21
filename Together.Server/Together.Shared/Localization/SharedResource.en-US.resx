@@ -48,4 +48,7 @@
     <data name="UserNameAlreadyExists" xml:space="preserve">
         <value>Username already exists</value>
     </data>
+    <data name="ForgotPasswordTokenInvalid" xml:space="preserve">
+        <value>Request to reset password invalid or expired</value>
+    </data>
 </root>
