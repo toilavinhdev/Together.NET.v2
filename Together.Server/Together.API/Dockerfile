@@ -1,6 +1,6 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 5015
+EXPOSE 5000
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
@@ -11,7 +11,7 @@ COPY ["Together.Server/Together.Shared/Together.Shared.csproj", "Together.Server
 COPY ["Together.Server/Together.Domain/Together.Domain.csproj", "Together.Server/Together.Domain/"]
 RUN dotnet restore "Together.Server/Together.API/Together.API.csproj"
 
-COPY . .
+COPY ["Together.Server/", "Together.Server/"]
 
 WORKDIR "/src/Together.Server/Together.API"
 RUN dotnet build "Together.API.csproj" -c Release -o /app/build
@@ -22,9 +22,10 @@ RUN dotnet publish "Together.API.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ASPNETCORE_URLS=http://*:5015
-ENTRYPOINT ["dotnet", "Together.API.dll", "--urls", "http://*:5015"]
+ENV ASPNETCORE_URLS=http://*:5000
+ENTRYPOINT ["dotnet", "Together.API.dll", "--urls", "http://*:5000"]
 
+# docker build -f .\Together.Server\Together.API\Dockerfile .
 # /
 # |-- /app
 # |   |-- /build

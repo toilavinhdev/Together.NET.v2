@@ -1,0 +1,52 @@
+﻿version: "3.8"
+name: "together-dev"
+
+volumes:
+  dev-postgres-data: {}
+  dev-redis-data: {}
+
+services:
+  dev-together-postgres:
+    container_name: dev-together-postgres
+    image: postgres
+    environment:
+      - POSTGRES_DB=Together.NET.v2
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - dev-postgres-data:/var/lib/postgresql/data/
+    
+  dev-together-redis:
+    container_name: dev-together-redis
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - dev-redis-data:/data
+  
+  dev-together-api:
+    container_name: dev-together-api
+    build:
+      context: ..
+      dockerfile: Together.Server/Together.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DevelopmentDocker
+    ports:
+      - "5005:5000"
+    restart: unless-stopped
+    depends_on:
+      - dev-together-postgres
+      - dev-together-redis
+  
+  dev-together-nginx:
+    container_name: dev-together-nginx
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ../Together.Proxy/nginx.development-docker.conf:/etc/nginx/conf.d/default.conf
+      - ../Together.Client/dist/together.net:/usr/share/nginx/html
+    depends_on:
+      - dev-together-api

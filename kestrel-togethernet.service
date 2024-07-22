@@ -2,8 +2,8 @@
 Description=Together.NET.v2 API Production
 
 [Service]
-WorkingDirectory=/var/www/Together.NET.v2/Server
-ExecStart=/usr/bin/dotnet /var/www/Together.NET.v2/Server/Together.API.dll --urls http://\*:5015
+WorkingDirectory=/var/www/Together.NET.v2/publish
+ExecStart=/usr/bin/dotnet /var/www/Together.NET.v2/publish/Together.API.dll --urls http://\*:5015
 Restart=on-failure
 RestartSec=10
 KillSignal=SIGINT

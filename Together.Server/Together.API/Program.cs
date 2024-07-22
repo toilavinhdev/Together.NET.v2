@@ -32,7 +32,6 @@ services.AddRedis(appSettings.RedisConfiguration);
 services.AddWebSocketManager(ApplicationAssembly.Assembly);
 
 var app = builder.Build();
-app.UseStaticFiles();
 app.UseLanguages();
 app.UseDefaultExceptionHandler();
 app.UseSwaggerDocument();
