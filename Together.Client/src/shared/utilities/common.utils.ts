@@ -14,3 +14,34 @@ export function isGUID(value: string) {
     /^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/;
   return pattern.test(value);
 }
+
+export function windowScrollToTop(behavior: ScrollBehavior = 'auto') {
+  window.scrollTo({
+    top: 0,
+    behavior: behavior,
+  });
+}
+
+export function scrollToTop(
+  containerId: string,
+  behavior: ScrollBehavior = 'auto',
+) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.scrollTo({
+    top: 0,
+    behavior: behavior,
+  });
+}
+
+export function scrollToBottom(
+  containerId: string,
+  behavior: ScrollBehavior = 'instant',
+) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.scrollTo({
+    top: container.scrollHeight,
+    behavior: behavior,
+  });
+}

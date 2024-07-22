@@ -10,3 +10,4 @@ export * from './prefix/prefix.component';
 export * from './vote/vote.component';
 export * from './reply-writer/reply-writer.component';
 export * from './reply/reply.component';
+export * from './paginator/paginator.component';

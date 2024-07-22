@@ -7,7 +7,7 @@ import {
   IGetPostResponse,
   IVoteResponse,
 } from '@/shared/entities/post.entities';
-import { getErrorMessage } from '@/shared/utilities';
+import { getErrorMessage, windowScrollToTop } from '@/shared/utilities';
 import {
   AvatarComponent,
   PrefixComponent,
@@ -22,7 +22,7 @@ import {
 } from '@/shared/pipes';
 import { ReplyRootListComponent } from '@/pages/main/forum/post-detail/_components';
 import { EVoteType } from '@/shared/enums';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'together-post-detail',
@@ -80,6 +80,7 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
                   title: data.topicName,
                 },
               ]);
+              windowScrollToTop();
             },
             error: (err) => {
               this.commonService.toast$.next({

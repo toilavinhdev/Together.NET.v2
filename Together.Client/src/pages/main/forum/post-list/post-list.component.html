@@ -20,6 +20,14 @@
       <together-post loading />
     }
   }
+  <together-paginator
+    (paginationChange)="onPaginationChange($event)"
+    [pageIndex]="params.pageIndex"
+    [pageSize]="params.pageSize"
+    [totalRecord]="totalRecord"
+    componentClass="mt-4 shadow"
+  />
+
 }
 @else {
   <div>Chưa có bài viết</div>

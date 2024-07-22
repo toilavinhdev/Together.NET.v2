@@ -1,11 +1,26 @@
 @if (posts.length) {
-  @for (post of posts; track post) {
-    <together-post
-      [post]="post"
-      showTopicName
-      [bordered]="false"
-    />
+  @if (!loading) {
+    @for (post of posts; track post) {
+      <together-post
+        [post]="post"
+        showTopicName
+        [bordered]="false"
+      />
+    }
+  } @else {
+    @for (_ of Array(4); track _) {
+      <together-post loading />
+    }
   }
+
+  <together-paginator
+    (paginationChange)="onPaginationChange($event)"
+    [pageIndex]="params.pageIndex"
+    [pageSize]="params.pageSize"
+    [totalRecord]="totalRecord"
+    componentClass="mt-4"
+  />
+
 }
 @else {
   <div>Chưa có bài viết</div>

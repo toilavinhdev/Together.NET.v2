@@ -1,4 +1,5 @@
 <div class="flex flex-col h-full">
+  <!--Conversation info container-->
   <div class="flex gap-x-3 items-center border-b border-b-gray-200 p-2" style="border-bottom-style: solid">
     <together-avatar
       [src]="extra['conversationImage']"
@@ -15,7 +16,17 @@
       </div>
     </div>
   </div>
-  <div id="messages-wrapper" class="overflow-y-auto h-full">
+  <!--Messages container-->
+  <div
+    togetherScrollReached
+    scrollReachPosition="top"
+    (scrollReached)="onScrollReachedTop()"
+    id="messages-container"
+    class="overflow-y-auto h-full {{!scrolledBottom ? 'opacity-0' : ''}}"
+  >
+    @if (loading) {
+      <div class="text-center mt-2"><i class="pi pi-spin pi-spinner" style="font-size: 1rem"></i></div>
+    }
     @for (message of messageService.messages$ | async; track message) {
       <div class="flex mt-2 mx-2 *:max-w-[48%]">
         <div *ngIf="message.createdById !== (userService.me$ | async)?.id" class="flex items-center gap-x-2">
@@ -39,6 +50,7 @@
       </div>
     }
   </div>
+  <!--Send message form-->
   <div class="flex gap-x-2 p-2">
     <form [formGroup]="messageForm" class="flex-1">
       <input

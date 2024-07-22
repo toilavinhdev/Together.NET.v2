@@ -9,7 +9,7 @@ import {
   WebSocketService,
 } from '@/shared/services';
 import { IListMessageRequest } from '@/shared/entities/message.entities';
-import { getErrorMessage } from '@/shared/utilities';
+import { getErrorMessage, scrollToBottom } from '@/shared/utilities';
 import { AvatarComponent } from '@/shared/components/elements';
 import { TooltipModule } from 'primeng/tooltip';
 import { TimeAgoPipe } from '@/shared/pipes';
@@ -24,6 +24,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { websocketClientTarget } from '@/shared/constants';
+import { ScrollReachedDirective } from '@/shared/directives';
 
 @Component({
   selector: 'together-message-list',
@@ -37,6 +38,7 @@ import { websocketClientTarget } from '@/shared/constants';
     NgIf,
     ReactiveFormsModule,
     AsyncPipe,
+    ScrollReachedDirective,
   ],
   templateUrl: './message-list.component.html',
 })
@@ -56,6 +58,13 @@ export class MessageListComponent
 
   messageForm!: UntypedFormGroup;
 
+  loading = false;
+
+  hasNextPage = false;
+
+  // fix animate scroll bottom when init conversation: opacity = 0
+  scrolledBottom = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     protected messageService: MessageService,
@@ -73,26 +82,59 @@ export class MessageListComponent
       .pipe(takeUntil(this.destroy$))
       .subscribe((paramMap) => {
         this.params.conversationId = paramMap.get('conversationId')!;
+        this.params.pageIndex = 1;
+        this.scrolledBottom = false;
+        this.extra = {};
         this.loadMessages();
       });
     this.listenWebSocket();
   }
 
-  ngAfterViewChecked() {
-    if (this.params.pageIndex > 1) return;
-    this.scrollToBottom();
-  }
+  ngAfterViewChecked() {}
 
   private loadMessages() {
+    this.loading = true;
     this.messageService
       .listMessage(this.params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: ({ result, extra }) => {
-          this.messageService.messages$.next(result.reverse());
+        next: ({ result, extra, pagination }) => {
+          this.loading = false;
           this.extra = extra;
+          this.hasNextPage = pagination.hasNextPage;
+          // infinite scroll
+          if (pagination.pageIndex === 1) {
+            this.messageService.messages$.next(result.reverse());
+          } else {
+            const beginScrollHeight =
+              document.getElementById('messages-container')!.scrollHeight;
+            this.messageService.messages$
+              .pipe(take(1))
+              .subscribe((messages) => {
+                this.messageService.messages$.next([
+                  ...result.reverse(),
+                  ...messages,
+                ]);
+              });
+            // fix scroll height = 0 when added messages to top
+            setTimeout(() => {
+              const container = document.getElementById('messages-container')!;
+              const afterScrollHeight = container.scrollHeight;
+              container.scrollTo({
+                top: afterScrollHeight - beginScrollHeight,
+                behavior: 'instant',
+              });
+            });
+          }
+          if (pagination.pageIndex === 1) {
+            setTimeout(() => {
+              scrollToBottom('messages-container');
+              this.scrolledBottom = true;
+            });
+          }
         },
         error: (err) => {
+          this.loading = false;
           this.commonService.toast$.next({
             type: 'error',
             message: getErrorMessage(err),
@@ -107,10 +149,10 @@ export class MessageListComponent
     });
   }
 
-  private scrollToBottom() {
-    const wrapper = document.getElementById('messages-wrapper');
-    if (!wrapper) return;
-    wrapper.scrollTop = wrapper.scrollHeight;
+  onScrollReachedTop() {
+    if (!this.hasNextPage) return;
+    ++this.params.pageIndex;
+    this.loadMessages();
   }
 
   onSendMessage() {
@@ -139,6 +181,10 @@ export class MessageListComponent
                     createdByAvatar: me.avatar,
                   },
                 ]);
+                setTimeout(() => {
+                  scrollToBottom('messages-container', 'smooth');
+                  this.scrolledBottom = true;
+                });
               });
             // Update conversations
             this.conversationService.conversations$
