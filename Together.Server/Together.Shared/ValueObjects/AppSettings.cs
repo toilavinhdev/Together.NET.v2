@@ -15,6 +15,8 @@ public sealed class AppSettings
     public GoogleOAuthConfig GoogleOAuthConfig { get; set; } = default!;
 
     public MailConfig MailConfig { get; set; } = default!;
+
+    public DiscordWebHookConfig DiscordWebHookConfig { get; set; } = default!;
 }
 
 public sealed class PostgresConfig
@@ -38,4 +40,11 @@ public sealed class JwtTokenConfig
 public sealed class GoogleOAuthConfig
 {
     public string ClientId { get; set; } = default!;
+}
+
+public sealed class DiscordWebHookConfig
+{
+    public ulong WebhookId { get; set; } = default!;
+    
+    public string WebhookToken { get; set; } = default!;
 }

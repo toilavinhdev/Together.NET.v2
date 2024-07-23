@@ -16,6 +16,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      - ../redis.conf:/usr/local/etc/redis/redis.conf
       - dev-postgres-data:/var/lib/postgresql/data/
     
   dev-together-redis:

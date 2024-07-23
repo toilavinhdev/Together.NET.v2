@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import {
   BreadcrumbComponent,
-  NavbarComponent, NotificationAlertComponent,
+  NavbarComponent,
+  NotificationAlertComponent,
 } from '@/pages/main/_layout/components';
 import { BaseComponent } from '@/core/abstractions';
 import { UserService, WebSocketService } from '@/shared/services';
@@ -21,7 +22,7 @@ import { getErrorMessage } from '@/shared/utilities';
   ],
   templateUrl: './main.component.html',
 })
-export class MainComponent extends BaseComponent implements OnInit {
+export class MainComponent extends BaseComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private webSocketService: WebSocketService,
@@ -32,6 +33,11 @@ export class MainComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.webSocketService.client$.subscribe();
     this.getMe();
+  }
+
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+    this.webSocketService.disconnect();
   }
 
   private getMe() {

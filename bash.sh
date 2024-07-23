@@ -26,7 +26,7 @@ npm run build:prod
 
 sudo mkdir -p /usr/local/src/Together.NET.v2
 
-scp .dockerignore Together.NET.v2.sln root@14.225.211.153:/usr/local/src/Together.NET.v2 
+scp .dockerignore Together.NET.v2.sln redis.conf root@14.225.211.153:/usr/local/src/Together.NET.v2 
 
 scp -r Together.Server/* root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Server 
 

@@ -6,6 +6,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		bash.sh = bash.sh
 		kestrel-togethernet.service = kestrel-togethernet.service
 		postgres.sql = postgres.sql
+		redis.conf = redis.conf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Together.Server", "Together.Server", "{24926DC2-6739-4EDE-AEB9-43BE5E1FEC09}"

@@ -3,13 +3,12 @@ Description=Together.NET.v2 API Production
 
 [Service]
 WorkingDirectory=/var/www/Together.NET.v2/publish
-ExecStart=/usr/bin/dotnet /var/www/Together.NET.v2/publish/Together.API.dll --urls http://\*:5015
+ExecStart=/usr/bin/dotnet /var/www/Together.NET.v2/publish/Together.API.dll --urls http://\*:5015 --environment Production
 Restart=on-failure
 RestartSec=10
 KillSignal=SIGINT
 SyslogIdentifier=togethernet
 User=root
-Environment=ASPNETCORE_ENVIRONMENT=Production
 
 [Install]
 WantedBy=multi-user.target

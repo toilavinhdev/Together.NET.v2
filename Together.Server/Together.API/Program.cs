@@ -10,7 +10,7 @@ using Together.Shared.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.SetupEnvironment(out var appSettings);
-builder.SetupSerilog();
+builder.SetupSerilog(appSettings);
 
 var services = builder.Services;
 services.AddSingleton(appSettings);
