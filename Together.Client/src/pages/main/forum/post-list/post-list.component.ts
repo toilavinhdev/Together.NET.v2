@@ -3,7 +3,7 @@ import { BaseComponent } from '@/core/abstractions';
 import { PostService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { IListPostRequest } from '@/shared/entities/post.entities';
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import {
   IPaginatorChange,
   PaginatorComponent,
@@ -25,6 +25,7 @@ import { IPagination } from '@/core/models';
     NgIf,
     SkeletonModule,
     PaginatorComponent,
+    NgForOf,
   ],
   templateUrl: './post-list.component.html',
 })

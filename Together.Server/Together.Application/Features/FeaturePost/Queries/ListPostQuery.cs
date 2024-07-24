@@ -14,6 +14,8 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
     
     public Guid? UserId { get; set; }
     
+    public string? Search { get; set; }
+    
     public class Validator : AbstractValidator<ListPostQuery>
     {
         public Validator()
@@ -49,6 +51,12 @@ public sealed class ListPostQuery : IBaseRequest<ListPostResponse>, IPaginationR
                 if (!await context.Users.AnyAsync(f => f.Id == request.UserId, ct))
                     throw new DomainException(TogetherErrorCodes.User.UserNotFound);
                 whereExpression = whereExpression.And(x => x.CreatedById == request.UserId);
+            }
+
+            if (!string.IsNullOrEmpty(request.Search))
+            {
+                whereExpression = whereExpression.And(p =>
+                    p.Title.ToLower().Contains(request.Search.ToLower()));
             }
             
             var queryable = context.Posts

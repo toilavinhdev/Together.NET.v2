@@ -1,5 +1,8 @@
 ﻿{
   "Or log in with email": "Hoặc đăng nhập với email",
+  "Search": "Tìm kiếm",
+  "Searching": "Đang tìm kiếm",
+  "Enter keyword": "Nhập từ khóa",
   "Latest posts": "Bài viết mới nhất",
   "Forum statistics": "Thống kê diễn đàn",
   "Online": "Đang hoạt động",
@@ -40,7 +43,7 @@
   "Submit": "Xác nhận",
   "You": "Bạn",
   "You haven't had any conversations yet": "Bạn chưa có cuộc trò chuyện nào",
-  "You haven't had any notifications yet": "Bạn chưa có thông nào",
+  "You haven't had any notifications yet": "Bạn chưa có thông báo nào",
   "No replies": "Chưa có phản hồi nào",
   "No name": "Chưa cập nhật tên đầy đủ",
   "Not thing": "Chưa có thông tin giới thiệu",

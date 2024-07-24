@@ -4,6 +4,7 @@ import { EVoteType } from '@/shared/enums';
 export interface IListPostRequest extends IPaginationRequest {
   topicId?: string;
   userId?: string;
+  search?: string;
 }
 
 export interface IListPostResponse extends IPaginationResult<IPostViewModel> {

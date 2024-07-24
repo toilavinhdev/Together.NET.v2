@@ -1,4 +1,5 @@
 import { EGender, EUserStatus } from '@/shared/enums';
+import { IPaginationRequest, IPaginationResult } from '@/core/models';
 
 export interface IMeResponse {
   id: string;
@@ -33,4 +34,17 @@ export interface IUpdatePasswordRequest {
   currentPassword: string;
   newPassword: string;
   confirmNewPassword: string;
+}
+
+export interface IListUserRequest extends IPaginationRequest {
+  search?: string;
+}
+
+export interface IListUserResponse extends IPaginationResult<IUserViewModel> {}
+
+export interface IUserViewModel {
+  id: string;
+  subId: string;
+  userName: string;
+  avatar?: string;
 }

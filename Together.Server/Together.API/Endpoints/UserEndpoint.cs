@@ -19,6 +19,8 @@ public sealed class UserEndpoint : IEndpoint
         
         group.MapGet("/{userId:guid}", GetUser);
         
+        group.MapGet("/list", ListUser);
+        
         group.MapPut("/me/update-profile", UpdateProfile);
         
         group.MapPut("/me/update-password", UpdatePassword);
@@ -28,9 +30,13 @@ public sealed class UserEndpoint : IEndpoint
     private static Task<BaseResponse<MeResponse>> Me(ISender sender)
         => sender.Send(new MeQuery());
     
-    [TogetherPermission(TogetherPolicies.User.Get)]
+    [TogetherPermission(TogetherPolicies.User.View)]
     private static Task<BaseResponse<GetUserResponse>> GetUser(ISender sender, Guid userId)
         => sender.Send(new GetUserQuery(userId));
+    
+    [TogetherPermission(TogetherPolicies.User.View)]
+    private static Task<BaseResponse<ListUserResponse>> ListUser(ISender sender, [AsParameters] ListUserQuery query)
+        => sender.Send(query);
     
     [TogetherPermission(TogetherPolicies.User.UpdateProfile)]
     private static Task<BaseResponse> UpdateProfile(ISender sender, UpdateProfileCommand command)

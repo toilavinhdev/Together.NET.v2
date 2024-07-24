@@ -3,6 +3,8 @@ import { BaseService } from '@/core/abstractions';
 import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import {
   IGetUserResponse,
+  IListUserRequest,
+  IListUserResponse,
   IMeResponse,
   IUpdatePasswordRequest,
   IUpdateProfileRequest,
@@ -40,6 +42,15 @@ export class UserService extends BaseService {
     const url = this.createUrl(userId);
     return this.client
       .get<IBaseResponse<IGetUserResponse>>(url)
+      .pipe(map((response) => response.data));
+  }
+
+  listUser(params: IListUserRequest): Observable<IListUserResponse> {
+    const url = this.createUrl('list');
+    return this.client
+      .get<
+        IBaseResponse<IListUserResponse>
+      >(url, { params: this.createParams(params) })
       .pipe(map((response) => response.data));
   }
 

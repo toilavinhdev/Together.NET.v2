@@ -13,11 +13,12 @@ import {
   PaginatorComponent,
   PostComponent,
 } from '@/shared/components/elements';
+import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'together-profile-post-list',
   standalone: true,
-  imports: [PostComponent, PaginatorComponent],
+  imports: [PostComponent, PaginatorComponent, NgForOf],
   templateUrl: './profile-post-list.component.html',
 })
 export class ProfilePostListComponent extends BaseComponent implements OnInit {

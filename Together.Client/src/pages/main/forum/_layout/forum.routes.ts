@@ -41,6 +41,11 @@ export const routes: Routes = [
             (o) => o.PostEditComponent,
           ),
       },
+      {
+        path: 'search',
+        loadComponent: () =>
+          import('../search/search.component').then((o) => o.SearchComponent),
+      },
     ],
   },
 ];

@@ -3,12 +3,13 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { BaseComponent } from '@/core/abstractions';
 import { MenuItem } from 'primeng/api';
 import { takeUntil } from 'rxjs';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'together-breadcrumb',
   standalone: true,
-  imports: [BreadcrumbModule, TranslateModule],
+  imports: [BreadcrumbModule, TranslateModule, NgIf, AsyncPipe],
   templateUrl: './breadcrumb.component.html',
 })
 export class BreadcrumbComponent extends BaseComponent implements OnInit {

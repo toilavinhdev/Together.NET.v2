@@ -7,8 +7,7 @@ public static class TogetherPolicies
     public static class User
     {
         public const string Me = "User:Me";
-        public const string Get = "User:Get";
-        public const string List = "User:List";
+        public const string View = "User:View";
         public const string UpdateProfile = "User:UpdateProfile";
         public const string UpdatePassword = "User:UpdatePassword";
     }
@@ -55,7 +54,7 @@ public static class TogetherPolicies
 
     public static List<string> RequiredPolicies() => [
         User.Me,
-        User.Get,
+        User.View,
         User.UpdateProfile,
         User.UpdatePassword,
         Forum.View,

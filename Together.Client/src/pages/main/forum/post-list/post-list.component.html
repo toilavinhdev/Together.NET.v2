@@ -10,15 +10,16 @@
 </div>
 @if ((postService.posts$ | async)?.length) {
   @if (!loading) {
-    @for (post of postService.posts$ | async; track post) {
-      <together-post
-        [post]="post"
-      />
-    }
+    <together-post
+      *ngFor="let post of postService.posts$ | async; let last=last"
+      [post]="post"
+      [bordered]="!last"
+    />
   } @else {
-    @for (_ of Array(6); track _) {
-      <together-post loading />
-    }
+    <together-post
+      *ngFor="let _ of Array(6)"
+      loading
+    />
   }
   <together-paginator
     (paginationChange)="onPaginationChange($event)"
