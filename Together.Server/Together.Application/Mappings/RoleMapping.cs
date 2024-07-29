@@ -15,5 +15,7 @@ public sealed class RoleMapping : Profile
         CreateMap<Role, CreateRoleResponse>();
         
         CreateMap<Role, RoleViewModel>();
+        
+        CreateMap<Role, GetRoleResponse>();
     }
 }

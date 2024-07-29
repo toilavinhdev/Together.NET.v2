@@ -1,6 +1,6 @@
 namespace Together.Application.Features.FeaturePrefix.Responses;
 
-public class PrefixViewModel : BaseEntity
+public class PrefixViewModel : TimeTrackingEntity
 {
     public string Name { get; set; } = default!;
 

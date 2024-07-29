@@ -38,7 +38,7 @@ public sealed class AuthEndpoint : IEndpoint
     private static Task<BaseResponse<SignInResponse>> External(ISender sender, ExternalAuthCommand command)
         => sender.Send(command);
     
-    [Authorize]
+    [AllowAnonymous]
     private static Task<BaseResponse> Logout(ISender sender)
         => sender.Send(new LogoutCommand());
     

@@ -1,0 +1,21 @@
+<together-table [data]="users">
+  <together-table-column key="#" title="Index" type="index" columnClass="w-[30px] text-center"/>
+  <together-table-column key="#" title="Thành viên">
+    <ng-template togetherTableCell let-row>
+      <div class="flex items-start gap-x-2">
+        <together-avatar [src]="row.avatar" componentClass="w-[30px] h-[30px]"/>
+        <div>
+          <div (click)="commonService.navigateToProfile(row.id)" class="font-medium leading-[16px] text-primary cursor-pointer hover:underline">{{row.userName}}</div>
+          <div class="text-[12px] text-gray-500">{{row.fullName}}</div>
+        </div>
+      </div>
+    </ng-template>
+  </together-table-column>
+  <together-table-column key="email" title="Email"/>
+  <together-table-column key="status" title="Trạng thái">
+    <ng-template togetherTableCell let-row>
+      <together-user-status [status]="row.status"/>
+    </ng-template>
+  </together-table-column>
+  <together-table-column key="createdAt" type="datetime" title="Ngày tham gia"/>
+</together-table>

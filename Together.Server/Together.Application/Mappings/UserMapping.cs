@@ -14,5 +14,7 @@ public sealed class UserMapping : Profile
         CreateMap<User, MeResponse>();
 
         CreateMap<User, SignUpResponse>();
+        
+        CreateMap<User, UserViewModel>();
     }
 }

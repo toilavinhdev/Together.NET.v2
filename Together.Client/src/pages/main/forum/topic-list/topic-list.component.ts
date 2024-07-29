@@ -39,7 +39,7 @@ export class TopicListComponent extends BaseComponent implements OnInit {
   private loadData() {
     this.loading = true;
     this.forumService
-      .listForum()
+      .listForum(true)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {

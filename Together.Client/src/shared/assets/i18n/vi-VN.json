@@ -15,6 +15,7 @@
   "Profile": "Trang cá nhân",
   "Settings": "Cài đặt",
   "Switch language": "Đổi ngôn ngữ",
+  "Managements": "Quản lý diễn đàn",
   "Logout": "Đăng xuất",
   "Notifications": "Thông báo",
   "few seconds ago": "vài giây trước",
@@ -50,5 +51,8 @@
   "VOTE_POST": "đã thích bài viết của bạn",
   "REPLY_POST": "đã phản hồi bài viết của bạn",
   "VOTE_REPLY": "đã thích phản hồi của bạn",
-  "REPLY_REPLY": "đã phản hồi"
+  "REPLY_REPLY": "đã phản hồi",
+  "Index": "STT",
+  "Forum name": "Tên diễn đàn",
+  "Created at": "Thời gian tạo"
 }

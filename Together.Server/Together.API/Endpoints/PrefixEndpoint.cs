@@ -15,10 +15,20 @@ public sealed class PrefixEndpoint : IEndpoint
     {
         var group = app.MapGroup("/api/v1/prefix").WithTags("Prefix");
         
-        group.MapGet("/list", ListPrefix);
+        group.MapGet("/{prefixId:guid}", GetPrefix);
         
+        group.MapGet("/list", ListPrefix);
+
         group.MapPost("/create", CreatePrefix);
+            
+        group.MapPut("/update", UpdatePrefix);
+        
+        group.MapDelete("/{prefixId:guid}", DeletePrefix);
     }
+    
+    [TogetherPermission(TogetherPolicies.Prefix.View)]
+    private static Task<BaseResponse<PrefixViewModel>> GetPrefix(ISender sender, Guid prefixId)
+        => sender.Send(new GetPrefixQuery(prefixId));
     
     [TogetherPermission(TogetherPolicies.Prefix.View)]
     private static Task<BaseResponse<List<PrefixViewModel>>> ListPrefix(ISender sender)
@@ -27,4 +37,12 @@ public sealed class PrefixEndpoint : IEndpoint
     [TogetherPermission(TogetherPolicies.Prefix.Create)]
     private static Task<BaseResponse<CreatePrefixResponse>> CreatePrefix(ISender sender, CreatePrefixCommand command)
         => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Prefix.Update)]
+    private static Task<BaseResponse> UpdatePrefix(ISender sender, UpdatePrefixCommand command)
+        => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Prefix.Delete)]
+    private static Task<BaseResponse> DeletePrefix(ISender sender, Guid prefixId)
+        => sender.Send(new DeletePrefixCommand(prefixId));
 }

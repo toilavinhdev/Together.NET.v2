@@ -10,15 +10,14 @@
       />
       <div class="mt-1">
         <div (click)="commonService.navigateToPost(post.id)" class="cursor-pointer group">
-        <span class="inline-block">
+        <span *ngIf="post.prefixId" class="inline-block">
           <together-prefix
-            *ngIf="post.prefixId"
             [name]="post.prefixName!"
             [foreground]="post.prefixForeground!"
             [background]="post.prefixBackground!"
           />
         </span>
-          <a class="inline text-[15px] text-ellipsis line-clamp-2 hover:underline group-hover:underline">{{ post.title }}</a>
+          <a class="inline text-[15px] text-ellipsis line-clamp-2 hover:underline group-hover:underline indent-0">{{ post.title }}</a>
         </div>
         <div class="text-xs text-gray-500 mt-[2px]">
           <a (click)="commonService.navigateToProfile(post.createdById)" class="hover:underline cursor-pointer">{{ post.createdByUserName }}</a>

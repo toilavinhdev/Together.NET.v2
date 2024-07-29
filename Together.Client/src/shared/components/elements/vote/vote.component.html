@@ -24,9 +24,18 @@
     <span class="text-[13px] font-medium">{{replyCount | shortenNumber}}</span>
   </div>
   <div
+    (click)="menu.toggle($event)"
     class="px-3 py-2 cursor-pointer rounded-full duration-200 bg-gray-300/40 hover:bg-gray-300"
     [ngClass]="{'bg-gray-300/40': voteFor === 'post'}"
   >
     <i class="fa-solid fa-ellipsis"></i>
+    <p-menu #menu [model]="items" [popup]="true">
+      <ng-template pTemplate="item" let-item>
+        <div pRipple class="flex items-center text-[14px] px-3 py-2">
+          <span [class]="item.icon"></span>
+          <span class="ml-3">{{ item.label | translate }}</span>
+        </div>
+      </ng-template>
+    </p-menu>
   </div>
 </div>

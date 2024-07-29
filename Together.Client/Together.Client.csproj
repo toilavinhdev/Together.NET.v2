@@ -14,7 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="src\pages\main\_layout\components\navbar\_components\" />
+      <Folder Include="src\pages\management\_layout\_components\" />
+      <Folder Include="src\shared\components\elements\user-dropdown\_components\" />
     </ItemGroup>
 
 </Project>

@@ -27,6 +27,9 @@ export class BaseControl<T = string>
   @Input()
   placeholder = '';
 
+  @Input()
+  controlClass = '';
+
   protected injector = inject(Injector);
 
   protected cdk = inject(ChangeDetectorRef);

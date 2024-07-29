@@ -11,6 +11,8 @@ import { environment } from '@/environments/environment';
   providedIn: 'root',
 })
 export class CommonService {
+  title$ = new BehaviorSubject<string>('');
+
   spinning$ = new Subject<boolean>();
 
   toast$ = new BehaviorSubject<IToast | undefined>(undefined);
@@ -28,6 +30,10 @@ export class CommonService {
 
   navigateToMain() {
     this.router.navigate(['/']).then();
+  }
+
+  navigateToAdminPage() {
+    this.router.navigate(['/management']).then();
   }
 
   navigateToTopic(topicId: string) {

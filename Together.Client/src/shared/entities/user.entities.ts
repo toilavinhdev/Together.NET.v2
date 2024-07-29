@@ -38,6 +38,7 @@ export interface IUpdatePasswordRequest {
 
 export interface IListUserRequest extends IPaginationRequest {
   search?: string;
+  roleId?: string;
 }
 
 export interface IListUserResponse extends IPaginationResult<IUserViewModel> {}
@@ -46,5 +47,8 @@ export interface IUserViewModel {
   id: string;
   subId: string;
   userName: string;
+  status: EUserStatus;
+  email: string;
+  fullName?: string;
   avatar?: string;
 }

@@ -7,11 +7,15 @@ import { PostService, ReplyService } from '@/shared/services';
 import { Observable, takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
 import { IVoteResponse } from '@/shared/entities/post.entities';
+import { MenuModule } from 'primeng/menu';
+import { MenuItem } from 'primeng/api';
+import { Ripple } from 'primeng/ripple';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'together-vote',
   standalone: true,
-  imports: [NgClass, ShortenNumberPipe],
+  imports: [NgClass, ShortenNumberPipe, MenuModule, Ripple, TranslateModule],
   templateUrl: './vote.component.html',
 })
 export class VoteComponent extends BaseComponent {
@@ -38,6 +42,21 @@ export class VoteComponent extends BaseComponent {
 
   @Output()
   voteResponse = new EventEmitter<IVoteResponse>();
+
+  items: MenuItem[] = [
+    {
+      label: this.voteFor === 'post' ? 'Update post' : 'Update reply',
+      icon: 'pi pi-pencil',
+    },
+    {
+      label: this.voteFor === 'post' ? 'Delete post' : 'Delete reply',
+      icon: 'pi pi-trash',
+    },
+    {
+      label: 'Report',
+      icon: 'pi pi-flag',
+    },
+  ];
 
   constructor(
     private postService: PostService,

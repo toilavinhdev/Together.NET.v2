@@ -12,6 +12,8 @@ public sealed class ListUserQuery : IBaseRequest<ListUserResponse>, IPaginationR
     
     public string? Search { get; set; }
     
+    public Guid? RoleId { get; set; }
+    
     public class Validator : AbstractValidator<ListUserQuery>
     {
         public Validator()
@@ -25,6 +27,8 @@ public sealed class ListUserQuery : IBaseRequest<ListUserResponse>, IPaginationR
     {
         protected override async Task<ListUserResponse> HandleAsync(ListUserQuery request, CancellationToken ct)
         {
+            var queryable = context.Users.AsQueryable();
+            
             Expression<Func<User, bool>> whereExpression = u => true;
 
             if (!string.IsNullOrEmpty(request.Search))
@@ -32,21 +36,19 @@ public sealed class ListUserQuery : IBaseRequest<ListUserResponse>, IPaginationR
                 whereExpression = whereExpression.And(u => u.UserName.Contains(request.Search.ToLower()));
             }
 
-            var queryable = context.Users
-                .Where(whereExpression)
-                .AsQueryable();
+            if (request.RoleId is not null)
+            {
+                queryable = queryable.Include(u => u.UserRoles);
+                whereExpression = whereExpression.And(u => u.UserRoles!.Any(ur => ur.RoleId == request.RoleId));
+            }
+
+            queryable = queryable.Where(whereExpression);
 
             var totalRecord = await queryable.LongCountAsync(ct);
 
             var users = await queryable
                 .Paging(request.PageIndex, request.PageSize)
-                .Select(u => new UserViewModel
-                {
-                    Id = u.Id,
-                    SubId = u.SubId,
-                    UserName = u.UserName,
-                    Avatar = u.Avatar
-                })
+                .Select(u => u.MapTo<UserViewModel>())
                 .ToListAsync(ct);
 
             return new ListUserResponse

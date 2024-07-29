@@ -13,10 +13,10 @@ export class ReportService extends BaseService {
     this.setEndpoint('/report');
   }
 
-  statistics(): Observable<IStatisticsResponse> {
+  statistics(metrics?: string[]): Observable<IStatisticsResponse> {
     const url = this.createUrl('/statistics');
     return this.client
-      .get<IBaseResponse<IStatisticsResponse>>(url)
+      .post<IBaseResponse<IStatisticsResponse>>(url, { metrics })
       .pipe(map((response) => response.data));
   }
 }

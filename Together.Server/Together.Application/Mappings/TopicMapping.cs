@@ -12,6 +12,8 @@ public sealed class TopicMapping : Profile
         CreateMap<CreateTopicCommand, Topic>();
         
         CreateMap<Topic, CreateTopicResponse>();
+        
+        CreateMap<Topic, GetTopicResponse>();
 
         CreateMap<Topic, TopicViewModel>()
             .ForMember(viewModel => viewModel.PostCount, cfg => cfg

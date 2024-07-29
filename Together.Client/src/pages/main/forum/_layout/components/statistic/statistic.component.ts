@@ -7,7 +7,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { ShortenNumberPipe } from '@/shared/pipes';
 import { getErrorMessage } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
-import {TranslateModule} from "@ngx-translate/core";
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'together-statistic',
@@ -22,6 +22,15 @@ export class StatisticComponent extends BaseComponent implements OnInit {
 
   loading = false;
 
+  private metrics = [
+    'totalOnlineUser',
+    'totalUser',
+    'totalTopic',
+    'totalPost',
+    'totalReply',
+    'newMember',
+  ];
+
   constructor(private reportService: ReportService) {
     super();
   }
@@ -29,7 +38,7 @@ export class StatisticComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.reportService
-      .statistics()
+      .statistics(this.metrics)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data) => {

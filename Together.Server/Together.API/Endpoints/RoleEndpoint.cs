@@ -15,6 +15,8 @@ public sealed class RoleEndpoint : IEndpoint
     {
         var group = app.MapGroup("/api/v1/role").WithTags("Role");
         
+        group.MapGet("/{roleId:guid}", GetRole);
+        
         group.MapGet("/list", ListRole);
         
         group.MapPost("/create", CreateRole);
@@ -26,7 +28,11 @@ public sealed class RoleEndpoint : IEndpoint
         group.MapDelete("/{roleId:guid}", DeleteRole);
     }
     
-    [TogetherPermission(TogetherPolicies.Role.List)]
+    [TogetherPermission(TogetherPolicies.Role.View)]
+    private static Task<BaseResponse<GetRoleResponse>> GetRole(ISender sender, Guid roleId)
+        => sender.Send(new GetRoleQuery(roleId));
+    
+    [TogetherPermission(TogetherPolicies.Role.View)]
     private static Task<BaseResponse<ListRoleResponse>> ListRole(ISender sender, [AsParameters] ListRoleQuery query)
         => sender.Send(query);
 

@@ -1,0 +1,66 @@
+<div class="grid grid-cols-2 gap-x-6">
+    <together-container componentClass="min-h-[calc(100vh-120px)]">
+      <div class="font-semibold">Vai trò khả dụng</div>
+      <div class="text-gray-500 text-[14px] mb-5">Kéo thả đến vai trò của thành viên</div>
+      <together-table [data]="availableRoles"
+                      [rowDraggable]="rowDraggableDroppable"
+                      [rowDragEffect]="'move'"
+                      (onRowDragStart)="draggingRole = $event"
+                      (onRowDragEnd)="draggingRole = undefined"
+      >
+        <together-table-column key="#" title="Index" type="index" columnClass="w-[30px] text-center"/>
+        <together-table-column key="name" title="Tên vai trò"/>
+        <together-table-column key="description" title="Tên vai trò"/>
+      </together-table>
+    </together-container>
+    <together-container componentClass="min-h-[calc(100vh-120px)]">
+      <p-dropdown [options]="users"
+                  [(ngModel)]="userRolesParams.userId"
+                  (ngModelChange)="onUserIdChange($event)"
+                  optionLabel="userName"
+                  optionValue="id"
+                  placeholder="Chọn thành viên"
+                  styleClass="mb-4 w-full"
+      >
+        <ng-template let-user pTemplate="item">
+          <div class="flex items-start gap-x-2">
+            <together-avatar [src]="user.avatar" componentClass="w-[30px] h-[30px]"/>
+            <div>
+              <div class="font-medium leading-[16px] text-primary">{{user.userName}}</div>
+              <div class="text-[12px] text-gray-500">{{user.fullName}}</div>
+            </div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <div id="user-roles-table-wrapper" [pDroppable]="rowDraggableDroppable" (onDrop)="drop()">
+        <together-table [data]="userRoles">
+          <together-table-column key="#" title="Index" type="index" columnClass="w-[30px] text-center"/>
+          <together-table-column key="name" title="Tên vai trò"/>
+          <together-table-column key="#" title="" columnClass="w-[50px]">
+            <ng-template togetherTableCell let-row>
+              <div class="flex gap-x-1">
+                <p-button (onClick)="removeUserRole(row)" icon="pi pi-trash text-[12px]" severity="danger" rounded styleClass="w-[34px] h-[34px]"/>
+              </div>
+            </ng-template>
+          </together-table-column>
+        </together-table>
+      </div>
+      <div class="flex justify-end gap-x-3 mt-10">
+        <p-button (onClick)="onCancel()" [disabled]="!userRolesHasChanged" label="Hủy" severity="secondary" outlined/>
+        <p-button [disabled]="!userRolesHasChanged" (onClick)="onSubmit()" label="Cập nhật"/>
+      </div>
+    </together-container>
+</div>
+
+<style>
+  #user-roles-table-wrapper {
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+
+    &.p-draggable-enter {
+      border-color: var(--primary);
+    }
+  }
+
+
+</style>

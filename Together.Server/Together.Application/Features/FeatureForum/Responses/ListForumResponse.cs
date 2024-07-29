@@ -10,6 +10,8 @@ public class ForumViewModel : TimeTrackingEntity
 public class TopicViewModel : TimeTrackingEntity
 {
     public Guid ForumId { get; set; }
+
+    public string ForumName { get; set; } = default!;
     
     public string Name { get; set; } = default!;
     

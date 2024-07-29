@@ -1,6 +1,14 @@
 ﻿import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseResponse } from '@/core/models';
 
+export function getErrorCode(error: Error): string {
+  if (error instanceof HttpErrorResponse) {
+    const response = error.error as IBaseResponse;
+    return response?.errors?.[0].code ?? '';
+  }
+  return error.message;
+}
+
 export function getErrorMessage(error: Error): string {
   if (error instanceof HttpErrorResponse) {
     const response = error.error as IBaseResponse;
@@ -44,4 +52,10 @@ export function scrollToBottom(
     top: container.scrollHeight,
     behavior: behavior,
   });
+}
+
+export function areArraysEqual<T>(arr1: T[], arr2: T[]) {
+  if (arr1.length !== arr2.length) return false;
+  const set = new Set(arr1);
+  return arr2.every((item) => set.has(item));
 }

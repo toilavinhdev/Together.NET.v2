@@ -37,7 +37,6 @@ export class MainComponent extends BaseComponent implements OnInit, OnDestroy {
 
   override ngOnDestroy() {
     super.ngOnDestroy();
-    this.webSocketService.disconnect();
   }
 
   private getMe() {

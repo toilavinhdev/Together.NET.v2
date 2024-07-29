@@ -15,6 +15,7 @@
   "Profile": "Profile",
   "Settings": "Settings",
   "Switch language": "Switch language",
+  "Managements": "Managements",
   "Logout": "Logout",
   "Notifications": "Notifications",
   "few seconds ago": "few seconds ago",
@@ -50,5 +51,8 @@
   "VOTE_POST": "liked your post",
   "REPLY_POST": "replied your post",
   "VOTE_REPLY": "liked your reply",
-  "REPLY_REPLY": "replied your reply"
+  "REPLY_REPLY": "replied your reply",
+  "Index": "Index",
+  "Forum name": "Forum name",
+  "Created at": "Created at"
 }
