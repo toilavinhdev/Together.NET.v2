@@ -6,3 +6,23 @@ export interface IStatisticsResponse {
   totalOnlineUser?: number;
   newMember?: number;
 }
+
+export interface IPrefixReportResponse {
+  id: string;
+  name: string;
+  foreground: string;
+  background: string;
+  totalPost: number;
+  percentage: number;
+}
+
+export interface IDailyUserReportRequest {
+  from: string;
+  to: string;
+}
+
+export interface IDailyUserReportResponse {
+  day: string;
+  totalNewUser: number;
+  totalUser: number;
+}

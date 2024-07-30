@@ -6,4 +6,9 @@ public static class LinqExtensions
     {
         return query.Skip(pageSize * (pageIndex - 1)).Take(pageSize);
     }
+    
+    public static IEnumerable<(T item, int index)> WithIndex<T>(this IEnumerable<T> input)
+    {
+        return input.Select((item, index) => (item, index));
+    }
 }

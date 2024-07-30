@@ -15,6 +15,7 @@ import {
   UserStatusComponent,
 } from '@/shared/components/elements';
 import { Button } from 'primeng/button';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'together-m-user-list',
@@ -26,6 +27,7 @@ import { Button } from 'primeng/button';
     TableColumnDirective,
     AvatarComponent,
     UserStatusComponent,
+    NgIf,
   ],
   templateUrl: './m-user-list.component.html',
 })

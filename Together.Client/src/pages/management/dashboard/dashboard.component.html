@@ -1,14 +1,13 @@
 <div>
-  <div class="flex gap-x-3">
-    <ng-container [ngTemplateOutlet]="statisticBlockTpl" [ngTemplateOutletContext]="{title: 'Thành viên', value: statistics.totalUser}"/>
-    <ng-container [ngTemplateOutlet]="statisticBlockTpl" [ngTemplateOutletContext]="{title: 'Bài viết', value: statistics.totalPost}"/>
-    <ng-container [ngTemplateOutlet]="statisticBlockTpl" [ngTemplateOutletContext]="{title: 'Phản hồi', value: statistics.totalReply}"/>
+  <together-m-blocks-statistics/>
+  <div class="grid grid-cols-6 gap-x-6 mt-6">
+    <div class="col-span-4">
+      <together-m-user-statistics/>
+    </div>
+    <div class="col-span-2">
+      <together-m-prefix-statistics/>
+    </div>
   </div>
 </div>
 
-<ng-template #statisticBlockTpl let-title="title" let-value="value">
-  <div class="bg-white shadow rounded p-5 w-[190px]">
-    <div class="text-gray-600 font-semibold">{{title | translate}}</div>
-    <div class="font-semibold text-[32px] mt-2">{{value | shortenNumber}}</div>
-  </div>
-</ng-template>
+

@@ -2,11 +2,11 @@
   <together-table-column key="#" title="Index" type="index" columnClass="w-[30px] text-center"/>
   <together-table-column key="#" title="Thành viên">
     <ng-template togetherTableCell let-row>
-      <div class="flex items-start gap-x-2">
+      <div class="flex items-center gap-x-2">
         <together-avatar [src]="row.avatar" componentClass="w-[30px] h-[30px]"/>
         <div>
           <div (click)="commonService.navigateToProfile(row.id)" class="font-medium leading-[16px] text-primary cursor-pointer hover:underline">{{row.userName}}</div>
-          <div class="text-[12px] text-gray-500">{{row.fullName}}</div>
+          <div *ngIf="row.fullName" class="text-[12px] text-gray-500">{{row.fullName}}</div>
         </div>
       </div>
     </ng-template>

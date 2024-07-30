@@ -1,0 +1,18 @@
+<together-container>
+  <div class="font-semibold text-[18px] mb-6">Prefix</div>
+  <div *ngFor="let prefix of statistics" class="flex items-start justify-between mb-5">
+    <together-prefix
+      [name]="prefix.name"
+      [background]="prefix.background"
+      [foreground]="prefix.foreground"
+      fontSize="12px"
+    />
+    <div>
+      <p-progressBar [value]="prefix.percentage" [showValue]="false" styleClass="w-[160px] text-[12px]" color="var(--primary)"/>
+      <div class="flex">
+        <div class="text-[12px]">{{prefix.percentage}} %</div>
+        <div class="text-[12px] ml-auto">{{prefix.totalPost}} bài viết</div>
+      </div>
+    </div>
+  </div>
+</together-container>
