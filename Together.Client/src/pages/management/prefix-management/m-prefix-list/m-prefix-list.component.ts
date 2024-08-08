@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
-import { PrefixService } from '@/shared/services';
+import { PrefixService, UserService } from '@/shared/services';
 import { IPrefixViewModel } from '@/shared/entities/prefix.entities';
 import { takeUntil } from 'rxjs';
 import {
@@ -14,6 +14,8 @@ import { RouterLink } from '@angular/router';
 import { getErrorMessage } from '@/shared/utilities';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { policies } from '@/shared/constants';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'together-m-prefix-list',
@@ -26,6 +28,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     RouterLink,
     PrefixComponent,
     ConfirmDialogModule,
+    NgIf,
+    AsyncPipe,
   ],
   templateUrl: './m-prefix-list.component.html',
   providers: [ConfirmationService],
@@ -36,6 +40,7 @@ export class MPrefixListComponent extends BaseComponent implements OnInit {
   constructor(
     private prefixService: PrefixService,
     private confirmationService: ConfirmationService,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -95,4 +100,6 @@ export class MPrefixListComponent extends BaseComponent implements OnInit {
       reject: () => {},
     });
   }
+
+  protected readonly policies = policies;
 }

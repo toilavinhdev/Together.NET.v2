@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { AvatarComponent } from '@/shared/components/elements';
 import { Menu, MenuModule } from 'primeng/menu';
@@ -10,6 +10,8 @@ import { AuthService, UserService } from '@/shared/services';
 import { getErrorMessage } from '@/shared/utilities';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitchModalComponent } from '@/shared/components/elements/user-dropdown/_components/language-switch-modal/language-switch-modal.component';
+import { policies } from '@/shared/constants';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'together-user-dropdown',
@@ -25,7 +27,7 @@ import { LanguageSwitchModalComponent } from '@/shared/components/elements/user-
   ],
   templateUrl: './user-dropdown.component.html',
 })
-export class UserDropdownComponent extends BaseComponent {
+export class UserDropdownComponent extends BaseComponent implements OnInit {
   items: MenuItem[] = [
     {
       separator: true,
@@ -53,11 +55,13 @@ export class UserDropdownComponent extends BaseComponent {
       },
     },
     {
+      id: 'AccessManagement',
       label: 'Managements',
       icon: 'pi pi-th-large',
       command: () => {
         this.commonService.navigateToAdminPage();
       },
+      visible: false,
     },
     {
       label: 'Logout',
@@ -77,8 +81,29 @@ export class UserDropdownComponent extends BaseComponent {
   constructor(
     protected userService: UserService,
     private authService: AuthService,
+    private router: Router,
   ) {
     super();
+  }
+
+  ngOnInit() {
+    this.visibleAccessManagement();
+  }
+
+  private visibleAccessManagement() {
+    this.userService
+      .hasPermission$(policies.AccessManagement)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((value) => {
+        this.items = this.items.map((item) =>
+          item.id === policies.AccessManagement
+            ? {
+                ...item,
+                visible: this.router.url.split('/')[1] !== 'management',
+              }
+            : item,
+        );
+      });
   }
 
   private onLogout() {

@@ -1,6 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
-import { ForumService, TopicService } from '@/shared/services';
+import { ForumService, TopicService, UserService } from '@/shared/services';
 import { TabViewModule } from 'primeng/tabview';
 import { TranslateModule } from '@ngx-translate/core';
 import { takeUntil } from 'rxjs';
@@ -12,11 +12,12 @@ import {
   TableComponent,
 } from '@/shared/components/elements';
 import { ITopicViewModel } from '@/shared/entities/topic.entities';
-import { JsonPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-m-forum-list',
@@ -31,6 +32,8 @@ import { ConfirmationService } from 'primeng/api';
     Button,
     RouterLink,
     ConfirmDialogModule,
+    NgIf,
+    AsyncPipe,
   ],
   templateUrl: './m-forum-list.component.html',
   providers: [ConfirmationService],
@@ -46,6 +49,7 @@ export class MForumListComponent extends BaseComponent implements OnInit {
     private forumService: ForumService,
     private topicService: TopicService,
     private primeConfirmationService: ConfirmationService,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -145,4 +149,6 @@ export class MForumListComponent extends BaseComponent implements OnInit {
       reject: () => {},
     });
   }
+
+  protected readonly policies = policies;
 }

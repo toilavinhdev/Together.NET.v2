@@ -19,6 +19,7 @@ import {
   ICheckBoxGroup,
   ICheckboxItem,
 } from '@/shared/models/checkbox-groups.models';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-m-role-detail',
@@ -166,24 +167,34 @@ export class MRoleDetailComponent extends BaseComponent implements OnInit {
 
 const roleClaimCheckboxGroups: ICheckBoxGroup[] = [
   {
+    label: 'Together.NET',
+    items: [
+      {
+        label: policies.AccessManagement,
+        value: policies.AccessManagement,
+        description: 'Có thể truy cập trang quản lý Together.NET',
+      },
+    ],
+  },
+  {
     label: 'User',
     description: 'Tất cả quyền của người dùng',
     items: [
       {
-        label: 'User:Me',
-        value: 'User:Me',
+        label: policies.User.Me,
+        value: policies.User.Me,
       },
       {
-        label: 'User:View',
-        value: 'User:View',
+        label: policies.User.View,
+        value: policies.User.View,
       },
       {
-        label: 'User:UpdateProfile',
-        value: 'User:UpdateProfile',
+        label: policies.User.UpdateProfile,
+        value: policies.User.UpdateProfile,
       },
       {
-        label: 'User:UpdatePassword',
-        value: 'User:UpdatePassword',
+        label: policies.User.UpdatePassword,
+        value: policies.User.UpdatePassword,
       },
     ],
   },

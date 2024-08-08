@@ -2,7 +2,9 @@
 
 public static class TogetherPolicies
 {
-    public static readonly string All = nameof(All);
+    public const string All = nameof(All);
+
+    public const string AccessManagement = nameof(AccessManagement); 
     
     public static class User
     {
@@ -69,7 +71,7 @@ public static class TogetherPolicies
         User.UpdateProfile,
         User.UpdatePassword,
         Forum.View,
-        Topic.Create,
+        Topic.View,
         Prefix.View,
         Post.View,
         Post.Create,

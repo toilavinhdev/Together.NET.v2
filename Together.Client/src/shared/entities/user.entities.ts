@@ -8,6 +8,7 @@ export interface IMeResponse {
   email: string;
   status: EUserStatus;
   avatar?: string;
+  permissions: string[];
 }
 
 export interface IGetUserResponse {

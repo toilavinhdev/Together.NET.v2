@@ -10,6 +10,7 @@ import {
   IUpdateProfileRequest,
 } from '@/shared/entities/user.entities';
 import { IBaseResponse } from '@/core/models';
+import { policies } from '@/shared/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,13 @@ export class UserService extends BaseService {
       return me.id === user.id;
     }),
   );
+
+  hasPermission$ = (policy: string): Observable<boolean> =>
+    this.me$.pipe(
+      map((me) =>
+        !me ? false : me.permissions.includes(policies.All || policy),
+      ),
+    );
 
   constructor() {
     super();

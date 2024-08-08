@@ -9,13 +9,15 @@ import {
   IListRoleRequest,
   IRoleViewModel,
 } from '@/shared/entities/role.entities';
-import { RoleService } from '@/shared/services';
+import { RoleService, UserService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
 import { Button } from 'primeng/button';
 import { RouterLink } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { policies } from '@/shared/constants';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   selector: 'together-m-role-list',
@@ -27,6 +29,8 @@ import { ConfirmationService } from 'primeng/api';
     TableCellDirective,
     RouterLink,
     ConfirmDialogModule,
+    AsyncPipe,
+    NgIf,
   ],
   templateUrl: './m-role-list.component.html',
   providers: [ConfirmationService],
@@ -43,6 +47,7 @@ export class MRoleListComponent extends BaseComponent implements OnInit {
   constructor(
     private roleService: RoleService,
     private confirmationService: ConfirmationService,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -101,4 +106,6 @@ export class MRoleListComponent extends BaseComponent implements OnInit {
       reject: () => {},
     });
   }
+
+  protected readonly policies = policies;
 }

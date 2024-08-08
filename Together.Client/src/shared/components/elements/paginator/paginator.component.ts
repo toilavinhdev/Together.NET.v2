@@ -1,9 +1,17 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { PaginatorModule } from 'primeng/paginator';
 import { BaseComponent } from '@/core/abstractions';
+import { reduce } from 'rxjs';
 
 export interface IPaginatorChange {
   pageIndex: number;
+  pageSize: number;
 }
 
 @Component({
@@ -22,15 +30,20 @@ export class PaginatorComponent extends BaseComponent {
   @Input()
   totalRecord = 50;
 
-  @Input()
+  @Input({ transform: booleanAttribute })
   showCurrentPageReport = false;
+
+  @Input()
+  rowsPerPageOptions?: number[];
 
   @Output()
   paginationChange = new EventEmitter<IPaginatorChange>();
 
   onPageChange(event: any) {
+    console.log(event);
     this.paginationChange.emit({
       pageIndex: event.page + 1,
+      pageSize: event.rows,
     });
   }
 }
