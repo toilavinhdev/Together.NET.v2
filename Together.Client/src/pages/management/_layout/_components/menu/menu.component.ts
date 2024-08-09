@@ -21,6 +21,7 @@ export class MenuComponent extends BaseComponent implements OnInit {
       label: 'Trang chủ',
       items: [
         {
+          id: policies.Management.ViewDashboard,
           label: 'Thống kê diễn đàn',
           icon: 'pi pi-home',
           routerLink: '/management',
@@ -80,7 +81,7 @@ export class MenuComponent extends BaseComponent implements OnInit {
       label: 'Thành viên',
       items: [
         {
-          id: policies.User.View,
+          id: policies.User.List,
           label: 'Danh sách thành viên',
           icon: 'pi pi-users',
           routerLink: '/management/user',

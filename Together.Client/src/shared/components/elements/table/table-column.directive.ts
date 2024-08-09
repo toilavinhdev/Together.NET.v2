@@ -23,6 +23,9 @@ export class TableColumnDirective {
   title = '';
 
   @Input()
+  headerClass = '';
+
+  @Input()
   columnClass = '';
 
   constructor() {}

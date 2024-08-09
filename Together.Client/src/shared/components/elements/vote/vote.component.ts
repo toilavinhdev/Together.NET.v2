@@ -1,24 +1,59 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgClass } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import { BaseComponent } from '@/core/abstractions';
 import { EVoteType } from '@/shared/enums';
 import { ShortenNumberPipe } from '@/shared/pipes';
-import { PostService, ReplyService } from '@/shared/services';
-import { Observable, takeUntil } from 'rxjs';
+import { PostService, ReplyService, UserService } from '@/shared/services';
+import { Observable, take, takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
 import { IVoteResponse } from '@/shared/entities/post.entities';
-import { MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
+import { Menu, MenuModule } from 'primeng/menu';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
 import { TranslateModule } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-vote',
   standalone: true,
-  imports: [NgClass, ShortenNumberPipe, MenuModule, Ripple, TranslateModule],
+  imports: [
+    NgClass,
+    ShortenNumberPipe,
+    MenuModule,
+    Ripple,
+    TranslateModule,
+    ConfirmDialogModule,
+    NgIf,
+    AsyncPipe,
+  ],
   templateUrl: './vote.component.html',
+  providers: [ConfirmationService],
 })
-export class VoteComponent extends BaseComponent {
+export class VoteComponent extends BaseComponent implements OnChanges {
+  @ViewChild('menu', { static: true }) menu!: Menu;
+
+  @Output()
+  expandReplyWriter = new EventEmitter<void>();
+
+  @Output()
+  voteResponse = new EventEmitter<IVoteResponse>();
+
+  @Output()
+  deleteResponse = new EventEmitter<string>();
+
+  @Output()
+  updateResponse = new EventEmitter();
+
   @Input()
   sourceId = '';
 
@@ -37,32 +72,66 @@ export class VoteComponent extends BaseComponent {
   @Input()
   voted?: EVoteType;
 
-  @Output()
-  expandReplyWriter = new EventEmitter<void>();
+  protected readonly EVoteType = EVoteType;
 
-  @Output()
-  voteResponse = new EventEmitter<IVoteResponse>();
-
-  items: MenuItem[] = [
-    {
-      label: this.voteFor === 'post' ? 'Update post' : 'Update reply',
-      icon: 'pi pi-pencil',
-    },
-    {
-      label: this.voteFor === 'post' ? 'Delete post' : 'Delete reply',
-      icon: 'pi pi-trash',
-    },
-    {
-      label: 'Report',
-      icon: 'pi pi-flag',
-    },
-  ];
+  items: MenuItem[] = [];
 
   constructor(
     private postService: PostService,
     private replyService: ReplyService,
+    private router: Router,
+    private primeNGConfirmationService: ConfirmationService,
+    protected userService: UserService,
   ) {
     super();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if ('voteFor' in changes) {
+      this.items = [
+        {
+          label: this.voteFor === 'post' ? 'Update post' : 'Update reply',
+          icon: 'pi pi-pencil',
+          command: () => {
+            this.onUpdate();
+          },
+        },
+        {
+          label: this.voteFor === 'post' ? 'Delete post' : 'Delete reply',
+          icon: 'pi pi-trash',
+          command: () => {
+            this.menu.visible = false;
+            setTimeout(() => {
+              this.primeNGConfirmationService.confirm({
+                message:
+                  this.voteFor === 'post'
+                    ? 'Bạn có muốn xóa bài viết này không?'
+                    : 'Bạn có muốn xóa phản hồi này không?',
+                header: 'Xác nhận xóa',
+                icon: 'pi pi-exclamation-triangle',
+                acceptIcon: 'none',
+                rejectIcon: 'none',
+                acceptLabel: 'Xác nhận',
+                rejectLabel: 'Hủy',
+                rejectButtonStyleClass: 'p-button-text',
+                acceptButtonStyleClass: 'p-button-danger',
+                accept: () => {
+                  this.onDelete();
+                },
+                reject: () => {},
+              });
+            }, 100);
+          },
+        },
+        // {
+        //   label: 'Report',
+        //   icon: 'pi pi-flag',
+        //   command: () => {
+        //     this.onReport();
+        //   },
+        // },
+      ];
+    }
   }
 
   onVote(type: EVoteType) {
@@ -82,6 +151,65 @@ export class VoteComponent extends BaseComponent {
       });
   }
 
+  private onUpdate() {
+    if (this.voteFor === 'post') {
+      this.commonService.navigateToUpdatePost(this.sourceId);
+    } else if (this.voteFor === 'reply') {
+      this.updateResponse.emit();
+    }
+  }
+
+  private onDelete() {
+    if (this.voteFor === 'post') {
+      this.postService
+        .deletePost(this.sourceId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.deleteResponse.emit(this.sourceId);
+            this.commonService.breadcrumb$
+              .pipe(take(1))
+              .subscribe((breadcrumb) => {
+                this.router
+                  .navigate(breadcrumb[0].routerLink as string[])
+                  .then();
+              });
+            this.commonService.toast$.next({
+              type: 'success',
+              message: 'Đã xóa bài viết',
+            });
+          },
+          error: (err) => {
+            this.commonService.toast$.next({
+              type: 'error',
+              message: getErrorMessage(err),
+            });
+          },
+        });
+    } else if (this.voteFor === 'reply') {
+      this.replyService
+        .deleteReply(this.sourceId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.deleteResponse.emit(this.sourceId);
+            this.commonService.toast$.next({
+              type: 'success',
+              message: 'Đã xóa phản hồi',
+            });
+          },
+          error: (err) => {
+            this.commonService.toast$.next({
+              type: 'error',
+              message: getErrorMessage(err),
+            });
+          },
+        });
+    }
+  }
+
+  private onReport() {}
+
   private getObservable(type: EVoteType): Observable<IVoteResponse> {
     if (this.voteFor === 'post') {
       return this.postService.votePost({
@@ -97,5 +225,5 @@ export class VoteComponent extends BaseComponent {
     return new Observable<IVoteResponse>();
   }
 
-  protected readonly EVoteType = EVoteType;
+  protected readonly policies = policies;
 }

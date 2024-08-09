@@ -82,7 +82,7 @@ export class MRoleDetailComponent extends BaseComponent implements OnInit {
       id: [null],
       name: [null, [Validators.required]],
       description: [null],
-      claims: [[]],
+      claims: [[], [Validators.required]],
     });
   }
 
@@ -167,12 +167,17 @@ export class MRoleDetailComponent extends BaseComponent implements OnInit {
 
 const roleClaimCheckboxGroups: ICheckBoxGroup[] = [
   {
-    label: 'Together.NET',
+    label: 'Management',
     items: [
       {
-        label: policies.AccessManagement,
-        value: policies.AccessManagement,
+        label: policies.Management.Access,
+        value: policies.Management.Access,
         description: 'Có thể truy cập trang quản lý Together.NET',
+      },
+      {
+        label: policies.Management.ViewDashboard,
+        value: policies.Management.ViewDashboard,
+        description: 'Có thể xem trang thống kê đầy đủ',
       },
     ],
   },
@@ -181,20 +186,14 @@ const roleClaimCheckboxGroups: ICheckBoxGroup[] = [
     description: 'Tất cả quyền của người dùng',
     items: [
       {
-        label: policies.User.Me,
-        value: policies.User.Me,
+        label: policies.User.Get,
+        value: policies.User.Get,
+        description: 'Có thể xem trang cá nhân thành viên',
       },
       {
-        label: policies.User.View,
-        value: policies.User.View,
-      },
-      {
-        label: policies.User.UpdateProfile,
-        value: policies.User.UpdateProfile,
-      },
-      {
-        label: policies.User.UpdatePassword,
-        value: policies.User.UpdatePassword,
+        label: policies.User.List,
+        value: policies.User.List,
+        description: 'Có thể xem danh sách thành viên',
       },
     ],
   },

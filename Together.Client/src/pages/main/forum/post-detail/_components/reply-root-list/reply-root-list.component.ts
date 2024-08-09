@@ -67,4 +67,8 @@ export class ReplyRootListComponent extends BaseComponent implements OnInit {
   addRootReply(reply: IReplyViewModel) {
     this.replies = [reply, ...this.replies];
   }
+
+  onDeleteReply(replyId: string) {
+    this.replies = this.replies.filter((reply) => reply.id !== replyId);
+  }
 }

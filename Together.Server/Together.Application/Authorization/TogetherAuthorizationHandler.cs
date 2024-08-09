@@ -1,34 +1,42 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Together.Application.Authorization;
 
-public sealed class TogetherAuthorizationHandler(IRedisService redisService) : AuthorizationHandler<TogetherPolicyRequirement>
+public class TogetherAuthorizationHandler(IServiceProvider serviceProvider) : AuthorizationHandler<TogetherPolicyRequirement>
 {
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context, TogetherPolicyRequirement requirement)
     {
-        if (context.User.Identity is {IsAuthenticated: false})
+        using var scope = serviceProvider.CreateScope();
+        var togetherContext = scope.ServiceProvider.GetRequiredService<TogetherContext>();
+        
+        if (!context.User.Identity!.IsAuthenticated)
         {
             context.Fail();
             return;
         }
 
-        var subId = context.User.Claims.FirstOrDefault(x => x.Type.Equals("subId"))?.Value;
+        var userId = context.User.Claims.FirstOrDefault(x => x.Type.Equals("id"))?.Value.ToGuid();
+
+        var users = await togetherContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
         
-        if (subId is null)
+        if (users is null)
         {
             context.Fail();
             return;
         }
 
-        var user = await redisService.GetAsync<IdentityPrivilege>(TogetherRedisKeys.IdentityPrivilegeKey(subId));
+        var hasPermission = await togetherContext.UserRoles
+            .Include(r => r.Role)
+            .Where(ur => ur.UserId == userId)
+            .Select(ur => ur.Role)
+            .AnyAsync(r => r.Claims
+                .Any(claim => 
+                    claim == requirement.Permission || 
+                    claim == TogetherPolicies.All));
 
-        var canAccess = user is not null && 
-                        user.RoleClaims.Any(claim => 
-                            claim.Equals(requirement.Permission) || 
-                            claim.Equals(TogetherPolicies.All));
-        
-        if (!canAccess)
+        if (!hasPermission)
         {
             context.Fail();
             return;

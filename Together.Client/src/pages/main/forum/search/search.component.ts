@@ -16,9 +16,16 @@ import {
   PaginatorComponent,
   PostComponent,
 } from '@/shared/components/elements';
-import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import {
+  AsyncPipe,
+  NgClass,
+  NgForOf,
+  NgIf,
+  NgTemplateOutlet,
+} from '@angular/common';
 import { IUserViewModel } from '@/shared/entities/user.entities';
 import { SkeletonModule } from 'primeng/skeleton';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-search',
@@ -38,6 +45,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     NgClass,
     NgTemplateOutlet,
     SkeletonModule,
+    AsyncPipe,
   ],
   templateUrl: './search.component.html',
 })
@@ -67,7 +75,7 @@ export class SearchComponent
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private postService: PostService,
-    private userService: UserService,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -180,4 +188,5 @@ export class SearchComponent
   }
 
   protected readonly Array = Array;
+  protected readonly policies = policies;
 }

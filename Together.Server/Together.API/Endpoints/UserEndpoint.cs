@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Together.API.Extensions;
 using Together.Application.Authorization;
 using Together.Application.Features.FeatureUser.Commands;
@@ -26,23 +27,23 @@ public sealed class UserEndpoint : IEndpoint
         group.MapPut("/me/update-password", UpdatePassword);
     }
     
-    [TogetherPermission(TogetherPolicies.User.Me)]
+    [Authorize]
     private static Task<BaseResponse<MeResponse>> Me(ISender sender)
         => sender.Send(new MeQuery());
     
-    [TogetherPermission(TogetherPolicies.User.View)]
+    [TogetherPermission(TogetherPolicies.User.Get)]
     private static Task<BaseResponse<GetUserResponse>> GetUser(ISender sender, Guid userId)
         => sender.Send(new GetUserQuery(userId));
     
-    [TogetherPermission(TogetherPolicies.User.View)]
+    [TogetherPermission(TogetherPolicies.User.List)]
     private static Task<BaseResponse<ListUserResponse>> ListUser(ISender sender, [AsParameters] ListUserQuery query)
         => sender.Send(query);
     
-    [TogetherPermission(TogetherPolicies.User.UpdateProfile)]
+    [Authorize]
     private static Task<BaseResponse> UpdateProfile(ISender sender, UpdateProfileCommand command)
         => sender.Send(command);
     
-    [TogetherPermission(TogetherPolicies.User.UpdatePassword)]
+    [Authorize]
     private static Task<BaseResponse> UpdatePassword(ISender sender, UpdatePasswordCommand command)
         => sender.Send(command);
 }

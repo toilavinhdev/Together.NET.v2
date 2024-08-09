@@ -7,8 +7,8 @@ public sealed class UpdateRoleCommand : IBaseRequest
     public string Name { get; set; } = default!;
     
     public string? Description { get; set; }
-    
-    public List<string>? Claims { get; set; }
+
+    public List<string> Claims { get; set; } = default!;
     
     public class Validator : AbstractValidator<UpdateRoleCommand>
     {
@@ -16,6 +16,7 @@ public sealed class UpdateRoleCommand : IBaseRequest
         {
             RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Name).NotEmpty();
+            RuleFor(x => x.Claims).NotEmpty();
         }
     }
 
@@ -29,9 +30,7 @@ public sealed class UpdateRoleCommand : IBaseRequest
 
             role.Name = request.Name;
             role.Description = request.Description;
-            role.Claims = TogetherPolicies.RequiredPolicies()
-                .Union(request.Claims!)
-                .ToList();
+            role.Claims = request.Claims;
             role.MarkUserModified(CurrentUserClaims.Id);
             
             context.Roles.Update(role);

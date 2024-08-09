@@ -15,8 +15,13 @@
     styleClass="bg-primary"
   />
 </div>
-<p-tabView *ngIf="status !== 'idle'" [activeIndex]="tabIndex" (activeIndexChange)="onTabChange($event)" id="search-tabs" styleClass="mt-4 shadow rounded">
-  <p-tabPanel [header]="'Posts' | translate">
+<p-tabView *ngIf="status !== 'idle'"
+           [activeIndex]="tabIndex"
+           (activeIndexChange)="onTabChange($event)"
+           id="search-tabs"
+           styleClass="mt-4 shadow rounded"
+>
+  <p-tabPanel *ngIf="userService.hasPermission$(policies.Post.View) | async" [header]="'Posts' | translate">
     <ng-template pTemplate="content">
       @if (status !== 'loading') {
         <together-post
@@ -35,7 +40,7 @@
       </div>
     </ng-template>
   </p-tabPanel>
-  <p-tabPanel [header]="'Members' | translate">
+  <p-tabPanel *ngIf="userService.hasPermission$(policies.User.List) | async" [header]="'Members' | translate">
     <ng-template pTemplate="content">
       <div class="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-y-6" [ngClass]="{'p-2': users.length}">
         <div

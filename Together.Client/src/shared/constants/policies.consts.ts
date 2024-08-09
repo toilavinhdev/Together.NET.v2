@@ -1,11 +1,12 @@
 ﻿export const policies = {
   All: 'All',
-  AccessManagement: 'AccessManagement',
+  Management: {
+    Access: 'Management:Access',
+    ViewDashboard: 'Management:ViewDashboard',
+  },
   User: {
-    Me: 'User:Me',
-    View: 'User:View',
-    UpdateProfile: 'User:UpdateProfile',
-    UpdatePassword: 'User:UpdatePassword',
+    Get: 'User:Get',
+    List: 'User:List',
   },
   Role: {
     View: 'Role:View',

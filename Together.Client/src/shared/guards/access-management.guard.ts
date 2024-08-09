@@ -8,7 +8,7 @@ export const accessManagementGuard: CanActivateFn = (route, state) => {
   const commonService = inject(CommonService);
   const userService = inject(UserService);
 
-  return userService.hasPermission$(policies.AccessManagement).pipe(
+  return userService.hasPermission$(policies.Management.Access).pipe(
     tap((access) => {
       if (!access) {
         commonService.navigateToMain();

@@ -4,14 +4,16 @@ public static class TogetherPolicies
 {
     public const string All = nameof(All);
 
-    public const string AccessManagement = nameof(AccessManagement); 
+    public static class Management
+    {
+        public const string Access = "Management:Access";
+        public const string ViewDashboard = "Management:ViewDashboard";
+    }
     
     public static class User
     {
-        public const string Me = "User:Me";
-        public const string View = "User:View";
-        public const string UpdateProfile = "User:UpdateProfile";
-        public const string UpdatePassword = "User:UpdatePassword";
+        public const string Get = "User:Get";
+        public const string List = "User:List";
     }
     
     public static class Role
@@ -66,18 +68,11 @@ public static class TogetherPolicies
     }
 
     public static List<string> RequiredPolicies() => [
-        User.Me,
-        User.View,
-        User.UpdateProfile,
-        User.UpdatePassword,
+        User.Get,
         Forum.View,
         Topic.View,
         Prefix.View,
         Post.View,
-        Post.Create,
-        Post.Vote,
         Reply.View,
-        Reply.Create,
-        Reply.Vote
     ];
 }

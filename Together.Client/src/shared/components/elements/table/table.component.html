@@ -15,7 +15,7 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th *ngIf="nestedTableTpl" style="width: 5rem"></th>
-      <th *ngFor="let column of columns">
+      <th *ngFor="let column of columns" [ngClass]="column.headerClass">
         <ng-container *ngIf="column.headerTpl"
                       [ngTemplateOutlet]="column.headerTpl.template"
         />
@@ -48,7 +48,7 @@
           <ng-container [ngSwitch]="column.type">
             <ng-container *ngSwitchCase="'index'">{{index + 1}}</ng-container>
             <ng-container *ngSwitchCase="'text'">{{row[column.key]}}</ng-container>
-            <ng-container *ngSwitchCase="'datetime'">{{row[column.key] | date:'HH:mm dd-MM-yyyy'}}</ng-container>
+            <ng-container *ngSwitchCase="'datetime'">{{row[column.key] | date:'HH:mm:ss dd-MM-yyyy'}}</ng-container>
           </ng-container>
         </ng-container>
       </td>

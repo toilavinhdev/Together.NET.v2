@@ -3,7 +3,7 @@
     <together-table-column key="#" title="Index" type="index" columnClass="w-[30px] text-center"/>
     <together-table-column key="name" title="Tên vai trò"/>
     <together-table-column key="description" title="Ghi chú"/>
-    <together-table-column key="createdAt" type="datetime" title="Thời gian tạo"/>
+    <together-table-column key="createdAt" type="datetime" title="Thời gian tạo" columnClass="w-[200px]"/>
     <together-table-column *ngIf="(userService.hasPermission$(policies.Role.Update) | async) || (userService.hasPermission$(policies.Role.Delete) | async)" key="#" title="" columnClass="w-[100px]">
       <ng-template togetherTableCell let-row>
         <div class="flex gap-x-1">
@@ -17,7 +17,7 @@
           <p-button
             *ngIf="userService.hasPermission$(policies.Role.Delete) | async"
             (onClick)="confirmDelete($event, row.id, row.name)"
-            [disabled]="row.isDefault"
+            [disabled]="row.isDefault || row.name === 'Admin'"
             icon="pi pi-trash text-[12px]"
             severity="danger"
             rounded

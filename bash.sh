@@ -1,4 +1,4 @@
-# without docker on ubuntu
+# without docker on ubuntu server
 
 dotnet publish -c Release -o Publish
 
@@ -28,14 +28,16 @@ sudo mkdir -p /usr/local/src/Together.NET.v2
 
 scp .dockerignore Together.NET.v2.sln redis.conf root@14.225.211.153:/usr/local/src/Together.NET.v2 
 
-scp -r Together.Server/* root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Server 
+sudo mkdir -p /usr/local/src/Together.NET.v2/Together.Server &&
+  scp -r Together.Server/* root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Server 
 
-scp -r  Together.Docker/docker-compose.prod.yml root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Docker 
+sudo mkdir -p /usr/local/src/Together.NET.v2/Together.Docker &&
+  scp -r Together.Docker/docker-compose.prod.yml root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Docker
+  
+sudo mkdir -p /usr/local/src/Together.NET.v2/Together.Proxy && 
+  scp -r Together.Proxy/nginx.production-docker.conf root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Proxy 
 
-scp -r Together.Proxy/nginx.production-docker.conf root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Proxy 
+sudo mkdir -p /usr/local/src/Together.NET.v2/Together.Client && 
+  scp -r Together.Client/dist/together.net/* root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Client/dist/together.net
 
-scp -r Together.Client/dist/together.net* root@14.225.211.153:/usr/local/src/Together.NET.v2/Together.Client
-
-cd /usr/local/src/Together.NET.v2 && docker-compose -f ./Together.Docker/docker-compose.prod.yml up -d
-
-cd /usr/local/src/ && git pull https://github.com/toilavinhdev/Together.NET.v2
+cd /usr/local/src/Together.NET.v2 && sudo chmod -R 755 . && docker-compose -f ./Together.Docker/docker-compose.prod.yml up -d

@@ -30,6 +30,9 @@ export class BaseControl<T = string>
   @Input()
   controlClass = '';
 
+  @Input()
+  wrapperClass = '';
+
   protected injector = inject(Injector);
 
   protected cdk = inject(ChangeDetectorRef);
@@ -70,6 +73,7 @@ export class BaseControl<T = string>
    * */
   writeValue(value: T): void {
     this.value = value;
+    this.onChange(value);
   }
 
   /*

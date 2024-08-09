@@ -55,7 +55,7 @@ export class UserDropdownComponent extends BaseComponent implements OnInit {
       },
     },
     {
-      id: 'AccessManagement',
+      id: policies.Management.Access,
       label: 'Managements',
       icon: 'pi pi-th-large',
       command: () => {
@@ -92,14 +92,15 @@ export class UserDropdownComponent extends BaseComponent implements OnInit {
 
   private visibleAccessManagement() {
     this.userService
-      .hasPermission$(policies.AccessManagement)
+      .hasPermission$(policies.Management.Access)
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {
         this.items = this.items.map((item) =>
-          item.id === policies.AccessManagement
+          item.id === policies.Management.Access
             ? {
                 ...item,
-                visible: this.router.url.split('/')[1] !== 'management',
+                visible:
+                  value && this.router.url.split('/')[1] !== 'management',
               }
             : item,
         );

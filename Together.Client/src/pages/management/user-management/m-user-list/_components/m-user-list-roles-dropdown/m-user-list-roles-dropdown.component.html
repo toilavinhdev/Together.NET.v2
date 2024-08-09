@@ -4,6 +4,7 @@
               (ngModelChange)="roleIdChange.emit($event)"
               [loading]="loading"
               (onShow)="loadRoles(); listenScrollReachedBottom()"
+              showClear
               optionLabel="name"
               optionValue="id"
               placeholder="Chọn vai trò"

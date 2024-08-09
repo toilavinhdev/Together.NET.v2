@@ -1,6 +1,6 @@
-<div [ngClass]="controlClass" class="border rounded border-solid border-gray-300">
+<div [ngClass]="controlClass" class="border rounded border-solid {{isError ? 'border-[#dc2626]' : 'border-gray-300'}} duration-200">
   <div *ngFor="let group of groups; let groupIndex=index; let first = first; let last = last"
-       class="border border-t-0 border-l-0 border-r-0 border-gray-300 border-solid px-4 py-2"
+       class="border border-t-0 border-l-0 border-r-0 {{isError ? 'border-[#dc2626]' : 'border-gray-300'}} border-solid duration-200 px-4 py-2"
        [ngClass]="{'border-b-0': last}">
     <div class="grid grid-cols-2">
       <p-checkbox

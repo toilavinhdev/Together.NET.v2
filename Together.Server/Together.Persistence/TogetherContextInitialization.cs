@@ -66,7 +66,7 @@ public static class TogetherContextInitialization
             Id = Guid.NewGuid(),
             Name = "Admin",
             IsDefault = true,
-            Description = "For root administrators",
+            Description = "Vai trò mặc định có quyền hạn cao nhất",
             Claims = [TogetherPolicies.All]
         },
         new Role
@@ -74,7 +74,7 @@ public static class TogetherContextInitialization
             Id = Guid.NewGuid(),
             Name = "Member",
             IsDefault = true,
-            Description = "For basic users",
+            Description = "Vai trò mặc định cho mọi thành viên",
             Claims = TogetherPolicies.RequiredPolicies().Distinct().ToList()
         }
     ];

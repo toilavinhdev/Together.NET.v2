@@ -24,10 +24,6 @@ public sealed class CreateRoleCommand : IBaseRequest<CreateRoleResponse>
     {
         protected override async Task<CreateRoleResponse> HandleAsync(CreateRoleCommand request, CancellationToken ct)
         {
-            request.Claims = TogetherPolicies.RequiredPolicies()
-                .Union(request.Claims!)
-                .ToList();
-            
             var role = request.MapTo<Role>();
             role.MarkUserCreated(CurrentUserClaims.Id);
             

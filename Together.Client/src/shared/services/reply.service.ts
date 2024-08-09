@@ -5,10 +5,12 @@ import {
   ICreateReplyRequest,
   ICreateReplyResponse,
   IListReplyRequest,
-  IListReplyResponse, IVoteReplyRequest,
+  IListReplyResponse,
+  IUpdateReplyRequest,
+  IVoteReplyRequest,
 } from '@/shared/entities/reply.entities';
 import { IBaseResponse } from '@/core/models';
-import {IVoteResponse} from "@/shared/entities/post.entities";
+import { IVoteResponse } from '@/shared/entities/post.entities';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +42,15 @@ export class ReplyService extends BaseService {
     return this.client
       .post<IBaseResponse<IVoteResponse>>(url, payload)
       .pipe(map((response) => response.data));
+  }
+
+  updateReply(payload: IUpdateReplyRequest) {
+    const url = this.createUrl('/update');
+    return this.client.put(url, payload);
+  }
+
+  deleteReply(id: string) {
+    const url = this.createUrl(id);
+    return this.client.delete<IBaseResponse<IVoteResponse>>(url);
   }
 }

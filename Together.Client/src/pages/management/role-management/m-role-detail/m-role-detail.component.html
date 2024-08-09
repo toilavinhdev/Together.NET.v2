@@ -28,10 +28,23 @@
         (groupsChange)="groups = $event"
         controlClass="mt-1"
       />
+      <ng-container *ngIf="form.get('claims')?.dirty">
+        <small *ngIf="form.get('claims')?.errors?.['required']" class="text-red-600">Vui lòng chọn ít nhất 1 quyền</small>
+      </ng-container>
     </div>
   </form>
+  <div *ngIf="form.get('name')?.value === 'Admin'" class="text-red-500">Role <strong>Admin</strong> không được phép cập nhật</div>
   <div class="flex justify-end gap-x-3 mt-10">
-    <p-button routerLink="/management/role" label="Hủy" severity="secondary" outlined/>
-    <p-button (onClick)="onSubmit()" label="Xác nhận"/>
+    <p-button
+      routerLink="/management/role"
+      label="Hủy"
+      severity="secondary"
+      outlined
+    />
+    <p-button
+      (onClick)="onSubmit()"
+      [disabled]="form.get('name')?.value === 'Admin'"
+      label="Xác nhận"
+    />
   </div>
 </together-container>

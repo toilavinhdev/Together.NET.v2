@@ -17,6 +17,11 @@ export interface ICreateReplyResponse {
   createdAt: string;
 }
 
+export interface IUpdateReplyRequest {
+  id: string;
+  body: string;
+}
+
 export interface IListReplyRequest extends IPaginationRequest {
   postId?: string;
   parentId?: string;

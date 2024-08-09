@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
 import {
   FormsModule,
@@ -15,10 +15,10 @@ import { combineLatest, map, Observable, take, takeUntil } from 'rxjs';
 import { Button } from 'primeng/button';
 import { getErrorMessage, isGUID, markFormDirty } from '@/shared/utilities';
 import { SelectItem, SelectItemGroup } from 'primeng/api';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EditorModule } from 'primeng/editor';
+import { ActivatedRoute } from '@angular/router';
 import { PrefixComponent } from '@/shared/components/elements';
 import { IPrefixViewModel } from '@/shared/entities/prefix.entities';
+import { EditorComponent } from '@/shared/components/controls';
 
 @Component({
   selector: 'together-post-edit',
@@ -31,14 +31,18 @@ import { IPrefixViewModel } from '@/shared/entities/prefix.entities';
     AsyncPipe,
     Button,
     FormsModule,
-    EditorModule,
     NgIf,
     PrefixComponent,
+    EditorComponent,
   ],
   templateUrl: './post-edit.component.html',
 })
 export class PostEditComponent extends BaseComponent implements OnInit {
+  @ViewChild('editor') editor!: EditorComponent;
+
   formType: 'create' | 'update' = 'create';
+
+  postId = '';
 
   form!: UntypedFormGroup;
 
@@ -48,27 +52,27 @@ export class PostEditComponent extends BaseComponent implements OnInit {
 
   selectedPrefix?: IPrefixViewModel;
 
+  loadingPrefix = false;
+
+  loadingTopic = false;
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     protected prefixService: PrefixService,
     protected forumService: ForumService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
     private postService: PostService,
+    private cdk: ChangeDetectorRef,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.commonService.breadcrumb$.next([
-      {
-        title: 'Tạo bài viết',
-      },
-    ]);
+    this.getFormType();
     this.buildForm();
     this.routerTracking();
-    this.loadPrefixes();
     this.loadTopics();
+    this.loadPrefixes();
     this.forums$ = this.forumService.forums$.pipe(
       map((data) =>
         data.map(
@@ -115,23 +119,49 @@ export class PostEditComponent extends BaseComponent implements OnInit {
             });
           },
         });
+    } else if (this.formType === 'update') {
+      this.postService
+        .updatePost(this.form.value)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.commonService.navigateToPost(this.postId);
+            this.commonService.toast$.next({
+              type: 'success',
+              message: 'Cập nhật bài viết thành công',
+            });
+          },
+          error: (err) => {
+            this.commonService.toast$.next({
+              type: 'error',
+              message: getErrorMessage(err),
+            });
+          },
+        });
     }
   }
 
-  private routerTracking() {
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((paramMap) => {
-        const topicId = paramMap.get('topicId');
-        if (!topicId || !isGUID(topicId)) return;
-        this.form.get('topicId')?.setValue(topicId);
-      });
-    this.form
-      .get('topicId')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
-      .subscribe((forumId) => {
-        this.router.navigate(['/', 'topics', forumId, 'create-post']).then();
-      });
+  private getFormType() {
+    this.activatedRoute.url.pipe(takeUntil(this.destroy$)).subscribe((url) => {
+      if (url?.[0].path === 'topics' && url?.[2].path === 'create-post') {
+        this.formType = 'create';
+        this.commonService.breadcrumb$.next([
+          {
+            title: 'Tạo bài viết',
+          },
+        ]);
+      }
+      if (url?.[0].path === 'posts' && url?.[2].path === 'update-post') {
+        this.commonService.breadcrumb$.next([
+          {
+            title: 'Cập nhật bài viết',
+          },
+        ]);
+        this.formType = 'update';
+        this.postId = url?.[1].path;
+        this.patchFormValue();
+      }
+    });
   }
 
   private buildForm() {
@@ -158,14 +188,17 @@ export class PostEditComponent extends BaseComponent implements OnInit {
   private loadPrefixes() {
     this.prefixService.prefixes$.pipe(take(1)).subscribe((exists) => {
       if (exists.length > 0) return;
+      this.loadingPrefix = true;
       this.prefixService
         .listPrefix()
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data) => {
+            this.loadingPrefix = false;
             this.prefixService.prefixes$.next(data);
           },
           error: (err) => {
+            this.loadingPrefix = false;
             this.commonService.toast$.next({
               type: 'error',
               message: getErrorMessage(err),
@@ -178,14 +211,17 @@ export class PostEditComponent extends BaseComponent implements OnInit {
   private loadTopics() {
     this.forumService.forums$.pipe(take(1)).subscribe((exists) => {
       if (exists.length > 0) return;
+      this.loadingTopic = true;
       this.forumService
-        .listForum()
+        .listForum(true)
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (data) => {
+            this.loadingTopic = false;
             this.forumService.forums$.next(data);
           },
           error: (err) => {
+            this.loadingTopic = false;
             this.commonService.toast$.next({
               type: 'error',
               message: getErrorMessage(err),
@@ -193,5 +229,42 @@ export class PostEditComponent extends BaseComponent implements OnInit {
           },
         });
     });
+  }
+
+  private patchFormValue() {
+    if (!this.postId) return;
+    this.postService
+      .getPost(this.postId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (data) => {
+          this.form.patchValue({ ...data });
+          this.editor.setQuillContent(data.body);
+          this.cdk.detectChanges();
+        },
+        error: (err) => {
+          this.commonService.toast$.next({
+            type: 'error',
+            message: getErrorMessage(err),
+          });
+        },
+      });
+  }
+
+  private routerTracking() {
+    if (this.formType === 'update') return;
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((paramMap) => {
+        const topicId = paramMap.get('topicId');
+        if (!topicId || !isGUID(topicId)) return;
+        this.form.get('topicId')?.setValue(topicId);
+      });
+    this.form
+      .get('topicId')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((topicId) => {
+        this.commonService.navigateToCreatePost(topicId);
+      });
   }
 }

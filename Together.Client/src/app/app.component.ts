@@ -45,7 +45,7 @@ export class AppComponent extends BaseComponent implements OnInit {
     this.primengConfig.ripple = true;
     this.primengConfig.zIndex = {
       modal: 101, // dialog, sidebar
-      overlay: 10, // dropdown, overlay panel
+      overlay: 100, // dropdown, overlay panel
       menu: 10, // overlay menus
       tooltip: 10, // tooltip
     };

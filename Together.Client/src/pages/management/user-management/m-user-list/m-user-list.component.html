@@ -28,12 +28,12 @@
       </ng-template>
     </together-table-column>
     <together-table-column key="email" title="Email"/>
-    <together-table-column key="status" title="Trạng thái">
+    <together-table-column key="status" title="Trạng thái" columnClass="w-[160px] text-center" headerClass="text-center">
       <ng-template togetherTableCell let-row>
         <together-user-status [status]="row.status"/>
       </ng-template>
     </together-table-column>
-    <together-table-column key="createdAt" type="datetime" title="Ngày tham gia"/>
+    <together-table-column key="createdAt" type="datetime" title="Ngày tham gia" columnClass="w-[200px]"/>
   </together-table>
   <together-paginator
     (paginationChange)="onPaginationChange($event)"
