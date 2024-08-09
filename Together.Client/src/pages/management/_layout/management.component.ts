@@ -60,6 +60,8 @@ export class ManagementComponent extends BaseComponent implements OnInit {
               });
             },
           });
+      } else {
+        this.status = 'finished';
       }
     });
   }

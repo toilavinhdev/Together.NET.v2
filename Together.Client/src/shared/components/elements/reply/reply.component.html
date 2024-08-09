@@ -46,6 +46,7 @@
       (updateResponse)="editorComponent.setQuillContent(reply.body); showEditor = true"
       (deleteResponse)="onDeleteSelf()"
       [sourceId]="reply.id"
+      [userId]="reply.createdById"
       [voteUpCount]="reply.voteUpCount"
       [voteDownCount]="reply.voteDownCount"
       [voted]="reply.voted"

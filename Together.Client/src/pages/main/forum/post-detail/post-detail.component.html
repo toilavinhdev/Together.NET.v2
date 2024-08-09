@@ -28,12 +28,14 @@
       voteFor="post"
       (voteResponse)="onVotePost($event)"
       [sourceId]="post.id"
+      [userId]="post.createdById"
       [voteUpCount]="post.voteUpCount"
       [voteDownCount]="post.voteDownCount"
       [voted]="post.voted"
       componentClass="mt-8"
     />
     <together-reply-writer
+      *ngIf="userService.hasPermission$(policies.Reply.Create) | async"
       [postId]="postId"
       (response)="replyListComponent.addRootReply($event)"
     />

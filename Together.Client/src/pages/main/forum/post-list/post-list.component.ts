@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
-import { PostService } from '@/shared/services';
+import { PostService, UserService } from '@/shared/services';
 import { takeUntil } from 'rxjs';
 import { IListPostRequest } from '@/shared/entities/post.entities';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
@@ -14,6 +14,7 @@ import { Button } from 'primeng/button';
 import { getErrorMessage, windowScrollToTop } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
 import { IPagination } from '@/core/models';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-post-list',
@@ -44,6 +45,7 @@ export class PostListComponent extends BaseComponent implements OnInit {
     protected postService: PostService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -107,4 +109,6 @@ export class PostListComponent extends BaseComponent implements OnInit {
       .then();
     this.loadData();
   }
+
+  protected readonly policies = policies;
 }

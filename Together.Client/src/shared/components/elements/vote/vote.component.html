@@ -34,7 +34,17 @@
     <i class="fa-solid fa-ellipsis"></i>
     <p-menu #menu [model]="items" [popup]="true">
       <ng-template pTemplate="item" let-item>
-        <div pRipple class="flex items-center text-[14px] px-3 py-2">
+        <div *ngIf="
+                (
+                  (item.id === 'Update' && voteFor === 'post' && (userService.hasPermission$(policies.Post.Update) | async)) ||
+                  (item.id === 'Delete' && voteFor === 'post' && (userService.hasPermission$(policies.Post.Delete) | async)) ||
+                  (item.id === 'Update' && voteFor === 'reply' && (userService.hasPermission$(policies.Reply.Update) | async)) ||
+                  (item.id === 'Delete' && voteFor === 'reply' && (userService.hasPermission$(policies.Reply.Delete) | async))
+                ) && (userId === (userService.me$ | async)?.id)
+              "
+             pRipple
+             class="flex items-center text-[14px] px-3 py-2"
+        >
           <span [class]="item.icon"></span>
           <span class="ml-3">{{ item.label | translate }}</span>
         </div>

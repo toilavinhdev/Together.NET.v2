@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -39,7 +40,7 @@ import { policies } from '@/shared/constants';
   templateUrl: './vote.component.html',
   providers: [ConfirmationService],
 })
-export class VoteComponent extends BaseComponent implements OnChanges {
+export class VoteComponent extends BaseComponent implements OnInit, OnChanges {
   @ViewChild('menu', { static: true }) menu!: Menu;
 
   @Output()
@@ -56,6 +57,9 @@ export class VoteComponent extends BaseComponent implements OnChanges {
 
   @Input()
   sourceId = '';
+
+  @Input()
+  userId = '';
 
   @Input()
   voteFor: 'post' | 'reply' = 'post';
@@ -86,10 +90,13 @@ export class VoteComponent extends BaseComponent implements OnChanges {
     super();
   }
 
+  ngOnInit() {}
+
   ngOnChanges(changes: SimpleChanges) {
     if ('voteFor' in changes) {
       this.items = [
         {
+          id: 'Update',
           label: this.voteFor === 'post' ? 'Update post' : 'Update reply',
           icon: 'pi pi-pencil',
           command: () => {
@@ -97,6 +104,7 @@ export class VoteComponent extends BaseComponent implements OnChanges {
           },
         },
         {
+          id: 'Delete',
           label: this.voteFor === 'post' ? 'Delete post' : 'Delete reply',
           icon: 'pi pi-trash',
           command: () => {

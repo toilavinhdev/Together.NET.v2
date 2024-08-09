@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
-import { PostService } from '@/shared/services';
+import { PostService, UserService } from '@/shared/services';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import {
@@ -23,6 +23,7 @@ import {
 import { ReplyRootListComponent } from '@/pages/main/forum/post-detail/_components';
 import { EVoteType } from '@/shared/enums';
 import { TranslateModule } from '@ngx-translate/core';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-post-detail',
@@ -50,6 +51,7 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
   constructor(
     private postService: PostService,
     private activatedRoute: ActivatedRoute,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -113,4 +115,6 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
     }
     this.post.voted = data.value;
   }
+
+  protected readonly policies = policies;
 }

@@ -2,6 +2,7 @@
   <div *ngIf="!loading" class="text-[26px] font-medium text-ellipsis line-clamp-1">{{extra?.['topicName']}}</div>
   <p-skeleton *ngIf="loading" width="320px" height="30px"/>
   <p-button
+    *ngIf="userService.hasPermission$(policies.Post.Create) | async"
     (onClick)="commonService.navigateToCreatePost(extra?.['topicId'])"
     styleClass="bg-primary"
     icon="pi pi-plus"

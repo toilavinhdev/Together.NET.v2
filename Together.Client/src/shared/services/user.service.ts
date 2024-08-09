@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from '@/core/abstractions';
-import { BehaviorSubject, combineLatest, map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable } from 'rxjs';
 import {
   IGetUserResponse,
   IListUserRequest,
@@ -29,15 +29,6 @@ export class UserService extends BaseService {
 
   hasPermission$ = (policy: string): Observable<boolean> =>
     this.me$.pipe(
-      tap((me) => {
-        console.log(
-          me?.permissions,
-          me?.permissions.some(
-            (permission) =>
-              permission === policies.All || permission === policy,
-          ),
-        );
-      }),
       map((me) =>
         !me
           ? false
