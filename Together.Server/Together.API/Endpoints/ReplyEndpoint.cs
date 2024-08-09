@@ -20,6 +20,10 @@ public sealed class ReplyEndpoint : IEndpoint
         group.MapPost("/create", CreateReply);
         
         group.MapPost("/vote", VoteReply);
+        
+        group.MapPut("/update", UpdateReply);
+        
+        group.MapDelete("/{replyId:guid}", DeleteReply);
     }
     
     [TogetherPermission(TogetherPolicies.Reply.View)]
@@ -33,4 +37,12 @@ public sealed class ReplyEndpoint : IEndpoint
     [TogetherPermission(TogetherPolicies.Reply.Vote)]
     private static Task<BaseResponse<VoteReplyResponse>> VoteReply(ISender sender, VoteReplyCommand command)
         => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Reply.Update)]
+    private static Task<BaseResponse> UpdateReply(ISender sender, UpdateReplyCommand command)
+        => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Reply.Delete)]
+    private static Task<BaseResponse> DeleteReply(ISender sender, Guid replyId)
+        => sender.Send(new DeleteReplyCommand(replyId));
 }

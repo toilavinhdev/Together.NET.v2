@@ -1,6 +1,10 @@
 ﻿import { HttpErrorResponse } from '@angular/common/http';
 import { IBaseResponse } from '@/core/models';
 
+export function generateId() {
+  return 'together-' + Date.now();
+}
+
 export function getErrorCode(error: Error): string {
   if (error instanceof HttpErrorResponse) {
     const response = error.error as IBaseResponse;

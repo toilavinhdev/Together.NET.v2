@@ -22,6 +22,10 @@ public sealed class PostEndpoint : IEndpoint
         group.MapPost("/create", CreatePost);
         
         group.MapPost("/vote", VotePost);
+        
+        group.MapPut("/update", UpdatePost);
+
+        group.MapDelete("/{postId:guid}", DeletePost);
     }
     
     [TogetherPermission(TogetherPolicies.Post.View)]
@@ -39,4 +43,12 @@ public sealed class PostEndpoint : IEndpoint
     [TogetherPermission(TogetherPolicies.Post.Vote)]
     private static Task<BaseResponse<VotePostResponse>> VotePost(ISender sender, VotePostCommand command)
         => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Post.Update)]
+    private static Task<BaseResponse> UpdatePost(ISender sender, UpdatePostCommand command)
+        => sender.Send(command);
+    
+    [TogetherPermission(TogetherPolicies.Post.Delete)]
+    private static Task<BaseResponse> DeletePost(ISender sender, Guid postId)
+        => sender.Send(new DeletePostCommand(postId));
 }

@@ -2,6 +2,7 @@
   @if (replies.length) {
     @for (reply of replies; track reply) {
       <together-reply
+        (deleteReply)="onDeleteReply($event)"
         [reply]="reply"
       />
     }

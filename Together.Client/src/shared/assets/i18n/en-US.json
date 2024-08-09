@@ -55,5 +55,10 @@
   "REPLY_REPLY": "replied your reply",
   "Index": "Index",
   "Forum name": "Forum name",
-  "Created at": "Created at"
+  "Created at": "Created at",
+  "Update post": "Update post",
+  "Delete post": "Delete post",
+  "Update reply": "Update reply",
+  "Delete reply": "Delete reply",
+  "Report": "Report"
 }

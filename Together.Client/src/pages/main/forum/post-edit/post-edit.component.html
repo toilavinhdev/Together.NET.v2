@@ -1,15 +1,21 @@
 <section class="bg-white shadow rounded px-6 py-4">
-  <div class="text-[26px] font-medium text-ellipsis line-clamp-1 mb-6">{{commonService.translate('Create post')}}</div>
+  <div class="text-[26px] font-medium text-ellipsis line-clamp-1 mb-6">
+    {{commonService.translate(formType === 'create' ? 'Create post' : 'Update post')}}
+  </div>
   <form [formGroup]="form">
+    <!--Topic-->
     <p-dropdown
       formControlName="topicId"
       [options]="(forums$ | async)!"
       [group] = true
       [placeholder]="commonService.translate('Select topic')"
+      [loading]="loadingTopic"
       styleClass="w-full"
     ></p-dropdown>
     <div class="flex gap-x-3 mt-4">
+      <!--Prefix-->
       <p-dropdown
+        [loading]="loadingPrefix"
         formControlName="prefixId"
         [options]="(prefixService.prefixes$ | async) ?? []"
         optionLabel="name"
@@ -36,6 +42,7 @@
           />
         </ng-template>
       </p-dropdown>
+      <!--Title-->
       <input
         formControlName="title"
         pInputText
@@ -43,11 +50,12 @@
         class="flex-1"
       />
     </div>
-    <p-editor
+    <!--Body-->
+    <together-editor
+      #editor
       formControlName="body"
-      [style]="{ minHeight: '320px' }"
       placeholder="Aa"
-      styleClass="mt-4"
+      wrapperClass="mt-4"
     />
   </form>
   <div class="mt-4">
@@ -56,11 +64,27 @@
     <p *ngIf="form.get('body')?.dirty && form.get('body')?.errors?.['required']" class="text-red-600">{{commonService.translate('Please enter content')}}</p>
   </div>
   <p-button
+    *ngIf="formType === 'create'"
     (onClick)="onSubmit()"
     [loading]="loading"
     [label]="commonService.translate('Post')"
     styleClass="w-full mt-4 bg-primary"
     size="large"
   />
+  <div *ngIf="formType === 'update'" class="flex *:flex-1 gap-x-3 mt-4">
+    <p-button
+      (onClick)="commonService.navigateToPost(postId)"
+      [label]="commonService.translate('Cancel')"
+      styleClass="w-full"
+      severity="secondary"
+      size="large"
+    />
+    <p-button
+      (onClick)="onSubmit()"
+      [loading]="loading"
+      [label]="commonService.translate('Submit')"
+      styleClass="w-full bg-primary"
+      size="large"
+    />
+  </div>
 </section>
-

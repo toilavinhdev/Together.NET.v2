@@ -10,6 +10,8 @@ public class GetPostResponse : ModifierTrackingEntity
     
     public string TopicName { get; set; } = default!;
 
+    public Guid? PrefixId { get; set; }
+    
     public string? PrefixName { get; set; }
     
     public string? PrefixForeground { get; set; }

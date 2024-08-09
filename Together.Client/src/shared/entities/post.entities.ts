@@ -39,6 +39,14 @@ export interface ICreatePostRequest {
   body: string;
 }
 
+export interface IUpdatePostRequest {
+  id: string;
+  topicId: string;
+  prefixId?: string;
+  title: string;
+  body: string;
+}
+
 export interface IGetPostResponse {
   id: string;
   subId: string;

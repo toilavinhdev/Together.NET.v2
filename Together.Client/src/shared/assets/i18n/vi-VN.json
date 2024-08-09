@@ -55,5 +55,10 @@
   "REPLY_REPLY": "đã phản hồi",
   "Index": "STT",
   "Forum name": "Tên diễn đàn",
-  "Created at": "Thời gian tạo"
+  "Created at": "Thời gian tạo",
+  "Update post": "Cập nhật bài viết",
+  "Delete post": "Xóa bài viết",
+  "Update reply": "Cập nhật phản hồi",
+  "Delete reply": "Xóa phản hồi",
+  "Report": "Báo cáo"
 }

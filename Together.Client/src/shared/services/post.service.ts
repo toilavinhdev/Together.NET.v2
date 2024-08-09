@@ -7,6 +7,7 @@ import {
   IListPostRequest,
   IListPostResponse,
   IPostViewModel,
+  IUpdatePostRequest,
   IVotePostRequest,
   IVoteResponse,
 } from '@/shared/entities/post.entities';
@@ -49,5 +50,15 @@ export class PostService extends BaseService {
     return this.client
       .post<IBaseResponse<IVoteResponse>>(url, payload)
       .pipe(map((response) => response.data));
+  }
+
+  updatePost(payload: IUpdatePostRequest) {
+    const url = this.createUrl('/update');
+    return this.client.put(url, payload);
+  }
+
+  deletePost(postId: string) {
+    const url = this.createUrl(postId);
+    return this.client.delete(url);
   }
 }
