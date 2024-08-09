@@ -60,6 +60,7 @@ export class EditorComponent extends BaseControl implements AfterViewInit {
 
   private buildQuill() {
     if (!this.editorContainer) return;
+
     this.quill = new Quill(this.editorContainer.nativeElement, {
       theme: this.theme,
       placeholder: this.placeholder,

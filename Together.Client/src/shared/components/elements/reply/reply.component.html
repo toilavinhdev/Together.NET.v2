@@ -11,7 +11,7 @@
             class="text-primary font-medium cursor-pointer hover:underline">{{reply.createdByUserName}}</span>
         <span class="text-gray-600">&nbsp;&bull;&nbsp;{{reply.createdAt | timeAgo}}</span>
       </div>
-      <div *ngIf="!showEditor" [innerHTML]="reply.body | sanitizeHtml" class="mt-1"></div>
+      <div *ngIf="!showEditor" id="together-reply-body" [innerHTML]="reply.body | sanitizeHtml" class="mt-1"></div>
       <together-editor
         #editorComponent
         [(ngModel)]="body"
@@ -69,3 +69,15 @@
       class="text-gray-600 text-[12px] cursor-pointer hover:underline mt-1 mb-4">{{!childrenLoading ? 'Hiển thị thêm phản hồi': 'Đang tải...'}}</div>
   </div>
 </div>
+
+<style>
+  #together-reply-body {
+    overflow: auto;
+
+    img,
+    iframe {
+      max-width: 50%;
+      margin: 0 auto;
+    }
+  }
+</style>

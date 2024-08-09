@@ -23,7 +23,7 @@
         <div class="text-[14px]">{{post.createdAt | timeAgo}} &bull; {{'Views' | translate}}: {{ post.viewCount | shortenNumber }}</div>
       </div>
     </div>
-    <div [innerHTML]="post!.body | sanitizeHtml" class="mt-4"></div>
+    <div id="together-post-detail-body" [innerHTML]="post!.body | sanitizeHtml" class="mt-4"></div>
     <together-vote
       voteFor="post"
       (voteResponse)="onVotePost($event)"
@@ -44,3 +44,15 @@
     />
   </section>
 }
+
+<style>
+  #together-post-detail-body {
+    overflow: auto;
+
+    img,
+    iframe {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+  }
+</style>
