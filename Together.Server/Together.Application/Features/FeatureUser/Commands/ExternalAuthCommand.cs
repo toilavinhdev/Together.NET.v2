@@ -69,7 +69,7 @@ public sealed class ExternalAuthCommand : IBaseRequest<SignInResponse>
 
             var rt = JwtBearerProvider.GenerateRefreshToken();
             
-            await redisService.SetAsync(
+            await redisService.StringSetAsync(
                 TogetherRedisKeys.IdentityPrivilegeKey(user.SubId), 
                 user.MapTo<IdentityPrivilege>());
             

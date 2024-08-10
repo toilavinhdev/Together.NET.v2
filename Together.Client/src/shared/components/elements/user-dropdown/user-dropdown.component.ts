@@ -6,7 +6,7 @@ import { MenuItem, PrimeTemplate } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
 import { takeUntil } from 'rxjs';
 import { BaseComponent } from '@/core/abstractions';
-import { AuthService, UserService } from '@/shared/services';
+import { AuthService, UserService, WebSocketService } from '@/shared/services';
 import { getErrorMessage } from '@/shared/utilities';
 import { TranslateModule } from '@ngx-translate/core';
 import { LanguageSwitchModalComponent } from '@/shared/components/elements/user-dropdown/_components/language-switch-modal/language-switch-modal.component';
@@ -82,6 +82,7 @@ export class UserDropdownComponent extends BaseComponent implements OnInit {
     protected userService: UserService,
     private authService: AuthService,
     private router: Router,
+    private webSocketService: WebSocketService,
   ) {
     super();
   }
@@ -115,6 +116,7 @@ export class UserDropdownComponent extends BaseComponent implements OnInit {
       .subscribe({
         next: () => {
           this.commonService.spinning$.next(false);
+          this.webSocketService.disconnect();
           this.authService.removeToken();
           localStorage.clear();
           this.commonService.navigateToLogin();

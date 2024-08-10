@@ -52,4 +52,5 @@ export interface IUserViewModel {
   email: string;
   fullName?: string;
   avatar?: string;
+  online: boolean;
 }

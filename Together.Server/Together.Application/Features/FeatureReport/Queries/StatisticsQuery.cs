@@ -1,12 +1,12 @@
-using Together.Application.Sockets;
-
 namespace Together.Application.Features.FeatureReport.Queries;
 
 public sealed class StatisticsQuery : IBaseRequest<Dictionary<string, object>>
 {
     public List<string>? Metrics { get; set; }
     
-    internal class Handle(IHttpContextAccessor httpContextAccessor, TogetherContext context, TogetherWebSocketHandler socket) 
+    internal class Handle(IHttpContextAccessor httpContextAccessor, 
+        TogetherContext context, 
+        IRedisService redisService) 
         : BaseRequestHandler<StatisticsQuery, Dictionary<string, object>>(httpContextAccessor)
     {
         protected override async Task<Dictionary<string, object>> HandleAsync(StatisticsQuery request, CancellationToken ct)
@@ -65,7 +65,8 @@ public sealed class StatisticsQuery : IBaseRequest<Dictionary<string, object>>
 
             if (request.Metrics.Contains("totalOnlineUser"))
             {
-                var totalOnlineUser = socket.ConnectionManager.GetAll().Count;
+                // var totalOnlineUser = socket.ConnectionManager.GetAll().Count;
+                var totalOnlineUser = await redisService.SetLengthAsync(TogetherRedisKeys.OnlineUserKeys());
                 data.Add("totalOnlineUser", totalOnlineUser);
             }
             

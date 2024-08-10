@@ -33,6 +33,7 @@ services.AddWebSocketManager(ApplicationAssembly.Assembly);
 
 var app = builder.Build();
 app.UseLanguages();
+app.UseStaticFiles();
 app.UseDefaultExceptionHandler();
 app.UseSwaggerDocument();
 app.UseCoreCors();

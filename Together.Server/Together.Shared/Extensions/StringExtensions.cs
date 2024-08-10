@@ -53,6 +53,6 @@ public static class StringExtensions
     {
         return Path.Combine(
             Directory.GetCurrentDirectory(), 
-            $@"..\Together.Application\Templates\{templateName}");
+            $"wwwroot/Templates/{templateName}");
     }
 }

@@ -18,7 +18,7 @@ public sealed class WebSocketMiddleware(RequestDelegate next, WebSocketHandler w
         
         var socket = await context.WebSockets.AcceptWebSocketAsync();
         
-        await webSocketHandler.OnConnected(id, socket);
+        await webSocketHandler.OnConnectedAsync(id, socket);
 
         await Echo(socket, Handle);
         
@@ -32,7 +32,7 @@ public sealed class WebSocketMiddleware(RequestDelegate next, WebSocketHandler w
                     await webSocketHandler.ReceiveAsync(socket, result, buffer);
                     break;
                 case WebSocketMessageType.Close:
-                    await webSocketHandler.OnDisconnected(socket);
+                    await webSocketHandler.OnDisconnectedAsync(id, socket);
                     break;
                 case WebSocketMessageType.Binary:
                     break;

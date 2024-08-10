@@ -36,15 +36,7 @@ public static class TogetherContextInitialization
         foreach (var role in Roles)
         {
             var existed = await context.Roles.FirstOrDefaultAsync(r => r.Name == role.Name);
-            if (existed is not null)
-            {
-                if (!existed.Claims!.SequenceEqual(role.Claims!))
-                {
-                    existed.Claims = role.Claims;
-                }
-                context.Roles.Update(existed);
-            }
-            else
+            if (existed is null)
             {
                 role.UserRoles = role.Name == "Admin"
                     ? [ new UserRole { UserId = admin.Id }]

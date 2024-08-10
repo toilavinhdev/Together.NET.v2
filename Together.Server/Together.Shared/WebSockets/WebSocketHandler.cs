@@ -21,13 +21,13 @@ public abstract class WebSocketHandler(ConnectionManager connectionManager)
         await ReceiveAsync(socketId, socket, message.ToObject<WebSocketMessage>());
     }
 
-    public virtual Task OnConnected(string id, WebSocket socket)
+    public virtual Task OnConnectedAsync(string id, WebSocket socket)
     {
         ConnectionManager.AddSocket(id, socket);
         return Task.CompletedTask;
     }
 
-    public virtual async Task OnDisconnected(WebSocket socket)
+    public virtual async Task OnDisconnectedAsync(string id, WebSocket socket)
     {
         await ConnectionManager.RemoveSocketAsync(socket);
     }

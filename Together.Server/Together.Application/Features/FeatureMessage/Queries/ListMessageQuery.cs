@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using Together.Application.Features.FeatureMessage.Responses;
-using Together.Application.Sockets;
 using Together.Domain.Aggregates.MessageAggregate;
 
 namespace Together.Application.Features.FeatureMessage.Queries;
@@ -17,12 +16,12 @@ public sealed class ListMessageQuery : IBaseRequest<ListMessageResponse>, IPagin
     {
         public Validator()
         {
-            Include(x => new PaginationValidator());
+            Include(new PaginationValidator());
             RuleFor(x => x.ConversationId).NotEmpty();
         }
     }
 
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, TogetherWebSocketHandler socket)
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService)
         : BaseRequestHandler<ListMessageQuery, ListMessageResponse>(httpContextAccessor)
     {
         protected override async Task<ListMessageResponse> HandleAsync(ListMessageQuery request, CancellationToken ct)
@@ -72,7 +71,8 @@ public sealed class ListMessageQuery : IBaseRequest<ListMessageResponse>, IPagin
                     extra.Add("conversationName", receiver.User.UserName);
                     extra.Add("conversationImage", receiver.User.Avatar!);
                     extra.Add("userId", receiver.User.Id);
-                    extra.Add("userOnline", socket.ConnectionManager.GetSockets(receiver.User.Id.ToString())?.Any() ?? false);
+                    var userOnline = await redisService.SetContainsAsync(TogetherRedisKeys.OnlineUserKeys(), receiver.User.Id.ToString());
+                    extra.Add("userOnline", userOnline);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

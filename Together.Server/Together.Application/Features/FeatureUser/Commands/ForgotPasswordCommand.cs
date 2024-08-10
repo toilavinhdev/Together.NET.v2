@@ -25,30 +25,34 @@ public sealed class ForgotPasswordCommand : IBaseRequest
 
             var token = 40.RandomString();
             
-            var existedToken = await redisService.GetAsync(TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId));
+            var existedToken = await redisService.StringGetAsync(TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId));
             
             if (existedToken is not null)
             {
                 await redisService.RemoveAsync(TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId));
             }
 
-            await redisService.SetAsync(
+            await redisService.StringSetAsync(
                 TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId), 
                 token,
                 TimeSpan.FromHours(TogetherBusinessConfigs.ForgotPasswordDurationInHours));
             
-            await MailProvider.SmtpSendAsync(appSettings.MailConfig, new MailForm
+            // Thread Pool
+            await Task.Run(() =>
             {
-                To = request.Email,
-                Title = "TOGETHER.NET RESET PASSWORD",
-                Body = "forgot-password-template.html"
-                    .ToTemplatePath()
-                    .ReadAllText()
-                    .Replace("{{user_name}}", user.UserName)
-                    .Replace("{{validate_url}}", new UriBuilder($"{appSettings.Host}/auth/forgot-password/submit/{user.SubId}/{token}").Uri.ToString())
-                    .Replace("{{duration_in_hours}}", TogetherBusinessConfigs.ForgotPasswordDurationInHours.ToString())
-                    .Replace("{{contact_email}}", appSettings.MailConfig.Mail)
-            });
+                _ = MailProvider.SmtpSendAsync(appSettings.MailConfig, new MailForm
+                {
+                    To = request.Email,
+                    Title = "TOGETHER.NET RESET PASSWORD",
+                    Body = "forgot-password-template.html"
+                        .ToTemplatePath()
+                        .ReadAllText()
+                        .Replace("{{user_name}}", user.UserName)
+                        .Replace("{{validate_url}}", new UriBuilder($"{appSettings.Host}/auth/forgot-password/submit/{user.SubId}/{token}").Uri.ToString())
+                        .Replace("{{duration_in_hours}}", TogetherBusinessConfigs.ForgotPasswordDurationInHours.ToString())
+                        .Replace("{{contact_email}}", appSettings.MailConfig.Mail)
+                });
+            }, ct);
 
             Message = "Success";
         }

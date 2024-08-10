@@ -21,7 +21,7 @@ public sealed class TogetherAuthorizationHandlerV2(IRedisService redisService) :
             return;
         }
 
-        var user = await redisService.GetAsync<IdentityPrivilege>(TogetherRedisKeys.IdentityPrivilegeKey(subId));
+        var user = await redisService.StringGetAsync<IdentityPrivilege>(TogetherRedisKeys.IdentityPrivilegeKey(subId));
 
         var canAccess = user is not null && 
                         user.RoleClaims.Any(claim => 

@@ -2,8 +2,21 @@ using System.Net.WebSockets;
 
 namespace Together.Application.Sockets;
 
-public sealed class TogetherWebSocketHandler(ConnectionManager connectionManager) : WebSocketHandler(connectionManager)
+public sealed class TogetherWebSocketHandler(ConnectionManager connectionManager, IRedisService redisService) 
+    : WebSocketHandler(connectionManager)
 {
+    public override async Task OnConnectedAsync(string id, WebSocket socket)
+    {
+        await base.OnConnectedAsync(id, socket);
+        await redisService.SetAddAsync(TogetherRedisKeys.OnlineUserKeys(), id);
+    }
+
+    public override async Task OnDisconnectedAsync(string id, WebSocket socket)
+    {
+        await base.OnDisconnectedAsync(id, socket);
+        await redisService.SetRemoveAsync(TogetherRedisKeys.OnlineUserKeys(), id);
+    }
+
     protected override Task ReceiveAsync(string socketId, WebSocket socket, WebSocketMessage message)
     {
         switch (message.Target)
@@ -12,8 +25,6 @@ public sealed class TogetherWebSocketHandler(ConnectionManager connectionManager
                 break;
         }
         
-        Console.WriteLine(111111111111111 + message.ToJson());
-
         return Task.CompletedTask;
     }
 }

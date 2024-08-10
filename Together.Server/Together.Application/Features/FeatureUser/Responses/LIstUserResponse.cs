@@ -13,4 +13,6 @@ public class UserViewModel : TimeTrackingEntity
     public string? FullName { get; set; }
 
     public string? Avatar { get; set; }
+    
+    public bool Online { get; set; }
 }

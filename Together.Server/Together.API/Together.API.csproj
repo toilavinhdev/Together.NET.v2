@@ -55,4 +55,12 @@
       <_ContentIncludedByDefault Remove="Publish\Together.API.runtimeconfig.json" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\Templates\forgot-password-template.html" />
+    </ItemGroup>
+
 </Project>

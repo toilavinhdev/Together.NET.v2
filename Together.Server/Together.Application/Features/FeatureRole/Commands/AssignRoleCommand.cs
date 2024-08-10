@@ -55,7 +55,7 @@ public sealed class AssignRoleCommand : IBaseRequest
             
             await context.SaveChangesAsync(ct);
             
-            await redisService.SetAsync(
+            await redisService.StringSetAsync(
                 TogetherRedisKeys.IdentityPrivilegeKey(user.Id), 
                 user.MapTo<IdentityPrivilege>());
 

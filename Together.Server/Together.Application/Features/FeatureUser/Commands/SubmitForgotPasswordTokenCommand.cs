@@ -23,7 +23,7 @@ public sealed class SubmitForgotPasswordTokenCommand : IBaseRequest
     {
         protected override async Task HandleAsync(SubmitForgotPasswordTokenCommand request, CancellationToken ct)
         {
-            var existedToken = await redisService.GetAsync(TogetherRedisKeys.ForgotPasswordTokenKey(request.UserId));
+            var existedToken = await redisService.StringGetAsync(TogetherRedisKeys.ForgotPasswordTokenKey(request.UserId));
 
             if (existedToken is null || existedToken != request.Token)
                 throw new DomainException(TogetherErrorCodes.User.ForgotPasswordTokenInvalid);
