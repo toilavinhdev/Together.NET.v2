@@ -24,6 +24,10 @@ sudo journalctl -fu kestrel-togethernet.service
 
 npm run build:prod
 
+find ./Together.Server -type d -name "bin" -o -name "obj"
+find ./Together.Server -type d -name "bin" -exec rm -r {} + &&
+  find ./Together.Server -type d -name "obj" -exec rm -r {} +
+
 sudo mkdir -p /usr/local/src/Together.NET.v2
 
 scp .dockerignore Together.NET.v2.sln redis.conf root@14.225.211.153:/usr/local/src/Together.NET.v2 

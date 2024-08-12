@@ -6,14 +6,14 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { RoleService } from '@/shared/services';
+import { RoleService, UserService } from '@/shared/services';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { getErrorMessage, markFormDirty } from '@/shared/utilities';
 import { ContainerComponent } from '@/shared/components/elements';
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { JsonPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { CheckboxGroupsComponent } from '@/shared/components/controls';
 import {
   ICheckBoxGroup,
@@ -33,6 +33,7 @@ import { policies } from '@/shared/constants';
     RouterLink,
     JsonPipe,
     CheckboxGroupsComponent,
+    AsyncPipe,
   ],
   templateUrl: './m-role-detail.component.html',
 })
@@ -50,6 +51,7 @@ export class MRoleDetailComponent extends BaseComponent implements OnInit {
     private roleService: RoleService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -163,6 +165,8 @@ export class MRoleDetailComponent extends BaseComponent implements OnInit {
         });
     }
   }
+
+  protected readonly policies = policies;
 }
 
 const roleClaimCheckboxGroups: ICheckBoxGroup[] = [

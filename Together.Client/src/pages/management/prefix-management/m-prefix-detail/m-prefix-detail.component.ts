@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '@/core/abstractions';
-import { PrefixService } from '@/shared/services';
+import { PrefixService, UserService } from '@/shared/services';
 import {
   FormBuilder,
   FormsModule,
@@ -17,9 +17,10 @@ import {
   PrefixComponent,
 } from '@/shared/components/elements';
 import { InputTextModule } from 'primeng/inputtext';
-import { JsonPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { Button } from 'primeng/button';
 import { ColorPickerModule } from 'primeng/colorpicker';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-m-prefix-detail',
@@ -35,6 +36,7 @@ import { ColorPickerModule } from 'primeng/colorpicker';
     ColorPickerModule,
     JsonPipe,
     PrefixComponent,
+    AsyncPipe,
   ],
   templateUrl: './m-prefix-detail.component.html',
 })
@@ -50,6 +52,7 @@ export class MPrefixDetailComponent extends BaseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -144,4 +147,6 @@ export class MPrefixDetailComponent extends BaseComponent implements OnInit {
         });
     }
   }
+
+  protected readonly policies = policies;
 }

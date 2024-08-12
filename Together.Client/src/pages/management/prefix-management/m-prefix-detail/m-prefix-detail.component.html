@@ -45,6 +45,6 @@
   </form>
   <div class="flex justify-end gap-x-3 mt-10">
     <p-button routerLink="/management/prefix" label="Hủy" severity="secondary" outlined/>
-    <p-button (onClick)="onSubmit()" label="Xác nhận"/>
+    <p-button *ngIf="userService.hasPermission$(policies.Prefix.Update) | async" (onClick)="onSubmit()" label="Xác nhận"/>
   </div>
 </together-container>

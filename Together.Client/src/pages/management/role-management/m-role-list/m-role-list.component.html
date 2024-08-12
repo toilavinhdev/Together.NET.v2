@@ -4,11 +4,10 @@
     <together-table-column key="name" title="Tên vai trò"/>
     <together-table-column key="description" title="Ghi chú"/>
     <together-table-column key="createdAt" type="datetime" title="Thời gian tạo" columnClass="w-[200px]"/>
-    <together-table-column *ngIf="(userService.hasPermission$(policies.Role.Update) | async) || (userService.hasPermission$(policies.Role.Delete) | async)" key="#" title="" columnClass="w-[100px]">
+    <together-table-column key="#" title="" columnClass="w-[100px]">
       <ng-template togetherTableCell let-row>
-        <div class="flex gap-x-1">
+        <div class="flex justify-center gap-x-1">
           <p-button
-            *ngIf="userService.hasPermission$(policies.Role.Update) | async"
             [routerLink]="['/management/role',row.id,'update']"
             icon="pi pi-pencil text-[12px]"
             rounded

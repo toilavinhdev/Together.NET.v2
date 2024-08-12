@@ -7,11 +7,10 @@
       </ng-template>
     </together-table-column>
     <together-table-column key="createdAt" title="Created at" type="datetime" columnClass="w-[200px]"/>
-    <together-table-column  *ngIf="(userService.hasPermission$(policies.Prefix.Update) | async) || (userService.hasPermission$(policies.Prefix.Delete) | async)" key="#" title="" columnClass="w-[100px]">
+    <together-table-column key="#" title="" columnClass="w-[100px]">
       <ng-template togetherTableCell let-row>
-        <div class="flex gap-x-1">
+        <div class="flex justify-center gap-x-1">
           <p-button
-            *ngIf="userService.hasPermission$(policies.Prefix.Update) | async"
             [routerLink]="['/management/prefix',row.id,'update']"
             icon="pi pi-pencil text-[12px]"
             rounded

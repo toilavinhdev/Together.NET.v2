@@ -7,16 +7,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { BaseComponent } from '@/core/abstractions';
-import { ForumService, TopicService } from '@/shared/services';
+import { ForumService, TopicService, UserService } from '@/shared/services';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { getErrorMessage, markFormDirty } from '@/shared/utilities';
 import { takeUntil } from 'rxjs';
 import { ContainerComponent } from '@/shared/components/elements';
 import { Button } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { JsonPipe, NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { IForumViewModel } from '@/shared/entities/forum.entities';
 import { DropdownModule } from 'primeng/dropdown';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-m-topic-detail',
@@ -31,6 +32,7 @@ import { DropdownModule } from 'primeng/dropdown';
     RouterLink,
     DropdownModule,
     JsonPipe,
+    AsyncPipe,
   ],
   templateUrl: './m-topic-detail.component.html',
 })
@@ -49,6 +51,7 @@ export class MTopicDetailComponent extends BaseComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private formBuilder: UntypedFormBuilder,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -161,4 +164,6 @@ export class MTopicDetailComponent extends BaseComponent implements OnInit {
         });
     }
   }
+
+  protected readonly policies = policies;
 }

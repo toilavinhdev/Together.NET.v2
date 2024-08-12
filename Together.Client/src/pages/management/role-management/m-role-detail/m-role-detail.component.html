@@ -42,6 +42,7 @@
       outlined
     />
     <p-button
+      *ngIf="userService.hasPermission$(policies.Role.Update) | async"
       (onClick)="onSubmit()"
       [disabled]="form.get('name')?.value === 'Admin'"
       label="Xác nhận"

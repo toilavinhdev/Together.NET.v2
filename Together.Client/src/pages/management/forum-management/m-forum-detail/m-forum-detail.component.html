@@ -13,7 +13,17 @@
     </div>
   </form>
   <div class="flex justify-end gap-x-3 mt-10">
-    <p-button routerLink="/management/forum" label="Hủy" severity="secondary" outlined/>
-    <p-button (onClick)="onSubmit()" [loading]="loadingSubmit" label="Xác nhận"/>
+    <p-button
+      routerLink="/management/forum"
+      label="Hủy"
+      severity="secondary"
+      outlined
+    />
+    <p-button
+      *ngIf="userService.hasPermission$(policies.Forum.Update) | async"
+      (onClick)="onSubmit()"
+      [loading]="loadingSubmit"
+      label="Xác nhận"
+    />
   </div>
 </together-container>

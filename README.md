@@ -21,7 +21,7 @@
 - TailwindCSS
 - Chart.js, Quill
 
-### IDE & Text Editor
+#### IDE & Text Editor
 - Jetbrains Rider
 - Jetbrains DataGrip
 - Neovim
@@ -37,6 +37,8 @@
 - OAuth(Google) authentication support
 
 - Send mail forgot password
+
+- Refresh Token
 
 - Dynamic authorization - Role-Based Access Control (RBAC)
 

@@ -10,10 +10,11 @@ import {
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ContainerComponent } from '@/shared/components/elements';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Button } from 'primeng/button';
 import { getErrorMessage, markFormDirty } from '@/shared/utilities';
-import { ForumService } from '@/shared/services';
+import { ForumService, UserService } from '@/shared/services';
+import { policies } from '@/shared/constants';
 
 @Component({
   selector: 'together-m-forum-detail',
@@ -25,6 +26,7 @@ import { ForumService } from '@/shared/services';
     NgIf,
     Button,
     RouterLink,
+    AsyncPipe,
   ],
   templateUrl: './m-forum-detail.component.html',
 })
@@ -44,6 +46,7 @@ export class MForumDetailComponent extends BaseComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private forumService: ForumService,
     private router: Router,
+    protected userService: UserService,
   ) {
     super();
   }
@@ -145,4 +148,6 @@ export class MForumDetailComponent extends BaseComponent implements OnInit {
         });
     }
   }
+
+  protected readonly policies = policies;
 }
