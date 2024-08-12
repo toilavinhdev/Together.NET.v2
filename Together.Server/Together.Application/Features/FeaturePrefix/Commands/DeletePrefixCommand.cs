@@ -12,7 +12,7 @@ public sealed class DeletePrefixCommand(Guid id) : IBaseRequest
         }
     }
     
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService) 
         : BaseRequestHandler<DeletePrefixCommand>(httpContextAccessor)
     {
         protected override async Task HandleAsync(DeletePrefixCommand request, CancellationToken ct)
@@ -24,6 +24,8 @@ public sealed class DeletePrefixCommand(Guid id) : IBaseRequest
             context.Prefixes.Remove(prefix);
 
             await context.SaveChangesAsync(ct);
+
+            await redisService.KeyDeleteAsync(TogetherRedisKeys.PrefixKey(prefix.Id));
 
             Message = "Deleted";
         }

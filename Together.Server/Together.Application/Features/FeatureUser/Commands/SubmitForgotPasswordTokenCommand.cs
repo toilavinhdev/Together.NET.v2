@@ -2,7 +2,7 @@
 
 public sealed class SubmitForgotPasswordTokenCommand : IBaseRequest
 {
-    public long UserId { get; set; }
+    public Guid UserId { get; set; }
     
     public string Token { get; set; } = default!;
 
@@ -28,7 +28,7 @@ public sealed class SubmitForgotPasswordTokenCommand : IBaseRequest
             if (existedToken is null || existedToken != request.Token)
                 throw new DomainException(TogetherErrorCodes.User.ForgotPasswordTokenInvalid);
             
-            var user = await context.Users.FirstOrDefaultAsync(u => u.SubId == request.UserId, ct);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == request.UserId, ct);
             if (user is null) throw new DomainException(TogetherErrorCodes.User.UserNotFound);
 
             user.PasswordHash = request.NewPassword.ToSha256();
@@ -38,7 +38,7 @@ public sealed class SubmitForgotPasswordTokenCommand : IBaseRequest
 
             await context.SaveChangesAsync(ct);
 
-            await redisService.RemoveAsync(TogetherRedisKeys.ForgotPasswordTokenKey(request.UserId));
+            await redisService.KeyDeleteAsync(TogetherRedisKeys.ForgotPasswordTokenKey(request.UserId));
 
             Message = "Success";
         }

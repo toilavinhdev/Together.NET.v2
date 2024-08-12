@@ -1,4 +1,5 @@
-﻿export * from './author/author.component';
+﻿export * from './auth-loader/auth-loader.component';
+export * from './author/author.component';
 export * from './avatar/avatar.component';
 export * from './button/button.component';
 export * from './container/container.component';

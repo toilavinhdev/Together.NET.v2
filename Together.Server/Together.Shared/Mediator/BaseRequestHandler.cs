@@ -1,17 +1,30 @@
 ﻿using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Together.Shared.Helpers;
 using Together.Shared.ValueObjects;
 
 namespace Together.Shared.Mediator;
 
 public abstract class BaseRequestHandler(IHttpContextAccessor httpContextAccessor)
 {
-    protected readonly CurrentUserClaims CurrentUserClaims = CurrentUserClaims.GetValue(httpContextAccessor);
+    protected readonly CurrentUserClaims CurrentUserClaims = GetCurrentUserClaims(httpContextAccessor);
     
     protected HttpStatusCode StatusCode { get; set; } = HttpStatusCode.OK;
     
     protected string? Message { get; set; }
+
+    private static CurrentUserClaims GetCurrentUserClaims(IHttpContextAccessor httpContextAccessor)
+    {
+        var accessToken = httpContextAccessor.HttpContext?.Request.Headers
+            .FirstOrDefault(x => x.Key.Equals("Authorization"))
+            .Value
+            .ToString()
+            .Split(" ")
+            .LastOrDefault();
+
+        return string.IsNullOrEmpty(accessToken) ? default! : JwtBearerProvider.DecodeAccessToken(accessToken);
+    }
 }
 
 public abstract class BaseRequestHandler<TRequest>(IHttpContextAccessor httpContextAccessor) 

@@ -1,6 +1,6 @@
 <div class="flex justify-between items-center gap-x-2 mb-4">
-  <div *ngIf="!loading" class="text-[26px] font-medium text-ellipsis line-clamp-1">{{extra?.['topicName']}}</div>
-  <p-skeleton *ngIf="loading" width="320px" height="30px"/>
+  <div *ngIf="status === 'finished'" class="text-[26px] font-medium text-ellipsis line-clamp-1">{{extra?.['topicName']}}</div>
+  <p-skeleton *ngIf="status === 'loading'" width="320px" height="30px"/>
   <p-button
     *ngIf="userService.hasPermission$(policies.Post.Create) | async"
     (onClick)="commonService.navigateToCreatePost(extra?.['topicId'])"
@@ -10,18 +10,11 @@
   />
 </div>
 @if ((postService.posts$ | async)?.length) {
-  @if (!loading) {
-    <together-post
-      *ngFor="let post of postService.posts$ | async; let last=last"
-      [post]="post"
-      [bordered]="!last"
-    />
-  } @else {
-    <together-post
-      *ngFor="let _ of Array(6)"
-      loading
-    />
-  }
+  <together-post
+    *ngFor="let post of postService.posts$ | async; let last=last"
+    [post]="post"
+    [bordered]="!last"
+  />
   <together-paginator
     (paginationChange)="onPaginationChange($event)"
     [pageIndex]="params.pageIndex"
@@ -29,8 +22,13 @@
     [totalRecord]="totalRecord"
     componentClass="mt-4 shadow"
   />
-
 }
 @else {
-  <div>Chưa có bài viết</div>
+  <ng-container *ngIf="status === 'loading'">
+    <together-post
+      *ngFor="let _ of Array(6)"
+      loading
+    />
+  </ng-container>
+  <div *ngIf="status === 'finished'">Chưa có bài viết</div>
 }

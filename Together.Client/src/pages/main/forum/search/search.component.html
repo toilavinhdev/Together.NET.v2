@@ -46,12 +46,12 @@
         <div
           *ngFor="let user of users"
           (click)="commonService.navigateToProfile(user.id)"
-          class="flex flex-col justify-center items-center py-3 rounded cursor-pointer hover:bg-gray-200 duration-200"
+          class="flex flex-col justify-center items-center w-full py-3 rounded cursor-pointer hover:bg-gray-200 duration-200"
         >
           <together-avatar
             [src]="user.avatar"
           />
-          <div class="text-ellipsis line-clamp-1">{{user.userName}}</div>
+          <div class="text-ellipsis line-clamp-1 w-full text-center px-2">{{user.userName}}</div>
         </div>
       </div>
       <div *ngIf="status === 'success' && users.length === 0" class="p-4">

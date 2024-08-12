@@ -32,21 +32,36 @@ public interface IRedisService
 
     Task<long> SetLengthAsync(TogetherRedisKey key);
     
+    Task Transaction(TogetherRedisDatabase database, Func<ITransaction, Task> callback);
+    
     Task<long> IncrementAsync(TogetherRedisKey key);
 
     Task<long> DecrementAsync(TogetherRedisKey key);
 
     Task<bool> ExistsAsync(TogetherRedisKey key);
 
-    Task<bool> RemoveAsync(TogetherRedisKey key);
+    Task<bool> KeyDeleteAsync(TogetherRedisKey key);
 
-    Task Transaction(TogetherRedisDatabase database, Func<ITransaction, Task> callback);
+    Task<List<string>> KeysByPatternAsync(TogetherRedisKey keyPrefix);
+    
+    Task<List<string>> KeysByPatternAsync(TogetherRedisDatabase database, string pattern);
 }
 
 public class RedisService(IConnectionMultiplexer connection) : IRedisService
 {
     private IDatabase Database(TogetherRedisDatabase db = TogetherRedisDatabase.Default) => connection.GetDatabase((int)db);
     
+    private IServer Server()
+    {
+        foreach (var endPoint in connection.GetEndPoints())
+        {
+            var server = connection.GetServer(endPoint);
+            if (!server.IsReplica) return server;
+        }
+        
+        throw new RedisException("Master database not found");
+    }
+
     public async Task<string?> StringGetAsync(TogetherRedisKey key)
     {
         var value = await Database(key.Database).StringGetAsync(key.KeyName);
@@ -114,6 +129,13 @@ public class RedisService(IConnectionMultiplexer connection) : IRedisService
         return await Database(key.Database).SetLengthAsync(key.KeyName);
     }
     
+    public async Task Transaction(TogetherRedisDatabase database, Func<ITransaction, Task> callback)
+    {
+        var transaction = Database(database).CreateTransaction();
+        await callback(transaction);
+        await transaction.ExecuteAsync();
+    }
+    
     public async Task<long> IncrementAsync(TogetherRedisKey key)
     {
         return await Database(key.Database).StringIncrementAsync(key.KeyName);
@@ -129,15 +151,21 @@ public class RedisService(IConnectionMultiplexer connection) : IRedisService
         return await Database(key.Database).KeyExistsAsync(key.KeyName);
     }
 
-    public async Task<bool> RemoveAsync(TogetherRedisKey key)
+    public async Task<bool> KeyDeleteAsync(TogetherRedisKey key)
     {
         return await Database(key.Database).KeyDeleteAsync(key.KeyName);
     }
 
-    public async Task Transaction(TogetherRedisDatabase database, Func<ITransaction, Task> callback)
+    public async Task<List<string>> KeysByPatternAsync(TogetherRedisKey keyPrefix)
     {
-        var transaction = Database(database).CreateTransaction();
-        await callback(transaction);
-        await transaction.ExecuteAsync();
+        return await KeysByPatternAsync(keyPrefix.Database, keyPrefix.KeyName);
+    }
+
+    public async Task<List<string>> KeysByPatternAsync(TogetherRedisDatabase database, string pattern)
+    {
+        var asyncKeys = Server().KeysAsync(database: (int)database, pattern: pattern);
+        var keys = new List<string>();
+        await foreach (var key in asyncKeys) keys.Add(key.ToString());
+        return keys;
     }
 }

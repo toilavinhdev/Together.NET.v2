@@ -9,11 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs';
 import { getErrorMessage } from '@/shared/utilities';
 import { ReplyComponent } from '@/shared/components/elements';
+import { SkeletonModule } from 'primeng/skeleton';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
   selector: 'together-reply-root-list',
   standalone: true,
-  imports: [ReplyComponent],
+  imports: [ReplyComponent, SkeletonModule, NgTemplateOutlet],
   templateUrl: './reply-root-list.component.html',
 })
 export class ReplyRootListComponent extends BaseComponent implements OnInit {
@@ -24,7 +26,7 @@ export class ReplyRootListComponent extends BaseComponent implements OnInit {
     pageSize: 14,
   };
 
-  loading = false;
+  status: 'idle' | 'loading' | 'finished' = 'idle';
 
   constructor(
     private replyService: ReplyService,
@@ -45,17 +47,17 @@ export class ReplyRootListComponent extends BaseComponent implements OnInit {
   }
 
   private loadRootReplies() {
-    this.loading = true;
+    this.status = 'loading';
     this.replyService
       .listReply(this.params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ result }) => {
-          this.loading = true;
+          this.status = 'finished';
           this.replies = result;
         },
         error: (err) => {
-          this.loading = true;
+          this.status = 'finished';
           this.commonService.toast$.next({
             type: 'error',
             message: getErrorMessage(err),
@@ -71,4 +73,6 @@ export class ReplyRootListComponent extends BaseComponent implements OnInit {
   onDeleteReply(replyId: string) {
     this.replies = this.replies.filter((reply) => reply.id !== replyId);
   }
+
+  protected readonly Array = Array;
 }

@@ -13,15 +13,16 @@ public sealed class TogetherAuthorizationHandlerV2(IRedisService redisService) :
             return;
         }
 
-        var subId = context.User.Claims.FirstOrDefault(x => x.Type.Equals("subId"))?.Value;
+        var userId = context.User.Claims.FirstOrDefault(x => x.Type.Equals("id"))?.Value.ToGuid();
         
-        if (subId is null)
+        if (userId is null)
         {
             context.Fail();
             return;
         }
 
-        var user = await redisService.StringGetAsync<IdentityPrivilege>(TogetherRedisKeys.IdentityPrivilegeKey(subId));
+        var user = await redisService.StringGetAsync<IdentityPrivilege>(
+            TogetherRedisKeys.IdentityPrivilegeKey(userId));
 
         var canAccess = user is not null && 
                         user.RoleClaims.Any(claim => 

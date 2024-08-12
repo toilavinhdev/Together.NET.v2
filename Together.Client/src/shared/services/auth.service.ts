@@ -4,21 +4,27 @@ import {
   ICurrentUserClaims,
   IExternalAuthRequest,
   IForgotPasswordRequest,
+  IRefreshTokenResponse,
   ISignInRequest,
   ISignInResponse,
   ISignUpRequest,
   ISubmitForgotPasswordTokenRequest,
 } from '@/shared/entities/auth.entities';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { IBaseResponse } from '@/core/models';
 import { localStorageKeys } from '@/shared/constants';
 import { jwtDecode } from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService extends BaseService {
-  constructor() {
+  refreshingToken$ = new BehaviorSubject<boolean>(false);
+
+  accessToken$ = new BehaviorSubject<string | undefined>(undefined);
+
+  constructor(private cookieService: CookieService) {
     super();
     this.setEndpoint('/auth');
   }
@@ -27,6 +33,16 @@ export class AuthService extends BaseService {
     const url = this.createUrl('/sign-in');
     return this.client
       .post<IBaseResponse<ISignInResponse>>(url, payload)
+      .pipe(map((r) => r.data));
+  }
+
+  refreshToken(): Observable<IRefreshTokenResponse> {
+    const url = this.createUrl('/refresh-token');
+    return this.client
+      .post<IBaseResponse<ISignInResponse>>(url, {
+        accessToken: this.getAT(),
+        refreshToken: this.getRT(),
+      })
       .pipe(map((r) => r.data));
   }
 
@@ -69,6 +85,7 @@ export class AuthService extends BaseService {
   removeToken() {
     localStorage.removeItem(localStorageKeys.ACCESS_TOKEN);
     localStorage.removeItem(localStorageKeys.REFRESH_TOKEN);
+    localStorage.removeItem(localStorageKeys.CURRENT_USER);
   }
 
   getAT() {

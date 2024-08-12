@@ -18,6 +18,8 @@ public sealed class UserEndpoint : IEndpoint
         
         group.MapGet("/me", Me);
         
+        group.MapGet("/me/permissions", Permissions);
+        
         group.MapGet("/{userId:guid}", GetUser);
         
         group.MapGet("/list", ListUser);
@@ -30,6 +32,10 @@ public sealed class UserEndpoint : IEndpoint
     [Authorize]
     private static Task<BaseResponse<MeResponse>> Me(ISender sender)
         => sender.Send(new MeQuery());
+    
+    [Authorize]
+    private static Task<BaseResponse<List<string>>> Permissions(ISender sender)
+        => sender.Send(new PermissionsQuery());
     
     [TogetherPermission(TogetherPolicies.User.Get)]
     private static Task<BaseResponse<GetUserResponse>> GetUser(ISender sender, Guid userId)

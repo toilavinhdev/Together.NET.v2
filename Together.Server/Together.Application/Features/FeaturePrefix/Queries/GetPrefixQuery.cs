@@ -14,11 +14,15 @@ public sealed class GetPrefixQuery(Guid id) : IBaseRequest<PrefixViewModel>
         }
     }
 
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context)
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService)
         : BaseRequestHandler<GetPrefixQuery, PrefixViewModel>(httpContextAccessor)
     {
         protected override async Task<PrefixViewModel> HandleAsync(GetPrefixQuery request, CancellationToken ct)
         {
+            var cachedPrefix = await redisService.StringGetAsync<PrefixViewModel>(TogetherRedisKeys.PrefixKey(request.Id));
+
+            if (cachedPrefix is not null) return cachedPrefix;
+            
             var prefix = await context.Prefixes
                 .Where(p => p.Id == request.Id)
                 .Select(p => p.MapTo<PrefixViewModel>())

@@ -35,11 +35,13 @@
             [src]="message.createdByAvatar"
             componentClass="cursor-pointer h-[28px] w-[28px]"
           />
-          <div
-            class="flex-1 bg-gray-200 px-3 py-2 rounded-2xl"
-            [pTooltip]="message.createdAt | timeAgo"
-            [tooltipPosition]="'right'"
-            [innerHTML]="message.text"></div>
+          <div>
+            <div
+              class="flex-1 bg-gray-200 px-3 py-2 rounded-2xl"
+              [pTooltip]="message.createdAt | timeAgo"
+              [tooltipPosition]="'right'"
+              [innerHTML]="message.text"></div>
+          </div>
         </div>
         <div
           *ngIf="message.createdById === (userService.me$ | async)?.id"

@@ -20,6 +20,7 @@ public static class TogetherErrorCodes
         public const string UserEmailAlreadyExists = nameof(UserEmailAlreadyExists);
         public const string IncorrectPassword = nameof(IncorrectPassword);
         public const string ForgotPasswordTokenInvalid = nameof(ForgotPasswordTokenInvalid);
+        public const string RefreshTokenFailed = nameof(RefreshTokenFailed);
     }
     
     public static class Role

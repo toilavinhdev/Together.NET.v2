@@ -22,7 +22,7 @@ public sealed class ListUserQuery : IBaseRequest<ListUserResponse>, IPaginationR
         }
     }
     
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
         : BaseRequestHandler<ListUserQuery, ListUserResponse>(httpContextAccessor)
     {
         protected override async Task<ListUserResponse> HandleAsync(ListUserQuery request, CancellationToken ct)
@@ -50,11 +50,6 @@ public sealed class ListUserQuery : IBaseRequest<ListUserResponse>, IPaginationR
                 .Paging(request.PageIndex, request.PageSize)
                 .Select(u => u.MapTo<UserViewModel>())
                 .ToListAsync(ct);
-            
-            foreach (var user in users)
-            {
-                user.Online = await redisService.SetContainsAsync(TogetherRedisKeys.OnlineUserKeys(), user.Id.ToString());
-            }
 
             return new ListUserResponse
             {

@@ -24,6 +24,7 @@ import { ReplyRootListComponent } from '@/pages/main/forum/post-detail/_componen
 import { EVoteType } from '@/shared/enums';
 import { TranslateModule } from '@ngx-translate/core';
 import { policies } from '@/shared/constants';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'together-post-detail',
@@ -40,6 +41,7 @@ import { policies } from '@/shared/constants';
     ReplyRootListComponent,
     VoteComponent,
     TranslateModule,
+    SkeletonModule,
   ],
   templateUrl: './post-detail.component.html',
 })
@@ -47,6 +49,8 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
   post!: IGetPostResponse;
 
   postId = '';
+
+  status: 'idle' | 'loading' | 'finished' = 'idle';
 
   constructor(
     private postService: PostService,
@@ -67,11 +71,13 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
         const postId = paramMap.get('postId');
         if (!postId) return;
         this.postId = postId;
+        this.status = 'loading';
         this.postService
           .getPost(postId)
           .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (data) => {
+              this.status = 'finished';
               this.post = data;
               this.commonService.breadcrumb$.next([
                 {
@@ -85,6 +91,7 @@ export class PostDetailComponent extends BaseComponent implements OnInit {
               windowScrollToTop();
             },
             error: (err) => {
+              this.status = 'finished';
               this.commonService.toast$.next({
                 type: 'error',
                 message: getErrorMessage(err),

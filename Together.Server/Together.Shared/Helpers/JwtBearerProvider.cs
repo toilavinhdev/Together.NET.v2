@@ -4,28 +4,44 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Together.Domain.Aggregates.UserAggregate;
+using Together.Shared.Constants;
+using Together.Shared.Extensions;
 using Together.Shared.ValueObjects;
 
 namespace Together.Shared.Helpers;
 
 public static class JwtBearerProvider
 {
+    public static string GenerateAccessToken(JwtTokenConfig config, IdentityPrivilege privilege)
+    {
+        return GenerateAccessToken(config, privilege.Id, privilege.SubId, privilege.UserName, privilege.Email);
+    }
+    
     public static string GenerateAccessToken(JwtTokenConfig config, User user)
+    {
+        return GenerateAccessToken(config, user.Id, user.SubId, user.UserName, user.Email);
+    }
+    
+    private static string GenerateAccessToken(JwtTokenConfig config, 
+        Guid id, 
+        long subId, 
+        string userName, 
+        string email)
     {
         return GenerateAccessToken(
             config.TokenSigningKey,
             [
-                new Claim("id", user.Id.ToString()),
-                new Claim("subId", user.SubId.ToString()),
-                new Claim("userName", user.UserName),
-                new Claim("email", user.Email),
+                new Claim("id", id.ToString()),
+                new Claim("subId", subId.ToString()),
+                new Claim("userName", userName),
+                new Claim("email", email),
             ],
             DateTime.UtcNow.AddMinutes(config.AccessTokenDurationInMinutes),
             config.Issuer,
             config.Audience);
     }
     
-    public static string GenerateAccessToken(string tokenSingingKey, 
+    private static string GenerateAccessToken(string tokenSingingKey, 
         IEnumerable<Claim> claimsPrincipal, 
         DateTime? expireAt = null, 
         string? issuer = null, 
@@ -48,6 +64,30 @@ public static class JwtBearerProvider
         var handler = new JwtSecurityTokenHandler();
         
         return handler.WriteToken(handler.CreateToken(descriptor));
+    }
+    
+    public static CurrentUserClaims DecodeAccessToken(string accessToken)
+    {
+        var decodedToken = new JwtSecurityTokenHandler().ReadJwtToken(accessToken);
+        
+        var id = decodedToken.Claims.FirstOrDefault(x => x.Type.Equals("id"))?.Value.ToGuid() 
+                 ?? throw new NullReferenceException("Claim type 'id' is required");
+        var subId = decodedToken.Claims.FirstOrDefault(x => x.Type.Equals("subId"))?.Value.ToLong()
+                    ?? throw new NullReferenceException("Claim type 'subId' is required");
+        var userName = decodedToken.Claims.FirstOrDefault(x => x.Type.Equals("userName"))?.Value
+                       ?? throw new NullReferenceException("Claim type 'userName' is required");
+        var email = decodedToken.Claims.FirstOrDefault(x => x.Type.Equals("email"))?.Value
+                    ?? throw new NullReferenceException("Claim type 'email' is required");
+        
+        if (!RegexPatterns.EmailRegex.IsMatch(email)) throw new InvalidCastException("Email invalid");
+        
+        return new CurrentUserClaims
+        {
+            Id = id,
+            SubId = subId,
+            UserName = userName,
+            Email = email
+        };
     }
     
     public static string GenerateRefreshToken()

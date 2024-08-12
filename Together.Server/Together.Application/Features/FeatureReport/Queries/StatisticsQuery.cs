@@ -66,7 +66,7 @@ public sealed class StatisticsQuery : IBaseRequest<Dictionary<string, object>>
             if (request.Metrics.Contains("totalOnlineUser"))
             {
                 // var totalOnlineUser = socket.ConnectionManager.GetAll().Count;
-                var totalOnlineUser = await redisService.SetLengthAsync(TogetherRedisKeys.OnlineUserKeys());
+                var totalOnlineUser = await redisService.SetLengthAsync(TogetherRedisKeys.OnlineUserKey());
                 data.Add("totalOnlineUser", totalOnlineUser);
             }
             

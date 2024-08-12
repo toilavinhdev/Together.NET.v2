@@ -71,7 +71,7 @@ public sealed class ListMessageQuery : IBaseRequest<ListMessageResponse>, IPagin
                     extra.Add("conversationName", receiver.User.UserName);
                     extra.Add("conversationImage", receiver.User.Avatar!);
                     extra.Add("userId", receiver.User.Id);
-                    var userOnline = await redisService.SetContainsAsync(TogetherRedisKeys.OnlineUserKeys(), receiver.User.Id.ToString());
+                    var userOnline = await redisService.SetContainsAsync(TogetherRedisKeys.OnlineUserKey(), receiver.User.Id.ToString());
                     extra.Add("userOnline", userOnline);
                     break;
                 default:

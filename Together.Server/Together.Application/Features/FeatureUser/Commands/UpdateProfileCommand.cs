@@ -1,4 +1,6 @@
-﻿namespace Together.Application.Features.FeatureUser.Commands;
+﻿using Together.Domain.Aggregates.UserAggregate;
+
+namespace Together.Application.Features.FeatureUser.Commands;
 
 public sealed class UpdateProfileCommand : IBaseRequest
 {
@@ -21,7 +23,7 @@ public sealed class UpdateProfileCommand : IBaseRequest
         }
     }
 
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) :
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService) :
         BaseRequestHandler<UpdateProfileCommand>(httpContextAccessor)
     {
         protected override async Task HandleAsync(UpdateProfileCommand request, CancellationToken ct)
@@ -41,6 +43,17 @@ public sealed class UpdateProfileCommand : IBaseRequest
             context.Users.Update(user);
             
             await context.SaveChangesAsync(ct);
+            
+            // Update cache
+            var cachedIdentityPrivilege = await redisService.StringGetAsync<IdentityPrivilege>(
+                TogetherRedisKeys.IdentityPrivilegeKey(user.Id));
+            if (cachedIdentityPrivilege is not null)
+            {
+                cachedIdentityPrivilege.UserName = user.UserName;
+                await redisService.StringSetAsync(
+                    TogetherRedisKeys.IdentityPrivilegeKey(user.Id), 
+                    cachedIdentityPrivilege);
+            }
 
             Message = "Done";
         }

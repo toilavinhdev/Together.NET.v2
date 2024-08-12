@@ -25,15 +25,16 @@ public sealed class ForgotPasswordCommand : IBaseRequest
 
             var token = 40.RandomString();
             
-            var existedToken = await redisService.StringGetAsync(TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId));
+            var existedToken = await redisService.StringGetAsync(
+                TogetherRedisKeys.ForgotPasswordTokenKey(user.Id));
             
             if (existedToken is not null)
             {
-                await redisService.RemoveAsync(TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId));
+                await redisService.KeyDeleteAsync(TogetherRedisKeys.ForgotPasswordTokenKey(user.Id));
             }
 
             await redisService.StringSetAsync(
-                TogetherRedisKeys.ForgotPasswordTokenKey(user.SubId), 
+                TogetherRedisKeys.ForgotPasswordTokenKey(user.Id), 
                 token,
                 TimeSpan.FromHours(TogetherBusinessConfigs.ForgotPasswordDurationInHours));
             
@@ -48,7 +49,7 @@ public sealed class ForgotPasswordCommand : IBaseRequest
                         .ToTemplatePath()
                         .ReadAllText()
                         .Replace("{{user_name}}", user.UserName)
-                        .Replace("{{validate_url}}", new UriBuilder($"{appSettings.Host}/auth/forgot-password/submit/{user.SubId}/{token}").Uri.ToString())
+                        .Replace("{{validate_url}}", new UriBuilder($"{appSettings.Host}/auth/forgot-password/submit/{user.Id}/{token}").Uri.ToString())
                         .Replace("{{duration_in_hours}}", TogetherBusinessConfigs.ForgotPasswordDurationInHours.ToString())
                         .Replace("{{contact_email}}", appSettings.MailConfig.Mail)
                 });

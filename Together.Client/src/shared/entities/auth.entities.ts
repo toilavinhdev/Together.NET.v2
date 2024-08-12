@@ -20,6 +20,8 @@ export interface ISignInRequest {
 
 export interface ISignInResponse extends ITokenModel {}
 
+export interface IRefreshTokenResponse extends ISignInResponse {}
+
 export interface ISignUpRequest {
   userName: string;
   email: string;

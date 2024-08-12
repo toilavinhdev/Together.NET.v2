@@ -28,14 +28,6 @@
       </ng-template>
     </together-table-column>
     <together-table-column key="email" title="Email"/>
-    <together-table-column key="online" title="Online">
-      <ng-template togetherTableCell let-row>
-        <div class="flex items-center gap-x-1">
-          <div class="h-[10px] w-[10px] rounded-full {{row['online'] ? 'bg-green-600' : 'bg-gray-600'}}"></div>
-          <div class="text-[12px] text-gray-500">{{row['online'] ? commonService.translate('Online') : commonService.translate('Offline')}}</div>
-        </div>
-      </ng-template>
-    </together-table-column>
     <together-table-column key="status" title="Trạng thái" columnClass="w-[160px] text-center" headerClass="text-center">
       <ng-template togetherTableCell let-row>
         <together-user-status [status]="row.status"/>

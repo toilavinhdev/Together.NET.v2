@@ -18,6 +18,8 @@ import { policies } from '@/shared/constants';
 export class UserService extends BaseService {
   me$ = new BehaviorSubject<IMeResponse | undefined>(undefined);
 
+  permissions$ = new BehaviorSubject<string[]>([]);
+
   user$ = new BehaviorSubject<IGetUserResponse | undefined>(undefined);
 
   userIsMe$ = combineLatest([this.me$, this.user$]).pipe(
@@ -28,14 +30,11 @@ export class UserService extends BaseService {
   );
 
   hasPermission$ = (policy: string): Observable<boolean> =>
-    this.me$.pipe(
-      map((me) =>
-        !me
-          ? false
-          : me.permissions.some(
-              (permission) =>
-                permission === policies.All || permission === policy,
-            ),
+    this.permissions$.pipe(
+      map((permissions) =>
+        permissions.some(
+          (permission) => permission === policies.All || permission === policy,
+        ),
       ),
     );
 
@@ -48,6 +47,13 @@ export class UserService extends BaseService {
     const url = this.createUrl('/me');
     return this.client
       .get<IBaseResponse<IMeResponse>>(url)
+      .pipe(map((response) => response.data));
+  }
+
+  getPermissions(): Observable<string[]> {
+    const url = this.createUrl('/me/permissions');
+    return this.client
+      .get<IBaseResponse<string[]>>(url)
       .pipe(map((response) => response.data));
   }
 

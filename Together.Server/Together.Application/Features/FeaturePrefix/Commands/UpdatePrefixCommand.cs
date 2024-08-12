@@ -1,4 +1,6 @@
-﻿namespace Together.Application.Features.FeaturePrefix.Commands;
+﻿using Together.Application.Features.FeaturePrefix.Responses;
+
+namespace Together.Application.Features.FeaturePrefix.Commands;
 
 public sealed class UpdatePrefixCommand : IBaseRequest
 {
@@ -21,7 +23,7 @@ public sealed class UpdatePrefixCommand : IBaseRequest
         }
     }
 
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context)
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService)
         : BaseRequestHandler<UpdatePrefixCommand>(httpContextAccessor)
     {
         protected override async Task HandleAsync(UpdatePrefixCommand request, CancellationToken ct)
@@ -38,6 +40,10 @@ public sealed class UpdatePrefixCommand : IBaseRequest
             context.Prefixes.Update(prefix);
 
             await context.SaveChangesAsync(ct);
+
+            await redisService.StringSetAsync(
+                TogetherRedisKeys.PrefixKey(prefix.Id), 
+                prefix.MapTo<PrefixViewModel>());
 
             Message = "Updated";
         }

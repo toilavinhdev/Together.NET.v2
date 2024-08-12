@@ -6,9 +6,8 @@ import { UserService } from '@/shared/services';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { policies } from '@/shared/constants';
 import { BaseComponent } from '@/core/abstractions';
-import { take, takeUntil } from 'rxjs';
-import { getErrorMessage } from '@/shared/utilities';
 import { Button } from 'primeng/button';
+import { AuthLoaderComponent } from '@/shared/components/elements';
 
 @Component({
   selector: 'together-management',
@@ -21,6 +20,7 @@ import { Button } from 'primeng/button';
     AsyncPipe,
     Button,
     RouterLink,
+    AuthLoaderComponent,
   ],
   templateUrl: './management.component.html',
 })
@@ -31,38 +31,7 @@ export class ManagementComponent extends BaseComponent implements OnInit {
 
   protected readonly policies = policies;
 
-  status: 'idle' | 'loading' | 'finished' = 'idle';
+  status: 'idle' | 'loading' | 'finished' = 'finished';
 
-  ngOnInit() {
-    this.loadMe();
-  }
-
-  loadMe() {
-    this.userService.me$.pipe(take(1)).subscribe((me) => {
-      if (!me) {
-        this.status = 'loading';
-        this.commonService.spinning$.next(true);
-        this.userService
-          .getMe()
-          .pipe(takeUntil(this.destroy$))
-          .subscribe({
-            next: (me) => {
-              this.status = 'finished';
-              this.commonService.spinning$.next(false);
-              this.userService.me$.next(me);
-            },
-            error: (err) => {
-              this.status = 'finished';
-              this.commonService.spinning$.next(false);
-              this.commonService.toast$.next({
-                type: 'error',
-                message: getErrorMessage(err),
-              });
-            },
-          });
-      } else {
-        this.status = 'finished';
-      }
-    });
-  }
+  ngOnInit() {}
 }

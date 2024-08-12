@@ -124,25 +124,26 @@ export class MenuComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.me$.pipe(takeUntil(this.destroy$)).subscribe((me) => {
-      if (!me) return;
+    this.userService.permissions$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((permissions) => {
+        if (!permissions.length) return;
+        this.items = this.items.map((item) => ({
+          ...item,
+          visible: true,
+          items: item.items?.map((subItem) => ({
+            ...subItem,
+            visible:
+              permissions.includes('All') ||
+              permissions.includes(subItem.id!) ||
+              !subItem.id,
+          })),
+        }));
 
-      this.items = this.items.map((item) => ({
-        ...item,
-        visible: true,
-        items: item.items?.map((subItem) => ({
-          ...subItem,
-          visible:
-            me.permissions.includes('All') ||
-            me.permissions.includes(subItem.id!) ||
-            !subItem.id,
-        })),
-      }));
-
-      this.items = this.items.map((item) => ({
-        ...item,
-        visible: item.items?.some((subItem) => subItem.visible),
-      }));
-    });
+        this.items = this.items.map((item) => ({
+          ...item,
+          visible: item.items?.some((subItem) => subItem.visible),
+        }));
+      });
   }
 }

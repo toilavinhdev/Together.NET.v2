@@ -9,11 +9,13 @@ import { notificationActivity } from '@/shared/constants';
 import { BaseComponent } from '@/core/abstractions';
 import { takeUntil } from 'rxjs';
 import { NotificationService } from '@/shared/services';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgForOf } from '@angular/common';
 import { Menu, MenuModule } from 'primeng/menu';
 import { PrimeTemplate } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
 import { TranslateModule } from '@ngx-translate/core';
+import { getErrorMessage } from '@/shared/utilities';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'together-notification-dropdown',
@@ -26,6 +28,8 @@ import { TranslateModule } from '@ngx-translate/core';
     PrimeTemplate,
     Ripple,
     TranslateModule,
+    SkeletonModule,
+    NgForOf,
   ],
   templateUrl: './notification-dropdown.component.html',
 })
@@ -40,10 +44,10 @@ export class NotificationDropdownComponent
 
   notificationParams: IListNotificationRequest = {
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 6,
   };
 
-  loaded = false;
+  status: 'idle' | 'loading ' | 'finished' = 'idle';
 
   constructor(private notificationService: NotificationService) {
     super();
@@ -52,12 +56,20 @@ export class NotificationDropdownComponent
   ngOnInit() {}
 
   private loadNotifications() {
+    this.status = 'loading ';
     this.notificationService
       .listNotification(this.notificationParams)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ result }) => {
           this.notifications = result;
+          this.status = 'finished';
+        },
+        error: (err) => {
+          this.commonService.toast$.next({
+            type: 'error',
+            message: getErrorMessage(err),
+          });
         },
       });
   }
@@ -70,10 +82,11 @@ export class NotificationDropdownComponent
   }
 
   toggle(event: Event) {
-    if (!this.loaded) {
+    if (this.status !== 'finished') {
       this.loadNotifications();
-      this.loaded = true;
     }
     this.menuComponent.toggle(event);
   }
+
+  protected readonly Array = Array;
 }

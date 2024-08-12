@@ -23,10 +23,22 @@ public class TogetherRedisKey
 
 public static class TogetherRedisKeys
 {
+    public static TogetherRedisKey OnlineUserKey() => new()
+    {
+        Database = TogetherRedisDatabase.Default,
+        KeyName = "online-users"
+    };
+    
     public static TogetherRedisKey IdentityPrivilegeKey(object userId) => new()
     {
         Database = TogetherRedisDatabase.Identity,
         KeyName = $"identity-privilege:{userId}"
+    };
+    
+    public static TogetherRedisKey RefreshTokenKey(object userId) => new()
+    {
+        Database = TogetherRedisDatabase.Identity,
+        KeyName = $"refresh-token:{userId}"
     };
 
     public static TogetherRedisKey ForgotPasswordTokenKey(object userId) => new()
@@ -34,12 +46,12 @@ public static class TogetherRedisKeys
         Database = TogetherRedisDatabase.Identity,
         KeyName = $"forgot-passwd-token:{userId}"
     };
-    
-    public static TogetherRedisKey OnlineUserKeys() => new()
+
+    public static TogetherRedisKey PrefixKey(object prefixId) => new()
     {
-        Database = TogetherRedisDatabase.Identity,
-        KeyName = "online-users"
-    };
+        Database = TogetherRedisDatabase.Forum,
+        KeyName = $"prefix:{prefixId}"
+    };  
     
     public static TogetherRedisKey PostViewKey(object postId) => new()
     {

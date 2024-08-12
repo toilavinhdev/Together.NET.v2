@@ -13,7 +13,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { getErrorMessage, windowScrollToTop } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
-import { IPagination } from '@/core/models';
 import { policies } from '@/shared/constants';
 
 @Component({
@@ -37,7 +36,7 @@ export class PostListComponent extends BaseComponent implements OnInit {
 
   totalRecord = 0;
 
-  loading = false;
+  status: 'idle' | 'loading' | 'finished' = 'idle';
 
   extra: any;
 
@@ -69,13 +68,13 @@ export class PostListComponent extends BaseComponent implements OnInit {
   }
 
   private loadData() {
-    this.loading = true;
+    this.status = 'loading';
     this.postService
       .listPost(this.params)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: ({ result, pagination, extra }) => {
-          this.loading = false;
+          this.status = 'finished';
           this.postService.posts$.next(result);
           this.extra = extra;
           this.totalRecord = pagination.totalRecord;
@@ -87,7 +86,7 @@ export class PostListComponent extends BaseComponent implements OnInit {
           windowScrollToTop();
         },
         error: (err) => {
-          this.loading = false;
+          this.status = 'finished';
           this.commonService.toast$.next({
             type: 'error',
             message: getErrorMessage(err),

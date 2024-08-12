@@ -6,7 +6,7 @@ export const signedInGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const commonService = inject(CommonService);
 
-  if (authService.getAT()) {
+  if (authService.getAT() && authService.getClaims()) {
     commonService.navigateToMain();
     return false;
   }

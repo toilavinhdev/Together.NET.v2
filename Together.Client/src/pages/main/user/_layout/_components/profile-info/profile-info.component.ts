@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AvatarComponent } from '@/shared/components/elements';
 import { BaseComponent } from '@/core/abstractions';
 import { UserService } from '@/shared/services';
-import { takeUntil, tap } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { IGetUserResponse } from '@/shared/entities/user.entities';
 import { AsyncPipe, DatePipe, NgIf } from '@angular/common';
 import { ShortenNumberPipe } from '@/shared/pipes';
@@ -27,7 +27,10 @@ import { ProfileGetPrivateConversationComponent } from '../profile-get-private-c
   ],
   templateUrl: './profile-info.component.html',
 })
-export class ProfileInfoComponent extends BaseComponent implements OnInit {
+export class ProfileInfoComponent
+  extends BaseComponent
+  implements OnInit, OnDestroy
+{
   user!: IGetUserResponse | undefined;
 
   loading = false;
@@ -51,20 +54,21 @@ export class ProfileInfoComponent extends BaseComponent implements OnInit {
     this.loadData();
   }
 
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+    this.userService.user$.next(undefined);
+  }
+
   private loadData() {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.destroy$))
       .subscribe((paramMap) => {
         const userId = paramMap.get('userId');
         if (!userId) return;
+        this.loading = true;
         this.userService
           .getUser(userId)
-          .pipe(
-            takeUntil(this.destroy$),
-            tap(() => {
-              this.loading = true;
-            }),
-          )
+          .pipe(takeUntil(this.destroy$))
           .subscribe({
             next: (data) => {
               this.loading = false;

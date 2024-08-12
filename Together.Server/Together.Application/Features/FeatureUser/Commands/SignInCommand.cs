@@ -42,8 +42,13 @@ public sealed class SignInCommand : IBaseRequest<SignInResponse>
             var rt = JwtBearerProvider.GenerateRefreshToken();
             
             await redisService.StringSetAsync(
-                TogetherRedisKeys.IdentityPrivilegeKey(user.SubId), 
+                TogetherRedisKeys.IdentityPrivilegeKey(user.Id), 
                 user.MapTo<IdentityPrivilege>());
+            
+            await redisService.StringSetAsync(
+                TogetherRedisKeys.RefreshTokenKey(user.Id), 
+                rt,
+                TimeSpan.FromDays(appSettings.JwtTokenConfig.RefreshTokenDurationInDays));
             
             Message = "Login successfully!";
             

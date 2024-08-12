@@ -58,7 +58,7 @@ public sealed class SignUpCommand : IBaseRequest<SignUpResponse>
             await context.SaveChangesAsync(ct);
             
             await redisService.StringSetAsync(
-                TogetherRedisKeys.IdentityPrivilegeKey(user.SubId), 
+                TogetherRedisKeys.IdentityPrivilegeKey(user.Id), 
                 user.MapTo<IdentityPrivilege>());
 
             Message = "Sign up account successfully";

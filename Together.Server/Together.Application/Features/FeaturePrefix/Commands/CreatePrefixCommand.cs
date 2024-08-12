@@ -21,7 +21,7 @@ public sealed class CreatePrefixCommand : IBaseRequest<CreatePrefixResponse>
         }
     }
     
-    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context) 
+    internal class Handler(IHttpContextAccessor httpContextAccessor, TogetherContext context, IRedisService redisService) 
         : BaseRequestHandler<CreatePrefixCommand, CreatePrefixResponse>(httpContextAccessor)
     {
         protected override async Task<CreatePrefixResponse> HandleAsync(CreatePrefixCommand request, CancellationToken ct)
@@ -33,6 +33,10 @@ public sealed class CreatePrefixCommand : IBaseRequest<CreatePrefixResponse>
 
             await context.SaveChangesAsync(ct);
 
+            await redisService.StringSetAsync(
+                TogetherRedisKeys.PrefixKey(prefix.Id), 
+                prefix.MapTo<PrefixViewModel>());
+            
             Message = "Created";
             
             return prefix.MapTo<CreatePrefixResponse>();

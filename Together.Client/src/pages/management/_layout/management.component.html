@@ -1,3 +1,4 @@
+<together-auth-loader/>
 <div class="max-h-screen max-w-screen overflow-hidden flex">
   <ng-container *ngIf="(userService.hasPermission$(policies.Management.Access) | async) && status === 'finished'">
     <together-menu/>
