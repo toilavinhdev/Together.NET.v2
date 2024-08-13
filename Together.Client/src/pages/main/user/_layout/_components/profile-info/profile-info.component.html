@@ -27,6 +27,7 @@
       </div>
       <div class="absolute top-0 right-0 flex flex-col gap-y-2">
         <together-profile-update-modal *ngIf="userService.userIsMe$ | async"/>
+        <together-profile-upload-avatar *ngIf="userService.userIsMe$ | async"/>
         <together-profile-get-private-conversation *ngIf="!(userService.userIsMe$ | async)"/>
       </div>
     </div>

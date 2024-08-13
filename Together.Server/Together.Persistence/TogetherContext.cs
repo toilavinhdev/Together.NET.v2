@@ -8,11 +8,14 @@ using Together.Domain.Aggregates.ReplyAggregate;
 using Together.Domain.Aggregates.RoleAggregate;
 using Together.Domain.Aggregates.TopicAggregate;
 using Together.Domain.Aggregates.UserAggregate;
+using File = Together.Domain.Aggregates.FileAggregate.File;
 
 namespace Together.Persistence;
 
 public sealed class TogetherContext(DbContextOptions<TogetherContext> options) : DbContext(options)
 {
+    public DbSet<File> Files { get; init; } = default!;
+    
     public DbSet<User> Users { get; init; } = default!;
 
     public DbSet<Role> Roles { get; init; } = default!;

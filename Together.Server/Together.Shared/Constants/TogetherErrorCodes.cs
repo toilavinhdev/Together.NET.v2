@@ -12,6 +12,11 @@ public static class TogetherErrorCodes
         public const string InternalServer = nameof(InternalServer);
     }
     
+    public static class File
+    {
+        public const string UploadFailed = nameof(UploadFailed);
+    }
+    
     public static class User
     {
         public const string AccountHasBeenBanned = nameof(AccountHasBeenBanned);

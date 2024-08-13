@@ -24,6 +24,8 @@ public sealed class UserEndpoint : IEndpoint
         
         group.MapGet("/list", ListUser);
         
+        group.MapPost("/me/upload-avatar", UploadAvatar).DisableAntiforgery();
+        
         group.MapPut("/me/update-profile", UpdateProfile);
         
         group.MapPut("/me/update-password", UpdatePassword);
@@ -52,4 +54,8 @@ public sealed class UserEndpoint : IEndpoint
     [Authorize]
     private static Task<BaseResponse> UpdatePassword(ISender sender, UpdatePasswordCommand command)
         => sender.Send(command);
+    
+    [Authorize]
+    private static Task<BaseResponse<string>> UploadAvatar(ISender sender, IFormFile file)
+        => sender.Send(new UploadAvatarCommand(file));
 }

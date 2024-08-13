@@ -82,4 +82,13 @@ export class UserService extends BaseService {
     const url = this.createUrl('/me/update-password');
     return this.client.put(url, payload);
   }
+
+  uploadAvatar(file: File): Observable<string> {
+    const url = this.createUrl('/me/upload-avatar');
+    let formData = new FormData();
+    formData.append('file', file);
+    return this.client
+      .post<IBaseResponse<string>>(url, formData)
+      .pipe(map((response) => response.data));
+  }
 }

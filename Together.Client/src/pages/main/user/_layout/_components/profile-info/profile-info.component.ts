@@ -11,6 +11,7 @@ import { getErrorMessage } from '@/shared/utilities';
 import { SkeletonModule } from 'primeng/skeleton';
 import { ProfileUpdateModalComponent } from '../profile-update-modal/profile-update-modal.component';
 import { ProfileGetPrivateConversationComponent } from '../profile-get-private-conversation/profile-get-private-conversation.component';
+import { ProfileUploadAvatarComponent } from '@/pages/main/user/_layout/_components/profile-upload-avatar/profile-upload-avatar.component';
 
 @Component({
   selector: 'together-profile-info',
@@ -24,6 +25,7 @@ import { ProfileGetPrivateConversationComponent } from '../profile-get-private-c
     SkeletonModule,
     ProfileUpdateModalComponent,
     ProfileGetPrivateConversationComponent,
+    ProfileUploadAvatarComponent,
   ],
   templateUrl: './profile-info.component.html',
 })

@@ -17,6 +17,8 @@ public sealed class AppSettings
     public MailConfig MailConfig { get; set; } = default!;
 
     public DiscordWebHookConfig DiscordWebHookConfig { get; set; } = default!;
+
+    public string CloudinaryUrl { get; set; } = default!;
 }
 
 public sealed class PostgresConfig
